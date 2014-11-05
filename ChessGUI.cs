@@ -1,22 +1,19 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-public class ChessGUI : Form {
+namespace ChessGUI {
+	public partial class ChessGUI : Form {
 
-	public ChessGUI() {
-		Text = "Chess";
-		Size = new Size(200, 250);
-		CenterToScreen();
-		loadIcon();
+		public ChessGUI() {
+			InitializeComponent();
+		}
+
 	}
-
-	static public void Main() {
-		Application.Run(new ChessGUI());
-	}
-
-	private void loadIcon() {
-		Icon = new Icon("icon.ico");
-	}
-
 }
-

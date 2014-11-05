@@ -1,0 +1,120 @@
+﻿namespace ChessGUI {
+	partial class ChessGUI {
+
+		private System.ComponentModel.IContainer components = null;
+		private System.Windows.Forms.TableLayoutPanel board;
+		private System.Windows.Forms.PictureBox[,] chessPositions;
+
+		private const int WINDOW_SIZE_WIDTH = 240;
+		private const int WINDOW_SIZE_HEIGHT = 240;
+
+		private const int BOARD_COLUMNS = 8;
+		private const int BOARD_ROWS = 8;
+		private const int BOARD_SIZE_WIDTH = 240;
+		private const int BOARD_SIZE_HEIGHT = 240;
+
+		protected override void Dispose(bool disposing) {
+			if(disposing && (components != null)) {
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Initializes the component.
+		/// </summary>
+		private void InitializeComponent() {
+
+			Icon = new System.Drawing.Icon("icon.ico");
+
+			this.board = new System.Windows.Forms.TableLayoutPanel();
+			this.chessPositions = new System.Windows.Forms.PictureBox[BOARD_ROWS, BOARD_COLUMNS];
+
+			// Initializes all the positions on the board.
+			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.chessPositions[i, j] = new System.Windows.Forms.PictureBox();
+				}
+			}
+
+			this.board.SuspendLayout();
+
+			foreach(System.Windows.Forms.PictureBox position in this.chessPositions) {
+				((System.ComponentModel.ISupportInitialize)(position)).BeginInit();
+			}
+
+			this.SuspendLayout();
+
+			// Sets the number of columns on the board and sets its size to be 1/8 of the board width. 
+			this.board.ColumnCount = BOARD_COLUMNS;
+			float percentage = 100 / BOARD_COLUMNS;
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+
+			// Adds all the chess positions to the board.
+			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.board.Controls.Add(this.chessPositions[i, j], i, j);
+				}
+			}
+
+			this.board.Location = new System.Drawing.Point(0, 0);
+			this.board.Name = "Board";
+			this.board.RowCount = BOARD_ROWS;
+			percentage = 100 / BOARD_ROWS;
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+			this.board.Size = new System.Drawing.Size(BOARD_SIZE_WIDTH, BOARD_SIZE_HEIGHT);
+
+			// Sets the size and location of the chess positions.
+			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.chessPositions[i, j].Location = new System.Drawing.Point(i * BOARD_SIZE_WIDTH / BOARD_ROWS, j * BOARD_SIZE_HEIGHT / BOARD_COLUMNS);
+					this.chessPositions[i, j].Size = new System.Drawing.Size(BOARD_SIZE_WIDTH / BOARD_ROWS, BOARD_SIZE_HEIGHT / BOARD_COLUMNS);
+				}
+			}
+				
+			this.ClientSize = new System.Drawing.Size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
+			this.Controls.Add(this.board);
+			this.Name = "Chess";
+			this.Text = "Chess";
+			this.board.ResumeLayout(false);
+
+			// Signals the chess positions that initialization is complete.
+			foreach(System.Windows.Forms.PictureBox position in this.chessPositions) {
+				((System.ComponentModel.ISupportInitialize)(position)).EndInit();
+			}
+
+			// Sets the colors on the Board to black and white.
+			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					if(i % 2 == 0) {
+						if(j % 2 == 0)
+							this.chessPositions[i, j].BackColor = System.Drawing.Color.Black;
+						else
+							this.chessPositions[i, j].BackColor = System.Drawing.Color.White;
+					} else {
+						if(j % 2 == 1)
+							this.chessPositions[i, j].BackColor = System.Drawing.Color.Black;
+						else
+							this.chessPositions[i, j].BackColor = System.Drawing.Color.White;
+					}
+				}
+			}	
+			this.ResumeLayout(false);
+		}
+	}
+}
+
