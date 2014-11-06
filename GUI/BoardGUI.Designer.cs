@@ -1,9 +1,9 @@
-﻿namespace ChessGUI {
-	partial class ChessGUI {
+﻿namespace BoardGUI {
+	partial class BoardGUI {
 
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.TableLayoutPanel board;
-		private System.Windows.Forms.PictureBox[,] chessPositions;
+		private BoardPositionGUI[,] chessPositions;
 
 		private const int WINDOW_SIZE_WIDTH = 240;
 		private const int WINDOW_SIZE_HEIGHT = 240;
@@ -28,18 +28,18 @@
 			Icon = new System.Drawing.Icon("icon.ico");
 
 			this.board = new System.Windows.Forms.TableLayoutPanel();
-			this.chessPositions = new System.Windows.Forms.PictureBox[BOARD_ROWS, BOARD_COLUMNS];
+			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
 
 			// Initializes all the positions on the board.
 			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
 				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.chessPositions[i, j] = new System.Windows.Forms.PictureBox();
+					this.chessPositions[i, j] = new BoardPositionGUI(j, i);
 				}
 			}
 
 			this.board.SuspendLayout();
 
-			foreach(System.Windows.Forms.PictureBox position in this.chessPositions) {
+			foreach(BoardPositionGUI position in this.chessPositions) {
 				((System.ComponentModel.ISupportInitialize)(position)).BeginInit();
 			}
 
@@ -93,7 +93,7 @@
 			this.board.ResumeLayout(false);
 
 			// Signals the chess positions that initialization is complete.
-			foreach(System.Windows.Forms.PictureBox position in this.chessPositions) {
+			foreach(BoardPositionGUI position in this.chessPositions) {
 				((System.ComponentModel.ISupportInitialize)(position)).EndInit();
 			}
 
@@ -112,8 +112,20 @@
 							this.chessPositions[i, j].BackColor = System.Drawing.Color.White;
 					}
 				}
-			}	
+			}
+
+			// Adds a mouse click event for each PictureBox on the board.
+			foreach(BoardPositionGUI position in chessPositions) {
+				position.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
+			}
+
 			this.ResumeLayout(false);
+		}
+
+		private void chessPositionMouseClick(object sender, System.EventArgs e) {
+			// Write code for what is going to happen when a position on the board is clicked on.
+
+			System.Console.WriteLine("Clicked on position: " + ((BoardPositionGUI)sender).getRow() + ((BoardPositionGUI)sender).getColumn());
 		}
 	}
 }
