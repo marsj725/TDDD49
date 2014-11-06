@@ -23,59 +23,54 @@
 		/// <summary>
 		/// Initializes the component.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent ()
+		{
 
-			Icon = new System.Drawing.Icon("icon.ico");
+			Icon = new System.Drawing.Icon ("icon.ico");
 
-			this.board = new System.Windows.Forms.TableLayoutPanel();
+			this.board = new System.Windows.Forms.TableLayoutPanel ();
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
 
 			// Initializes all the positions on the board.
-			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
-				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.chessPositions[i, j] = new BoardPositionGUI(j, i);
+			for (int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for (int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.chessPositions [i, j] = new BoardPositionGUI (j, i);
 				}
 			}
 
-			this.board.SuspendLayout();
+			this.board.SuspendLayout ();
 
-			foreach(BoardPositionGUI position in this.chessPositions) {
-				((System.ComponentModel.ISupportInitialize)(position)).BeginInit();
+			foreach (BoardPositionGUI position in this.chessPositions) {
+				((System.ComponentModel.ISupportInitialize)(position)).BeginInit ();
 			}
 
-			this.SuspendLayout();
+			this.SuspendLayout ();
 
 			// Sets the number of columns on the board and sets its size to be 1/8 of the board width. 
 			this.board.ColumnCount = BOARD_COLUMNS;
 			float percentage = 100 / BOARD_COLUMNS;
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, percentage));
+
+			// Adds colums to the playerfield
+			for (int i = 0; i < BOARD_COLUMNS; i++) {
+				this.board.ColumnStyles.Add (new System.Windows.Forms.ColumnStyle (System.Windows.Forms.SizeType.Percent, percentage));
+			}
 
 			// Adds all the chess positions to the board.
-			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
-				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.board.Controls.Add(this.chessPositions[i, j], i, j);
+			for (int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for (int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.board.Controls.Add (this.chessPositions [i, j], i, j);
 				}
 			}
 
-			this.board.Location = new System.Drawing.Point(0, 0);
+			this.board.Location = new System.Drawing.Point (0, 0);
 			this.board.Name = "Board";
 			this.board.RowCount = BOARD_ROWS;
 			percentage = 100 / BOARD_ROWS;
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
-			this.board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, percentage));
+
+			// Adds rows to the playerfield
+			for (int i = 0; i < BOARD_ROWS; i++) {
+				this.board.RowStyles.Add (new System.Windows.Forms.RowStyle (System.Windows.Forms.SizeType.Percent, percentage));
+			}
 			this.board.Size = new System.Drawing.Size(BOARD_SIZE_WIDTH, BOARD_SIZE_HEIGHT);
 
 			// Sets the size and location of the chess positions.
