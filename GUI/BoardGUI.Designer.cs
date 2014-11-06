@@ -1,4 +1,5 @@
-﻿namespace BoardGUI {
+﻿using System;
+namespace BoardGUI {
 	partial class BoardGUI {
 
 		private System.ComponentModel.IContainer components = null;
@@ -30,6 +31,9 @@
 
 			this.board = new System.Windows.Forms.TableLayoutPanel ();
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
+
+			//int WINDOWS_CURRENT_SIZE = this.board.ClientSize.Height;
+			
 
 			// Initializes all the positions on the board.
 			for (int i = 0; i < this.chessPositions.GetLength(0); i++) {
@@ -74,17 +78,13 @@
 			this.board.Size = new System.Drawing.Size(BOARD_SIZE_WIDTH, BOARD_SIZE_HEIGHT);
 
 			// Sets the size and location of the chess positions.
-			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
-				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.chessPositions[i, j].Location = new System.Drawing.Point(i * BOARD_SIZE_WIDTH / BOARD_ROWS, j * BOARD_SIZE_HEIGHT / BOARD_COLUMNS);
-					this.chessPositions[i, j].Size = new System.Drawing.Size(BOARD_SIZE_WIDTH / BOARD_ROWS, BOARD_SIZE_HEIGHT / BOARD_COLUMNS);
-				}
-			}
+			this.drawBoard(this.board.Width,this.board.Height);
 				
 			this.ClientSize = new System.Drawing.Size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
 			this.Controls.Add(this.board);
 			this.Name = "Chess";
 			this.Text = "Chess";
+			this.Resize += new System.EventHandler(OnResize);
 			this.board.ResumeLayout(false);
 
 			// Signals the chess positions that initialization is complete.
@@ -109,12 +109,35 @@
 				}
 			}
 
+
+
 			// Adds a mouse click event for each PictureBox on the board.
 			foreach(BoardPositionGUI position in chessPositions) {
 				position.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
 			}
 
 			this.ResumeLayout(false);
+		}
+
+		// Sets the size and location of the chess positions.
+		private void drawBoard (int WIDTH, int HEIGHT)
+		{
+			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
+				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
+					this.chessPositions[i, j].Location = new System.Drawing.Point(i * WIDTH / BOARD_ROWS, j * HEIGHT / BOARD_COLUMNS);
+					this.chessPositions[i, j].Size = new System.Drawing.Size(WIDTH / BOARD_ROWS, HEIGHT / BOARD_COLUMNS);
+				}
+			}
+		}
+
+		//Listener handeling window resizes, makes sure it's always in a square shape.
+		private void OnResize (object sender, EventArgs a)
+		{
+			if(this.Size.Width>this.Size.Height){
+				this.Size = new System.Drawing.Size(this.Size.Width,this.Size.Width);
+			}else{
+				this.Size = new System.Drawing.Size(this.Size.Height,this.Size.Height);
+			}
 		}
 
 		private void chessPositionMouseClick(object sender, System.EventArgs e) {
