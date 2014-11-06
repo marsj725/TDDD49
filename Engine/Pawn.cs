@@ -1,12 +1,6 @@
-namespace Chess
+public class pawn : Piece
 {
-	public class pawn
+	public pawn ()
 	{
-		public pawn ()
-		{
-
-		}
-
 	}
 }
-

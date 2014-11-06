@@ -1,11 +1,7 @@
-namespace Chess
+public class Knight : Piece
 {
-	public class Knight : Piece
+	public Knight ()
 	{
-		public Knight ()
-		{
-
-		}
 	}
 }
 

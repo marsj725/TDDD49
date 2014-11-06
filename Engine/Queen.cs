@@ -1,12 +1,6 @@
-using System;
-
-namespace Chess
+public class Queen : Piece
 {
-	public class Queen
+	public Queen ()
 	{
-		public Queen ()
-		{
-		}
 	}
 }
-
