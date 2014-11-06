@@ -1,12 +1,6 @@
-using System;
-
-namespace Chess
+public class Bishop : Piece
 {
-	public class Bishop
+	public Bishop ()
 	{
-		public Bishop ()
-		{
-		}
 	}
 }
-

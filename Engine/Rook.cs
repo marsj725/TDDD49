@@ -1,12 +1,6 @@
-using System;
-
-namespace Chess
+public class Rook : Piece
 {
-	public class Rook
+	public Rook ()
 	{
-		public Rook ()
-		{
-		}
 	}
 }
-
