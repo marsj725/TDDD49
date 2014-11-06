@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ChessGUI {
-	public partial class ChessGUI : Form {
+namespace BoardGUI {
+	public partial class BoardGUI : Form {
 
-		public ChessGUI() {
+		public BoardGUI() {
 			InitializeComponent();
 		}
 
