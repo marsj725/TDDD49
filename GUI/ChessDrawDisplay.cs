@@ -12,7 +12,7 @@ public class ChessDrawDisplay : TextBox {
 	public ChessDrawDisplay() {
 		this.ReadOnly = true;
 		this.Multiline = true;
-		this.ScrollBars = true;
+		this.ScrollBars = ScrollBars.Vertical;
 	}
 
 }
