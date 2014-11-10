@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BoardGUI {
-	public partial class BoardGUI : Form {
+	public partial class MainWindow : Form {
 
-		public BoardGUI() {
+		public MainWindow() {
 			InitializeComponent();
 		}
 

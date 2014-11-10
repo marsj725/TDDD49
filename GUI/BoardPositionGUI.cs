@@ -18,6 +18,7 @@ namespace BoardGUI {
 		public BoardPositionGUI(int row, int column) : base() {
 			this.row = row;
 			this.column = column;
+			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
 		}
 
 		public int getRow() {
@@ -27,5 +28,17 @@ namespace BoardGUI {
 		public int getColumn() {
 			return column;
 		}
+
+		/// <summary>
+		/// Listener for mouseclick events.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void chessPositionMouseClick(object sender, System.EventArgs e) {
+			// Write code for what is going to happen when a position on the board is clicked on.
+
+			System.Console.WriteLine("Clicked on position: " + ((BoardPositionGUI)sender).getRow() + ((BoardPositionGUI)sender).getColumn());
+		}
+
 	}
 }
