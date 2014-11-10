@@ -37,7 +37,7 @@ namespace BoardGUI {
 			this.row = row;
 			this.column = column;
 			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
-
+			this.Margin = new Padding(0, 0, 0, 0);
 			// For testing purposes
 			setPiece(Pieces.BISHOP_WHITE);
 		}
