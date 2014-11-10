@@ -6,8 +6,8 @@ public class Board : TableLayoutPanel {
 
 	private const int BOARD_COLUMNS = 8;
 	private const int BOARD_ROWS = 8;
-	private const int BOARD_SIZE_WIDTH = 240;
-	private const int BOARD_SIZE_HEIGHT = 240;
+	private const int BOARD_SIZE_WIDTH = 512;
+	private const int BOARD_SIZE_HEIGHT = 512;
 
 	private BoardPositionGUI[,] chessPositions;
 
