@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BoardGUI {
+namespace Window {
 	public partial class MainWindow : Form {
 
 		public MainWindow() {
 			InitializeComponent();
+			Board board = new Board();
 		}
 
 	}
