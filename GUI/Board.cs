@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using BoardGUI;
+using Window;
 
-public class Board : TableLayoutPanel {
+public class BoardGUI : TableLayoutPanel {
 
 	private const int BOARD_COLUMNS = 8;
 	private const int BOARD_ROWS = 8;
@@ -11,7 +11,7 @@ public class Board : TableLayoutPanel {
 
 	private BoardPositionGUI[,] chessPositions;
 
-	public Board() {
+	public BoardGUI() {
 		this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
 
 		// Initializes all the positions on the board.

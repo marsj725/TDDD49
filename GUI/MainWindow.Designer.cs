@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardGUI {
+namespace Window {
 
 	partial class MainWindow {
 
@@ -23,7 +23,7 @@ namespace BoardGUI {
 
 			Icon = new System.Drawing.Icon("icon.ico");
 
-			Board board = new Board();
+			BoardGUI board = new BoardGUI();
 			ChessDrawDisplay chessDrawDisplay = new ChessDrawDisplay();
 
 			this.SuspendLayout();

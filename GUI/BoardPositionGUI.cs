@@ -5,7 +5,7 @@ using System.Windows.Forms;
 /// <summary>
 /// Creates a PictureBox which includes a board position since it is intended to be used on a chess board, or any grid.
 /// </summary>
-namespace BoardGUI {
+namespace Window {
 	public class BoardPositionGUI : PictureBox {
 
 		private int row;
