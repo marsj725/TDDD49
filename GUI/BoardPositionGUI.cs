@@ -33,13 +33,32 @@ namespace Window {
 		/// </summary>
 		/// <param name="row">Row. On which row on the grid the PictureBox is on.</param>
 		/// <param name="column">Column. On which column on the grid the picturebox is.</param>
-		public BoardPositionGUI(int row, int column) : base() {
+		public BoardPositionGUI (int row, int column) : base()
+		{
 			this.row = row;
 			this.column = column;
-			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
-			this.Margin = new Padding(0, 0, 0, 0);
-			// For testing purposes
-			setPiece(Pieces.BISHOP_WHITE);
+			this.MouseClick += new System.Windows.Forms.MouseEventHandler (this.chessPositionMouseClick);
+			this.Margin = new Padding (0, 0, 0, 0);
+			// For testing purposes --- and it still is :)
+			Pieces[,] temp = new Pieces[8,8];
+			temp[7,0] = Pieces.ROOK_WHITE;
+			temp[7,7] = Pieces.ROOK_WHITE;
+			temp[7,6] = Pieces.HORSE_WHITE;
+			temp[7,1] = Pieces.HORSE_WHITE;
+			temp[7,2] = Pieces.BISHOP_WHITE;
+			temp[7,5] = Pieces.BISHOP_WHITE;
+			temp[7,4] = Pieces.QUEEN_WHITE;
+			temp[7,3] = Pieces.KING_WHITE;
+			
+			temp[6,0] = Pieces.PAWN_WHITE;
+			temp[6,1] = Pieces.PAWN_WHITE;
+			temp[6,2] = Pieces.PAWN_WHITE;
+			temp[6,3] = Pieces.PAWN_WHITE;
+			temp[6,4] = Pieces.PAWN_WHITE;
+			temp[6,5] = Pieces.PAWN_WHITE;
+			temp[6,6] = Pieces.PAWN_WHITE;
+			temp[6,7] = Pieces.PAWN_WHITE;
+			setPiece(temp[row,column],row,column);
 		}
 
 		public int getRow() {
@@ -65,7 +84,7 @@ namespace Window {
 		/// Sets the piece to render in the picturebox.
 		/// </summary>
 		/// <param name="piece">Piece.</param>
-		public void setPiece(Pieces piece) {
+		public void setPiece(Pieces piece, int x, int y) {
 			switch(piece) {
 			case (Pieces.NONE):
 				this.Image = null;

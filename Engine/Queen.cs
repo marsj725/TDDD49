@@ -1,5 +1,5 @@
 public class Queen : Piece {
-	public Queen(PieceColor color) : base(PieceType.QUEEN, color) {
+	public Queen(PieceColor color,int x, int y) : base(PieceType.QUEEN, color, x ,y) {
 	}
 
 	/// <summary>

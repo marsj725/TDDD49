@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Window;
 
+namespace Window {
 public class BoardGUI : TableLayoutPanel {
 
 	private const int BOARD_COLUMNS = 8;
@@ -25,11 +26,17 @@ public class BoardGUI : TableLayoutPanel {
 
 		// Sets the size and location of the chess positions.
 		this.drawBoard();
-		this.ResumeLayout(false);			
+		this.ResumeLayout(false);
 
 		// Sets the colors on the Board to black and white.
 		SetBoardColors();
 
+	}
+	public void fetchBoard(){
+		//ToDo: Return current position of all pieces!
+	}
+	public void addPieces (){
+		//ToDo: Add Pieces to the board
 	}
 
 	/// <summary>
@@ -110,6 +117,8 @@ public class BoardGUI : TableLayoutPanel {
 				}
 			}
 		}
+	}
+
 	}
 }
 
