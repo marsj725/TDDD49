@@ -13,7 +13,6 @@ namespace Window {
 
 		public MainWindow() {
 			InitializeComponent();
-			Board board = new Board();
 		}
 
 	}
