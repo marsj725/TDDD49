@@ -1,3 +1,5 @@
+using System;
+
 public class King : Piece {
 
 	public King(PieceColor color) : base(PieceType.KING, color) {
@@ -12,8 +14,13 @@ public class King : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromColumn, int toRow, int toCol) {
-		// To be implemented.
+	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+		if(fromRow - toRow == 0 && fromCol - toCol == 0)
+			return false;
+
+		if((Math.Abs(fromRow - toRow) <= 1) && (Math.Abs(fromCol - toCol) <= 1)) {
+			return true;
+		}
 		return false;
 	}
 }

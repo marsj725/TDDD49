@@ -31,7 +31,7 @@ public abstract class Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public abstract bool isMoveLegal(int fromRow, int fromColumn, int toRow, int toCol);
+	public abstract bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol);
 
 	public PieceColor getColor() {
 		return this.color;
