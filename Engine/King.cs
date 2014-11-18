@@ -2,7 +2,7 @@ using System;
 
 public class King : Piece {
 
-	public King(PieceColor color) : base(PieceType.KING, color) {
+	public King(PieceColor color,int x, int y) : base(PieceType.KING, color, x ,y) {
 	}
 
 	/// <summary>

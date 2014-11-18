@@ -6,6 +6,7 @@ public class Pawn : Piece {
 		firstMove = true;
 	}
 
+
 	/// <summary>
 	/// Is the move legal for this piece.
 	/// </summary>

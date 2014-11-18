@@ -1,6 +1,6 @@
 public class Bishop : Piece {
 
-	public Bishop(PieceColor color) : base(PieceType.BISHOP, color) {
+	public Bishop(PieceColor color,int x, int y) : base(PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>
