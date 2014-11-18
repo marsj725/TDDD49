@@ -1,6 +1,6 @@
 public class Knight : Piece {
 
-	public Knight(PieceColor color) : base(PieceType.KNIGHT, color) {
+	public Knight(PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
 	}
 
 	/// <summary>

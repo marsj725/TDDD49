@@ -1,7 +1,8 @@
 public class Pawn : Piece {
 
-	public Pawn(PieceColor color) : base(PieceType.PAWN, color) {
+	public Pawn(PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
 	}
+
 
 	/// <summary>
 	/// Is the move legal for this piece.
@@ -13,7 +14,9 @@ public class Pawn : Piece {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public override bool isMoveLegal(int fromRow, int fromColumn, int toRow, int toCol) {
-		// To be implemented.
+	//	int array = new int[];
+	//	if(fromRow
+
 		return false;
 	}
 }
