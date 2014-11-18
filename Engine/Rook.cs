@@ -12,8 +12,9 @@ public class Rook : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromColumn, int toRow, int toCol) {
-		// To be implemented.
-		return false;
+	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+		if(fromRow - toRow == 0 && fromCol - toCol == 0)
+			return false;
+		return (fromRow - toRow == 0 || fromCol - toCol == 0);
 	}
 }

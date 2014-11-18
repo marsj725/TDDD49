@@ -11,8 +11,15 @@ public class Queen : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromColumn, int toRow, int toCol) {
-		// To be implemented.
+	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+		if(fromRow - toRow == 0 && fromCol - toCol == 0)
+			return false;
+		// Diagonal movement
+		if(fromRow - toRow == fromCol - toCol)
+			return true;
+		// Horisontal or vertical movement
+		else if(fromRow - toRow == 0 || fromCol - toCol == 0)
+			return true;
 		return false;
 	}
 }
