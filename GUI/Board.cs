@@ -3,7 +3,19 @@ using System.Windows.Forms;
 using Window;
 
 namespace Window {
-	public class BoardGUI : TableLayoutPanel {
+	public class BoardGUI : TableLayoutPanel, Player {
+
+		/// <summary>
+		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
+		/// </summary>
+		/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
+		public bool MyTurn {
+			set { MyTurn = value; }
+		}
+
+		public Piece.PieceColor Color {
+			get { return Color; }
+		}
 
 		private const int BOARD_COLUMNS = 8;
 		private const int BOARD_ROWS = 8;
@@ -119,6 +131,28 @@ namespace Window {
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Makes a draw.
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="fromRow">From row.</param>
+		/// <param name="fromCol">From col.</param>
+		/// <param name="toRow">To row.</param>
+		/// <param name="toCol">To col.</param>
+		public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
+			// To be implemented.
+			return false;
+		}
+
+		/// <summary>
+		/// Updates the board state.
+		/// </summary>
+		/// <param name="board">Board.</param>
+		public void updateBoard(Piece[,] board) {
+			// To be implemented.
 		}
 
 	}
