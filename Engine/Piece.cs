@@ -6,6 +6,7 @@ public abstract class Piece {
 	};
 
 	public enum PieceType {
+		NONE,
 		PAWN,
 		ROOK,
 		BISHOP,

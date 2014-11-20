@@ -1,3 +1,4 @@
+using System;
 public class Bishop : Piece {
 
 	public Bishop(PieceColor color,int x, int y) : base(PieceType.BISHOP, color, x, y) {
@@ -12,10 +13,14 @@ public class Bishop : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
-		if(fromRow - toRow == 0 && fromCol - toCol == 0)
-			return false;
+	/// 
 
-		return (fromRow - toRow == fromCol - toCol);
+	//Checks that the change in rows is the same as the change in cols
+	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

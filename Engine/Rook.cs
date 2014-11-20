@@ -1,3 +1,4 @@
+using System;
 public class Rook : Piece {
 
 	public Rook(PieceColor color,int x, int y) : base(PieceType.ROOK, color,x,y) {
@@ -12,9 +13,14 @@ public class Rook : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
-		if(fromRow - toRow == 0 && fromCol - toCol == 0)
+	public override bool isMoveLegal (int fromRow, int fromCol, int toRow, int toCol)
+	{
+		if ((fromRow - toRow == 0) && (Math.Abs (fromCol - toCol) > 0))
+			return true;
+		else if ((fromCol - toCol == 0) && (Math.Abs (fromRow - toRow) > 0)) {
+			return true;
+		} else {
 			return false;
-		return (fromRow - toRow == 0 || fromCol - toCol == 0);
+		}
 	}
 }
