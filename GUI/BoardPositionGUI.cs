@@ -83,48 +83,41 @@ namespace Window {
 		/// Sets the piece to render in the picturebox.
 		/// </summary>
 		/// <param name="piece">Piece.</param>
-		public void setPiece(Pieces piece) {
-			switch(piece) {
-			case (Pieces.NONE):
+		public void setPiece(Piece piece) {
+			if(piece.getType() == Piece.PieceType.NONE)
 				this.Image = null;
-				break;
-			case (Pieces.PAWN_WHITE):
-				this.ImageLocation = "Assets/pawn_white.png";
-				break;
-			case (Pieces.PAWN_BLACK):
-				this.ImageLocation = "Assets/pawn_black.png";
-				break;
-			case (Pieces.HORSE_WHITE): 
-				this.ImageLocation = "Assets/horse_white.png";
-				break;
-			case (Pieces.HORSE_BLACK): 
-				this.ImageLocation = "Assets/horse_black.png";
-				break;
-			case (Pieces.ROOK_WHITE): 
-				this.ImageLocation = "Assets/rook_white.png";
-				break;
-			case (Pieces.ROOK_BLACK): 
-				this.ImageLocation = "Assets/rook_black.png";
-				break;
-			case (Pieces.BISHOP_WHITE): 
-				this.ImageLocation = "Assets/bishop_white.png";
-				break;
-			case (Pieces.BISHOP_BLACK): 
-				this.ImageLocation = "Assets/bishop_black.png";
-				break;
-			case (Pieces.KING_WHITE): 
-				this.ImageLocation = "Assets/king_white.png";
-				break;
-			case (Pieces.KING_BLACK): 
-				this.ImageLocation = "Assets/king_black.png";
-				break;
-			case (Pieces.QUEEN_WHITE): 
-				this.ImageLocation = "Assets/queen_white.png";
-				break;
-			case (Pieces.QUEEN_BLACK): 
-				this.ImageLocation = "Assets/queen_black.png";
-				break;
+			else if(piece.getColor() == Piece.PieceColor.WHITE) {
+
+				if(piece.getType() == Piece.PieceType.PAWN)
+					this.ImageLocation = "Assets/pawn_white.png";
+				else if(piece.getType() == Piece.PieceType.KNIGHT)
+					this.ImageLocation = "Assets/horse_white.png";
+				else if(piece.getType() == Piece.PieceType.BISHOP)
+					this.ImageLocation = "Assets/bishop_white.png";
+				else if(piece.getType() == Piece.PieceType.ROOK)
+					this.ImageLocation = "Assets/rook_white.png";
+				else if(piece.getType() == Piece.PieceType.KING)
+					this.ImageLocation = "Assets/king_white.png";
+				else
+					this.ImageLocation = "Assets/queen_white.png";
+
+			} else {
+
+				if(piece.getType() == Piece.PieceType.PAWN)
+					this.ImageLocation = "Assets/pawn_black.png";
+				else if(piece.getType() == Piece.PieceType.KNIGHT)
+					this.ImageLocation = "Assets/horse_black.png";
+				else if(piece.getType() == Piece.PieceType.BISHOP)
+					this.ImageLocation = "Assets/bishop_black.png";
+				else if(piece.getType() == Piece.PieceType.ROOK)
+					this.ImageLocation = "Assets/rook_black.png";
+				else if(piece.getType() == Piece.PieceType.KING)
+					this.ImageLocation = "Assets/king_black.png";
+				else
+					this.ImageLocation = "Assets/queen_black.png";
+
 			}
+
 		}
 
 	}
