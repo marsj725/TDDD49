@@ -38,26 +38,6 @@ namespace Window {
 			this.column = column;
 			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
 			this.Margin = new Padding(0, 0, 0, 0);
-			// For testing purposes --- and it still is :)
-			Pieces[,] temp = new Pieces[8, 8];
-			temp[7, 0] = Pieces.ROOK_WHITE;
-			temp[7, 7] = Pieces.ROOK_WHITE;
-			temp[7, 6] = Pieces.HORSE_WHITE;
-			temp[7, 1] = Pieces.HORSE_WHITE;
-			temp[7, 2] = Pieces.BISHOP_WHITE;
-			temp[7, 5] = Pieces.BISHOP_WHITE;
-			temp[7, 4] = Pieces.QUEEN_WHITE;
-			temp[7, 3] = Pieces.KING_WHITE;
-			
-			temp[6, 0] = Pieces.PAWN_WHITE;
-			temp[6, 1] = Pieces.PAWN_WHITE;
-			temp[6, 2] = Pieces.PAWN_WHITE;
-			temp[6, 3] = Pieces.PAWN_WHITE;
-			temp[6, 4] = Pieces.PAWN_WHITE;
-			temp[6, 5] = Pieces.PAWN_WHITE;
-			temp[6, 6] = Pieces.PAWN_WHITE;
-			temp[6, 7] = Pieces.PAWN_WHITE;
-			setPiece(temp[row, column]);
 		}
 
 		public int getRow() {
@@ -83,48 +63,43 @@ namespace Window {
 		/// Sets the piece to render in the picturebox.
 		/// </summary>
 		/// <param name="piece">Piece.</param>
-		public void setPiece(Pieces piece) {
-			switch(piece) {
-			case (Pieces.NONE):
+		public void setPiece(Piece piece) {
+			if(piece.getType() == Piece.PieceType.NONE) {
 				this.Image = null;
-				break;
-			case (Pieces.PAWN_WHITE):
-				this.ImageLocation = "Assets/pawn_white.png";
-				break;
-			case (Pieces.PAWN_BLACK):
-				this.ImageLocation = "Assets/pawn_black.png";
-				break;
-			case (Pieces.HORSE_WHITE): 
-				this.ImageLocation = "Assets/horse_white.png";
-				break;
-			case (Pieces.HORSE_BLACK): 
-				this.ImageLocation = "Assets/horse_black.png";
-				break;
-			case (Pieces.ROOK_WHITE): 
-				this.ImageLocation = "Assets/rook_white.png";
-				break;
-			case (Pieces.ROOK_BLACK): 
-				this.ImageLocation = "Assets/rook_black.png";
-				break;
-			case (Pieces.BISHOP_WHITE): 
-				this.ImageLocation = "Assets/bishop_white.png";
-				break;
-			case (Pieces.BISHOP_BLACK): 
-				this.ImageLocation = "Assets/bishop_black.png";
-				break;
-			case (Pieces.KING_WHITE): 
-				this.ImageLocation = "Assets/king_white.png";
-				break;
-			case (Pieces.KING_BLACK): 
-				this.ImageLocation = "Assets/king_black.png";
-				break;
-			case (Pieces.QUEEN_WHITE): 
-				this.ImageLocation = "Assets/queen_white.png";
-				break;
-			case (Pieces.QUEEN_BLACK): 
-				this.ImageLocation = "Assets/queen_black.png";
-				break;
+				return;
 			}
+			if(piece.getColor() == Piece.PieceColor.WHITE) {
+
+				if(piece.getType() == Piece.PieceType.PAWN)
+					this.ImageLocation = "Assets/pawn_white.png";
+				else if(piece.getType() == Piece.PieceType.KNIGHT)
+					this.ImageLocation = "Assets/horse_white.png";
+				else if(piece.getType() == Piece.PieceType.BISHOP)
+					this.ImageLocation = "Assets/bishop_white.png";
+				else if(piece.getType() == Piece.PieceType.ROOK)
+					this.ImageLocation = "Assets/rook_white.png";
+				else if(piece.getType() == Piece.PieceType.KING)
+					this.ImageLocation = "Assets/king_white.png";
+				else
+					this.ImageLocation = "Assets/queen_white.png";
+
+			} else {
+
+				if(piece.getType() == Piece.PieceType.PAWN)
+					this.ImageLocation = "Assets/pawn_black.png";
+				else if(piece.getType() == Piece.PieceType.KNIGHT)
+					this.ImageLocation = "Assets/horse_black.png";
+				else if(piece.getType() == Piece.PieceType.BISHOP)
+					this.ImageLocation = "Assets/bishop_black.png";
+				else if(piece.getType() == Piece.PieceType.ROOK)
+					this.ImageLocation = "Assets/rook_black.png";
+				else if(piece.getType() == Piece.PieceType.KING)
+					this.ImageLocation = "Assets/king_black.png";
+				else
+					this.ImageLocation = "Assets/queen_black.png";
+
+			}
+
 		}
 
 	}

@@ -12,7 +12,15 @@ namespace Window {
 	public partial class MainWindow : Form {
 
 		public MainWindow() {
+
+			BoardGUI player1 = new BoardGUI();
+
+			this.Controls.Add(player1);
+
+			new Engine(player1);
+
 			InitializeComponent();
 		}
+
 	}
 }

@@ -59,7 +59,7 @@ namespace Window {
 		private void AddChessPositionsToBoard() {
 			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
 				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.Controls.Add(this.chessPositions[i, j], i, j);
+					this.Controls.Add(this.chessPositions[i, j], j, i);
 				}
 			}
 		}
@@ -105,9 +105,9 @@ namespace Window {
 		/// Initializes the board positions.
 		/// </summary>
 		private void InitializeBoardPositions() {
-			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
-				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
-					this.chessPositions[i, j] = new BoardPositionGUI(j, i);
+			for(int i = 0; i < BOARD_ROWS; i++) {
+				for(int j = 0; j < BOARD_COLUMNS; j++) {
+					this.chessPositions[i, j] = new BoardPositionGUI(i, j);
 				}
 			}
 		}
@@ -119,6 +119,7 @@ namespace Window {
 			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
 				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
 					if(i % 2 == 0) {
+						System.Console.WriteLine("here");
 						if(j % 2 == 0)
 							this.chessPositions[i, j].BackColor = System.Drawing.Color.Black;
 						else
@@ -152,7 +153,11 @@ namespace Window {
 		/// </summary>
 		/// <param name="board">Board.</param>
 		public void updateBoard(Piece[,] board) {
-			// To be implemented.
+			for(int i = 0; i < BOARD_ROWS; i++) {
+				for(int j = 0; j < BOARD_COLUMNS; j++) {
+					this.chessPositions[i, j].setPiece(board[i, j]);
+				}
+			}
 		}
 
 	}

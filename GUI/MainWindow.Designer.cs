@@ -23,16 +23,9 @@ namespace Window {
 
 			Icon = new System.Drawing.Icon("icon.ico");
 
-			BoardGUI board = new BoardGUI();
-			ChessDrawDisplay chessDrawDisplay = new ChessDrawDisplay();
-
 			this.SuspendLayout();
 
 			this.ClientSize = new System.Drawing.Size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
-			this.Controls.Add(board);
-			this.Controls.Add(chessDrawDisplay);
-			chessDrawDisplay.Location = new System.Drawing.Point(board.Width, 0);
-			chessDrawDisplay.Size = new System.Drawing.Size(this.Size.Width - board.Width, board.Height);
 			this.Name = "Chess";
 			this.Text = "Chess";
 			this.Resize += new System.EventHandler(OnResize);
