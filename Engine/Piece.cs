@@ -18,8 +18,8 @@ public abstract class Piece {
 
 	;
 
-	private int rowStart;
-	private int colStart;
+	public int Row;
+	public int Col;
 
 	private PieceColor color;
 	private PieceType type;
@@ -27,8 +27,8 @@ public abstract class Piece {
 	public Piece(PieceType type, PieceColor color, int row, int col) {
 		this.color = color;
 		this.type = type;
-		this.colStart = col;
-		this.rowStart = row;
+		this.Col = col;
+		this.Row = row;
 	}
 
 	/// <summary>
@@ -49,12 +49,5 @@ public abstract class Piece {
 		return this.type;
 	}
 
-	public int getColStart() {
-		return this.colStart;
-	}
-
-	public int getRowStart() {
-		return this.rowStart;
-	}
 }
 
