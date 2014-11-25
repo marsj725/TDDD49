@@ -13,13 +13,16 @@ namespace Window {
 
 		public MainWindow() {
 
-			BoardGUI player1 = new BoardGUI();
+			BoardGUI player1 = new BoardGUI(Piece.PieceColor.WHITE);
 
 			this.Controls.Add(player1);
 
 			new Engine(player1);
 
 			InitializeComponent();
+
+			//Example of a move
+			player1.makeDraw(7, 0, 3, 0);
 		}
 
 	}

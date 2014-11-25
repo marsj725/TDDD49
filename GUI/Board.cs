@@ -5,17 +5,26 @@ using Window;
 namespace Window {
 	public class BoardGUI : TableLayoutPanel, Player {
 
+		private bool myTurn;
+		private Piece.PieceColor color;
+
 		/// <summary>
 		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
 		/// </summary>
 		/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
 		public bool MyTurn {
-			set { MyTurn = value; }
+			private get { return myTurn; }
+			set { myTurn = value; }
 		}
 
 		public Piece.PieceColor Color {
-			get { return Color; }
+			get { return color; }
+			private set { 
+				color = value;
+			}
 		}
+
+		private Engine engine;
 
 		private const int BOARD_COLUMNS = 8;
 		private const int BOARD_ROWS = 8;
@@ -24,7 +33,9 @@ namespace Window {
 
 		private BoardPositionGUI[,] chessPositions;
 
-		public BoardGUI() {
+		public BoardGUI(Piece.PieceColor color) {
+			MyTurn = false;
+			Color = color;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
 
 			// Initializes all the positions on the board.
@@ -144,8 +155,7 @@ namespace Window {
 		/// <param name="toRow">To row.</param>
 		/// <param name="toCol">To col.</param>
 		public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
-			// To be implemented.
-			return false;
+			return this.engine.performDraw(this.color, fromRow, fromCol, toRow, toCol);
 		}
 
 		/// <summary>
@@ -158,6 +168,19 @@ namespace Window {
 					this.chessPositions[i, j].setPiece(board[i, j]);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Initializes the engine.
+		/// </summary>
+		/// <returns><c>true</c>, if engine was initialized, <c>false</c> otherwise.</returns>
+		/// <param name="engine">Engine.</param>
+		public bool initializeEngine(Engine engine) {
+			if(this.engine != null)
+				return false;
+			System.Console.Write("here");
+			this.engine = engine;
+			return true;
 		}
 
 	}

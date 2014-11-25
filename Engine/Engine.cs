@@ -14,6 +14,7 @@ public class Engine {
 	public Engine(Player player1) {
 		this.board = new Board();
 		this.player1 = player1;
+		this.player1.initializeEngine(this);
 		this.player1.updateBoard(board.BoardGrid);
 	}
 
@@ -33,8 +34,10 @@ public class Engine {
 			return false;
 		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(fromRow, fromCol, toRow, toCol)) {
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
+			player1.updateBoard(this.board.BoardGrid);
 			return true;
 		}
+		return false;
 	}
 
 	/// <summary>
