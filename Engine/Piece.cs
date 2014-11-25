@@ -2,8 +2,10 @@ public abstract class Piece {
 
 	public enum PieceColor {
 		WHITE,
-		BLACK
-	};
+		BLACK,
+		NONE}
+
+	;
 
 	public enum PieceType {
 		NONE,
@@ -12,15 +14,17 @@ public abstract class Piece {
 		BISHOP,
 		KNIGHT,
 		KING,
-		QUEEN
-	};
+		QUEEN}
+
+	;
+
 	private int rowStart;
 	private int colStart;
 
 	private PieceColor color;
 	private PieceType type;
 
-	public Piece(PieceType type, PieceColor color,int row,int col) {
+	public Piece(PieceType type, PieceColor color, int row, int col) {
 		this.color = color;
 		this.type = type;
 		this.colStart = col;
@@ -44,10 +48,12 @@ public abstract class Piece {
 	public PieceType getType() {
 		return this.type;
 	}
-	public int getColStart (){
+
+	public int getColStart() {
 		return this.colStart;
 	}
-	public int getRowStart (){
+
+	public int getRowStart() {
 		return this.rowStart;
 	}
 }

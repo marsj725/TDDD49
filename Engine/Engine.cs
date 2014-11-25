@@ -5,16 +5,15 @@
 /// </summary>
 public class Engine {
 
-	private Mediator mediator;
+	private Player player1;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Engine"/> class.
 	/// </summary>
-	public Engine(Mediator mediator) {
-		this.mediator = mediator;
-		this.mediator.Engine = this;
-
-		this.mediator.registerPlayer(new Window.BoardGUI());
+	public Engine(Player player1) {
+		Board board = new Board();
+		this.player1 = player1;
+		this.player1.updateBoard(board.board);
 	}
 
 	/// <summary>
