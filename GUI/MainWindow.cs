@@ -20,9 +20,6 @@ namespace Window {
 			new Engine(player1);
 
 			InitializeComponent();
-
-			//Example of a move
-			player1.makeDraw(7, 0, 3, 0);
 		}
 
 	}

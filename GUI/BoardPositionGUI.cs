@@ -11,6 +11,9 @@ namespace Window {
 		private int row;
 		private int column;
 
+		private Piece.PieceColor pieceColor;
+		private System.Drawing.Color positionColor;
+
 		public enum Pieces {
 			NONE,
 			PAWN_WHITE,
@@ -54,9 +57,33 @@ namespace Window {
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		private void chessPositionMouseClick(object sender, System.EventArgs e) {
-			// Write code for what is going to happen when a position on the board is clicked on.
 
-			System.Console.WriteLine("Clicked on position: " + ((BoardPositionGUI)sender).getRow() + ((BoardPositionGUI)sender).getColumn());
+			// If the background is green already (it is chosen), it is unnecessary to do anything
+			if(this.BackColor == System.Drawing.Color.Green)
+				return;
+
+			// Save the original color so that it is possible to reset it
+			this.positionColor = this.BackColor;
+
+			// Get the board this position belongs to
+			BoardGUI parent = (BoardGUI)this.Parent;
+
+			// Set as chosen as long as the piece is the same color as the user.
+			if(parent.Color == this.pieceColor)
+				parent.setChosen(row, column);
+			// Make a draw another piece is already chosen
+			else if(parent.positionChosen) {
+				parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column);
+				parent.resetChosen();
+			}
+				
+		}
+
+		/// <summary>
+		/// Resets the background color.
+		/// </summary>
+		public void resetChosen() {
+			this.BackColor = positionColor;
 		}
 
 		/// <summary>
@@ -64,12 +91,14 @@ namespace Window {
 		/// </summary>
 		/// <param name="piece">Piece.</param>
 		public void setPiece(Piece piece) {
+
+			this.pieceColor = piece.getColor();
+
 			if(piece.getType() == Piece.PieceType.NONE) {
 				this.Image = null;
 				return;
 			}
 			if(piece.getColor() == Piece.PieceColor.WHITE) {
-
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_white.png";
 				else if(piece.getType() == Piece.PieceType.KNIGHT)
@@ -84,7 +113,6 @@ namespace Window {
 					this.ImageLocation = "Assets/queen_white.png";
 
 			} else {
-
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_black.png";
 				else if(piece.getType() == Piece.PieceType.KNIGHT)

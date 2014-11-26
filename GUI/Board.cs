@@ -8,12 +8,17 @@ namespace Window {
 		private bool myTurn;
 		private Piece.PieceColor color;
 
+		
+		public bool positionChosen;
+		public int positionChosenX;
+		public int positionChosenY;
+
 		/// <summary>
 		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
 		/// </summary>
 		/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
 		public bool MyTurn {
-			private get { return myTurn; }
+			get { return myTurn; }
 			set { myTurn = value; }
 		}
 
@@ -36,6 +41,7 @@ namespace Window {
 		public BoardGUI(Piece.PieceColor color) {
 			MyTurn = false;
 			Color = color;
+			positionChosen = false;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
 
 			// Initializes all the positions on the board.
@@ -181,6 +187,27 @@ namespace Window {
 			System.Console.Write("here");
 			this.engine = engine;
 			return true;
+		}
+
+		/// <summary>
+		/// Resets the chosen position (the green ones) so no position is chosen any more.
+		/// </summary>
+		public void resetChosen() {
+			this.positionChosen = false;
+			chessPositions[positionChosenX, positionChosenY].resetChosen();
+		}
+
+		/// <summary>
+		/// Marks a position as chosen.
+		/// </summary>
+		/// <param name="row">Row.</param>
+		/// <param name="col">Col.</param>
+		public void setChosen(int row, int col) {
+			this.resetChosen();
+			this.positionChosen = true;
+			this.positionChosenX = row;
+			this.positionChosenY = col;
+			this.chessPositions[row, col].BackColor = System.Drawing.Color.Green;
 		}
 
 	}
