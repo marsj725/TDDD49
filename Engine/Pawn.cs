@@ -16,12 +16,14 @@ public class Pawn : Piece {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
-
+	
 		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
-
+			
 		bool firstMove = false;
+		// If the vertival movement is correct
 		bool verticalCheck = false;
+		// If the user wants to move two steps
 		bool twoSteps = false;
 		bool horisontalCheck = false;
 		int direction;
@@ -31,15 +33,17 @@ public class Pawn : Piece {
 		else
 			direction = 1;
 
+		// First move if on these rows.
 		if(fromRow == 6 || fromRow == 1)
 			firstMove = true;
-
+			
 		if(firstMove) {
 			if(fromRow - toRow == 2 * direction || fromRow - toRow == 1 * direction) {
 				verticalCheck = true;
 			}
-			if(fromRow - toRow == 2 * direction)
+			if(fromRow - toRow == 2 * direction) {
 				firstMove = true;
+			}
 		} else {
 			if(fromRow - toRow == 1 * direction) {
 				verticalCheck = true;
