@@ -6,14 +6,16 @@
 public class Engine {
 
 	private Player player1;
+	private Board board;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Engine"/> class.
 	/// </summary>
 	public Engine(Player player1) {
-		Board board = new Board();
+		this.board = new Board();
 		this.player1 = player1;
-		this.player1.updateBoard(board.board);
+		this.player1.initializeEngine(this);
+		this.player1.updateBoard(board.BoardGrid);
 	}
 
 	/// <summary>
@@ -25,7 +27,16 @@ public class Engine {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public bool performDraw(Piece.PieceColor color, int fromRow, int fromCol, int toRow, int toCol) {
-		// To be implemented
+		// The draw is obviously not allowed if the user trying to make the draw isn't the same color.
+		if(this.board.BoardGrid[fromRow, fromCol].getColor() != color)
+			return false;
+		if(this.board.BoardGrid[toRow, toCol].getColor() == color)
+			return false;
+		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(fromRow, fromCol, toRow, toCol)) {
+			this.board.movePiece(fromRow, fromCol, toRow, toCol);
+			player1.updateBoard(this.board.BoardGrid);
+			return true;
+		}
 		return false;
 	}
 

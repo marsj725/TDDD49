@@ -27,6 +27,8 @@ public interface Player {
 	/// <param name="toCol">To col.</param>
 	bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
 
+	bool initializeEngine(Engine engine);
+
 	/// <summary>
 	/// Updates the board state.
 	/// </summary>

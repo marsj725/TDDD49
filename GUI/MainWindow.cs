@@ -13,7 +13,7 @@ namespace Window {
 
 		public MainWindow() {
 
-			BoardGUI player1 = new BoardGUI();
+			BoardGUI player1 = new BoardGUI(Piece.PieceColor.WHITE);
 
 			this.Controls.Add(player1);
 
