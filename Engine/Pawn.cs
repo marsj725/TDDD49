@@ -15,20 +15,48 @@ public class Pawn : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
-		//Vi måste implementera något som berättar vilken direction vi spelar
-		//Firstmove (Special)
-		if(fromRow == 6 || fromRow == 1) {
-			if(Math.Abs(fromRow - toRow) > 0 && Math.Abs(fromRow - toRow) <= 2) { 
-				return true;
-			} else {
-				return false;
-			}
-			//Hortizontal movement
-		} else if(Math.Abs(fromRow - toRow) == 1) {
-			return true;
-		} else {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
+
+		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
+
+		bool firstMove = false;
+		bool verticalCheck = false;
+		bool twoSteps = false;
+		bool horisontalCheck = false;
+		int direction;
+
+		if(getColor() == PieceColor.BLACK)
+			direction = -1;
+		else
+			direction = 1;
+
+		if(fromRow == 6 || fromRow == 1)
+			firstMove = true;
+
+		if(firstMove) {
+			if(fromRow - toRow == 2 * direction || fromRow - toRow == 1 * direction) {
+				verticalCheck = true;
+			}
+			if(fromRow - toRow == 2 * direction)
+				firstMove = true;
+		} else {
+			if(fromRow - toRow == 1 * direction) {
+				verticalCheck = true;
+			}
 		}
+
+		if(fromCol - toCol == 0) {
+			if(board.BoardGrid[toRow, toCol].getColor() == PieceColor.NONE)
+				horisontalCheck = true;
+		} else if(Math.Abs(fromCol - toCol) == 1) {
+			if(board.BoardGrid[toRow, toCol].getColor() == this.getOppositeColor() && !twoSteps) {
+				horisontalCheck = true;
+			}
+		}
+
+		if(horisontalCheck && verticalCheck)
+			return true;
+		return false;
 	}
 }

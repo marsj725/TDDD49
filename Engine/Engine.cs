@@ -32,7 +32,7 @@ public class Engine {
 			return false;
 		if(this.board.BoardGrid[toRow, toCol].getColor() == color)
 			return false;
-		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(fromRow, fromCol, toRow, toCol)) {
+		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(this.board, fromRow, fromCol, toRow, toCol)) {
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
 			player1.updateBoard(this.board.BoardGrid);
 			return true;

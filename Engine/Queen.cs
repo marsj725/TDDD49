@@ -1,5 +1,5 @@
 public class Queen : Piece {
-	public Queen(PieceColor color,int x, int y) : base(PieceType.QUEEN, color, x ,y) {
+	public Queen(PieceColor color, int x, int y) : base(PieceType.QUEEN, color, x, y) {
 	}
 
 	/// <summary>
@@ -11,7 +11,7 @@ public class Queen : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
 		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
 		// Diagonal movement

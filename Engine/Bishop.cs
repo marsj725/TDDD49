@@ -1,7 +1,8 @@
 using System;
+
 public class Bishop : Piece {
 
-	public Bishop(PieceColor color,int x, int y) : base(PieceType.BISHOP, color, x, y) {
+	public Bishop(PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>
@@ -16,7 +17,7 @@ public class Bishop : Piece {
 	/// 
 
 	//Checks that the change in rows is the same as the change in cols
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
 		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
 			return true;
 		} else {
