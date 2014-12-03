@@ -41,11 +41,22 @@ public class Engine {
 	}
 
 	/// <summary>
-	/// Controls whether it is check or not.
+	/// Controls whether the player is in check or not.
 	/// </summary>
 	/// <returns><c>true</c>, if check, <c>false</c> otherwise.</returns>
-	private bool isCheck() {
-		// To be implemented
+	private bool isCheck(Piece.PieceColor color) {
+		Piece.PieceColor oppositeColor;
+
+		if(color == Piece.PieceColor.WHITE)
+			oppositeColor = Piece.PieceColor.BLACK;
+		else
+			oppositeColor = Piece.PieceColor.WHITE;
+
+		Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
+
+		if(board.getPossibleAttacks(oppositeColor)[kingPosition.Item1, kingPosition.Item2] == true)
+			return true;
+
 		return false;
 	}
 
@@ -56,6 +67,20 @@ public class Engine {
 	private bool isCheckMate() {
 		// To be implemented
 		return false;
+	}
+
+	/// <summary>
+	/// Gets the position of a piece. If the piece is not on the board it returns null.
+	/// </summary>
+	/// <returns>The position of.</returns>
+	/// <param name="type">Type.</param>
+	/// <param name="color">Color.</param>
+	private Tuple<int, int> getPositionOf(Piece.PieceType type, Piece.PieceColor color) {
+		foreach(Piece piece in this.board.BoardGrid) {
+			if(piece.getColor() == color && piece.getType() == type)
+				return new Tuple<int, int>(piece.Row, piece.Col);
+		}
+		return null;
 	}
 
 }
