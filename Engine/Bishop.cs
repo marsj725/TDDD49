@@ -26,43 +26,22 @@ public class Bishop : Piece {
 		}
 	}
 
-	public override ArrayList<Tuple<int, int>> getPossibleMoves(Piece.PieceColor color, Board board) {
+	/// <summary>
+	/// Returns the possible moves of this piece.
+	/// </summary>
+	/// <returns>The possible moves.</returns>
+	/// <param name="color">Color.</param>
+	/// <param name="board">Board.</param>
+	public override ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
 
 		ArrayList<Tuple<int, int>> result = new ArrayList<Tuple<int, int>>();
 
-		possibleDrawsInDirection(board, ref result, 1, 1);
-		possibleDrawsInDirection(board, ref result, 1, -1);
-		possibleDrawsInDirection(board, ref result, -1, 1);
-		possibleDrawsInDirection(board, ref result, -1, -1);
+		possibleDrawsDiagonally(board, ref result, 1, 1);
+		possibleDrawsDiagonally(board, ref result, 1, -1);
+		possibleDrawsDiagonally(board, ref result, -1, 1);
+		possibleDrawsDiagonally(board, ref result, -1, -1);
 
 		return result;
 	}
 
-	private void possibleDrawsInDirection(Board board, ref ArrayList<Tuple<int, int>> result, int directionX, int directionY) {
-		int boardLimitX;
-		int boardLimitY;
-
-		if(directionX < 0)
-			boardLimitX = 0;
-		else
-			boardLimitX = 7;
-
-		if(directionY < 0)
-			boardLimitY = 0;
-		else
-			boardLimitY = 7;
-
-		for(int i = 1; directionY * (this.Row + i * directionY) <= directionY * boardLimitY && directionX * (this.Col + i * directionX) <= directionX * boardLimitX; i++) {
-			Piece.PieceColor color = board.BoardGrid[this.Row + i * directionY, this.Col + i * directionX].getColor();
-			System.Console.WriteLine(this.Row + i * directionY + " " + this.Col + i * directionX);
-			if(color == PieceColor.NONE) {
-				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
-			} else if(color != this.getColor()) {
-				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
-				return;
-			} else {
-				return;
-			}
-		}
-	}
 }

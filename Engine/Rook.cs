@@ -24,7 +24,18 @@ public class Rook : Piece {
 		}
 	}
 
-	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
-		throw new NotImplementedException();
+	/// <summary>
+	/// Returns the possible moves of this piece.
+	/// </summary>
+	/// <returns>The possible moves.</returns>
+	/// <param name="color">Color.</param>
+	/// <param name="board">Board.</param>
+	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
+		C5.ArrayList<Tuple<int, int>> result = new C5.ArrayList<Tuple<int, int>>();
+
+		possibleMovesHorisontallyAndVertically(ref result, board);
+
+		return result;
 	}
+
 }

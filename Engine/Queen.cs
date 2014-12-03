@@ -23,7 +23,22 @@ public class Queen : Piece {
 		return false;
 	}
 
-	public override C5.ArrayList<System.Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
-		throw new System.NotImplementedException();
+	/// <summary>
+	/// Returns the possible moves of this piece.
+	/// </summary>
+	/// <returns>The possible moves.</returns>
+	/// <param name="color">Color.</param>
+	/// <param name="board">Board.</param>
+	public override C5.ArrayList<System.Tuple<int, int>> getPossibleMoves(Board board) {
+		C5.ArrayList<System.Tuple<int, int>> result = new C5.ArrayList<System.Tuple<int, int>>();
+
+		possibleDrawsDiagonally(board, ref result, 1, 1);
+		possibleDrawsDiagonally(board, ref result, -1, 1);
+		possibleDrawsDiagonally(board, ref result, 1, -1);
+		possibleDrawsDiagonally(board, ref result, -1, -1);
+
+		possibleMovesHorisontallyAndVertically(ref result, board);
+
+		return result;
 	}
 }

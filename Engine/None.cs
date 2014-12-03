@@ -7,8 +7,8 @@ public class None : Piece {
 		return false;
 	}
 
-	public override C5.ArrayList<System.Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
-		throw new System.NotImplementedException();
+	public override C5.ArrayList<System.Tuple<int, int>> getPossibleMoves(Board board) {
+		return new C5.ArrayList<System.Tuple<int, int>>();
 	}
 }
 
