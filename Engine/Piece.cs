@@ -1,3 +1,6 @@
+using System;
+using C5;
+
 public abstract class Piece {
 
 	public enum PieceColor {
@@ -48,6 +51,12 @@ public abstract class Piece {
 	public PieceType getType() {
 		return this.type;
 	}
+
+	/// <summary>
+	/// Returns the possible moves of this piece.
+	/// </summary>
+	/// <returns>The possible moves.</returns>
+	public abstract ArrayList<Tuple<int, int>> getPossibleMoves(Piece.PieceColor color, Board board);
 
 }
 

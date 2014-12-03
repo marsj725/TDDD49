@@ -1,7 +1,8 @@
 using System;
+
 public class King : Piece {
 
-	public King(PieceColor color,int x, int y) : base(PieceType.KING, color, x ,y) {
+	public King(PieceColor color, int x, int y) : base(PieceType.KING, color, x, y) {
 	}
 
 	/// <summary>
@@ -21,5 +22,9 @@ public class King : Piece {
 			return true;
 		}
 		return false;
+	}
+
+	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
+		throw new NotImplementedException();
 	}
 }

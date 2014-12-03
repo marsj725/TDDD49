@@ -1,7 +1,8 @@
 using System;
+
 public class Knight : Piece {
 
-	public Knight(PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
+	public Knight(PieceColor color, int x, int y) : base(PieceType.KNIGHT, color, x, y) {
 	}
 
 	/// <summary>
@@ -21,6 +22,10 @@ public class Knight : Piece {
 		else if(Math.Abs(fromCol - toCol) == 2 && Math.Abs(fromRow - toRow) == 1)
 			return true;
 		return false;
+	}
+
+	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
+		throw new NotImplementedException();
 	}
 }
 

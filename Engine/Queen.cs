@@ -1,5 +1,5 @@
 public class Queen : Piece {
-	public Queen(PieceColor color,int x, int y) : base(PieceType.QUEEN, color, x ,y) {
+	public Queen(PieceColor color, int x, int y) : base(PieceType.QUEEN, color, x, y) {
 	}
 
 	/// <summary>
@@ -21,5 +21,9 @@ public class Queen : Piece {
 		else if(fromRow - toRow == 0 || fromCol - toCol == 0)
 			return true;
 		return false;
+	}
+
+	public override C5.ArrayList<System.Tuple<int, int>> getPossibleMoves(PieceColor color, Board board) {
+		throw new System.NotImplementedException();
 	}
 }
