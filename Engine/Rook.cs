@@ -1,7 +1,7 @@
 using System;
 public class Rook : Piece {
 
-	public Rook(PieceColor color,int x, int y) : base(PieceType.ROOK, color,x,y) {
+	public Rook(Board.PieceColor color,int x, int y) : base(PieceType.ROOK, color,x,y) {
 	}
 
 	/// <summary>

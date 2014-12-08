@@ -3,7 +3,7 @@ public class Pawn : Piece {
 
 	private bool firstMove;
 
-	public Pawn(PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
+	public Pawn(Board.PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
 		firstMove = true;
 	}
 

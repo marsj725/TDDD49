@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,11 +12,13 @@ namespace Window {
 
 		public MainWindow() {
 
-			BoardGUI player1 = new BoardGUI(Piece.PieceColor.WHITE);
+			Mediator mediator = new Mediator();
 
-			this.Controls.Add(player1);
+			BoardGUI player = new BoardGUI(mediator);
 
-			new Engine(player1);
+			this.Controls.Add(player);
+
+			Engine engine = new Engine(mediator);
 
 			InitializeComponent();
 		}

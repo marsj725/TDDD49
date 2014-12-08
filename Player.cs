@@ -13,7 +13,7 @@ public interface Player {
 		set;
 	}
 
-	Piece.PieceColor Color {
+	Board.PieceColor Color {
 		get;
 	}
 

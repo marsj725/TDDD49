@@ -1,7 +1,7 @@
 using System;
 public class Knight : Piece {
 
-	public Knight(PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
+	public Knight(Board.PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
 	}
 
 	/// <summary>
