@@ -31,7 +31,7 @@ public abstract class Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public abstract bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol);
+	public abstract bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol);
 
 	public Board.PieceColor getColor() {
 		return this.color;
@@ -41,5 +41,12 @@ public abstract class Piece {
 		return this.type;
 	}
 
+	public Board.PieceColor getOppositeColor() {
+		if(color == Board.PieceColor.NONE)
+			return Board.PieceColor.NONE;
+		if(color == Board.PieceColor.BLACK)
+			return Board.PieceColor.WHITE;
+		return Board.PieceColor.BLACK;
+	}
 }
 

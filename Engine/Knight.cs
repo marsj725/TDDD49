@@ -1,4 +1,5 @@
 using System;
+
 public class Knight : Piece {
 
 	public Knight(Board.PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
@@ -13,7 +14,7 @@ public class Knight : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
 		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
 		if(Math.Abs(fromRow - toRow) == 2 && Math.Abs(fromCol - toCol) == 1)
