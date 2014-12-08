@@ -2,7 +2,7 @@ using System;
 
 public class Bishop : Piece {
 
-	public Bishop(PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
+	public Bishop(Board.PieceColor color,int x, int y) : base(PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>

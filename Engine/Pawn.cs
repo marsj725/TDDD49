@@ -2,7 +2,11 @@ using System;
 
 public class Pawn : Piece {
 
-	public Pawn(PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
+	private bool firstMove;
+
+	public Pawn(Board.PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
+		firstMove = true;
+	}
 
 	}
 

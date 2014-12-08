@@ -11,7 +11,7 @@ namespace Window {
 		private int row;
 		private int column;
 
-		private Piece.PieceColor pieceColor;
+		private Board.PieceColor pieceColor;
 		private System.Drawing.Color positionColor;
 
 		public enum Pieces {
@@ -98,7 +98,8 @@ namespace Window {
 				this.Image = null;
 				return;
 			}
-			if(piece.getColor() == Piece.PieceColor.WHITE) {
+			Console.WriteLine("Adding piece");
+			if(piece.getColor() == Board.PieceColor.WHITE) {
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_white.png";
 				else if(piece.getType() == Piece.PieceType.KNIGHT)
