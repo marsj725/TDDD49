@@ -3,34 +3,12 @@ using System.Windows.Forms;
 using Window;
 
 namespace Window {
-	public class BoardGUI : TableLayoutPanel, Player {
+	public class BoardGUI : TableLayoutPanel {
 
-		private bool myTurn;
-		private Board.PieceColor color;
-
-		
 		public bool positionChosen;
 		public int positionChosenX;
 		public int positionChosenY;
-		private Mediator mediator;
-
-		/// <summary>
-		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
-		/// </summary>
-		/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
-		public bool MyTurn {
-			get { return myTurn; }
-			set { myTurn = value; }
-		}
-
-		public Board.PieceColor Color {
-			get { return color; }
-			private set { 
-				color = value;
-			}
-		}
-
-		private Engine engine;
+		public Mediator mediator;
 
 		private const int BOARD_COLUMNS = 8;
 		private const int BOARD_ROWS = 8;
@@ -40,13 +18,11 @@ namespace Window {
 		private BoardPositionGUI[,] chessPositions;
 
 		public BoardGUI(Mediator mediator) {
-			System.Console.WriteLine(mediator.registerPlayer(this));
+			mediator.registerGUI(this);
+			this.mediator = mediator;
 
-			MyTurn = false;
-			Color = color;
 			positionChosen = false;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
-			this.mediator = mediator;
 
 			// Initializes all the positions on the board.
 			InitializeBoardPositions();
@@ -63,16 +39,6 @@ namespace Window {
 			// Sets the colors on the Board to black and white.
 			SetBoardColors();
 
-		}
-
-		public void fetchBoard() {
-
-			//ToDo: Return current position of all pieces!
-		}
-
-		public void addPieces ()
-		{
-			//ToDo: Add Pieces to the board
 		}
 
 		/// <summary>
@@ -141,7 +107,6 @@ namespace Window {
 			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
 				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
 					if(i % 2 == 0) {
-						System.Console.WriteLine("here!");
 						if(j % 2 == 0)
 							this.chessPositions[i, j].BackColor = System.Drawing.Color.Black;
 						else
@@ -165,33 +130,20 @@ namespace Window {
 		/// <param name="fromCol">From col.</param>
 		/// <param name="toRow">To row.</param>
 		/// <param name="toCol">To col.</param>
-		public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
-			return this.mediator.makeDraw(fromRow, fromCol, toRow, toCol);
+		public void makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
+			this.mediator.GUIMakeMove(fromRow, fromCol, toRow, toCol);
 		}
 
 		/// <summary>
 		/// Updates the board state.
 		/// </summary>
 		/// <param name="board">Board.</param>
-		public void updateBoard(Piece[,] board) {
+		public void renderBoard(Piece[,] board) {
 			for(int i = 0; i < BOARD_ROWS; i++) {
 				for(int j = 0; j < BOARD_COLUMNS; j++) {
 					this.chessPositions[i, j].setPiece(board[i, j]);
 				}
 			}
-		}
-
-		/// <summary>
-		/// Initializes the engine.
-		/// </summary>
-		/// <returns><c>true</c>, if engine was initialized, <c>false</c> otherwise.</returns>
-		/// <param name="engine">Engine.</param>
-		public bool initializeEngine(Engine engine) {
-			if(this.engine != null)
-				return false;
-			System.Console.Write("hereX");
-			this.engine = engine;
-			return true;
 		}
 
 		/// <summary>

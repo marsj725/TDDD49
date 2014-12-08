@@ -14,13 +14,14 @@ namespace Window {
 
 			Mediator mediator = new Mediator();
 
-			BoardGUI player = new BoardGUI(mediator);
-
-			this.Controls.Add(player);
-
-			Engine engine = new Engine(mediator);
+			new User(mediator, Board.PieceColor.WHITE);
+			new User(mediator, Board.PieceColor.BLACK);
+			BoardGUI boardGUI = new BoardGUI(mediator);
+			new Engine(mediator);
 
 			InitializeComponent();
+
+			this.Controls.Add(boardGUI);
 		}
 
 	}

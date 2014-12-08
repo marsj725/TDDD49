@@ -15,8 +15,7 @@ public class Engine {
 	public Engine(Mediator mediator) {
 		this.board = new Board();
 		this.mediator = mediator;
-//		this.player = player;
-		this.mediator.InitializeEngine(this);
+		this.mediator.registerEngine(this);
 		this.mediator.updateBoard(board.BoardGrid);
 		this.activePlayer = Board.PieceColor.WHITE;
 	}
@@ -25,13 +24,16 @@ public class Engine {
 		get {
 			return this.activePlayer;
 		}
-		set {
-			if(this.activePlayer == Board.PieceColor.WHITE) {
-				this.activePlayer = Board.PieceColor.BLACK;
-			} else {
-				this.activePlayer = Board.PieceColor.WHITE;
-			}
+		private set {
+			this.activePlayer = value;
 		}
+	}
+
+	private void switchTurn() {
+		if(this.activePlayer == Board.PieceColor.WHITE)
+			this.activePlayer = Board.PieceColor.BLACK;
+		else
+			this.activePlayer = Board.PieceColor.WHITE;
 	}
 
 	/// <summary>
@@ -52,6 +54,7 @@ public class Engine {
 		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(this.board, fromRow, fromCol, toRow, toCol)) {
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
 			mediator.updateBoard(this.board.BoardGrid);
+			switchTurn();
 			return true;
 		}
 		return false;

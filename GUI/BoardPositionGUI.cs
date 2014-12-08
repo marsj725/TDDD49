@@ -69,7 +69,7 @@ namespace Window {
 			BoardGUI parent = (BoardGUI)this.Parent;
 
 			// Set as chosen as long as the piece is the same color as the user.
-			if(parent.Color == this.pieceColor)
+			if(parent.mediator.Engine.PlayerTurn == this.pieceColor)
 				parent.setChosen(row, column);
 			// Make a draw another piece is already chosen
 			else if(parent.positionChosen) {
@@ -98,7 +98,6 @@ namespace Window {
 				this.Image = null;
 				return;
 			}
-			Console.WriteLine("Adding piece");
 			if(piece.getColor() == Board.PieceColor.WHITE) {
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_white.png";
