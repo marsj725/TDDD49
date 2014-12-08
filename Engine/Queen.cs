@@ -1,7 +1,7 @@
 using System;
 
 public class Queen : Piece {
-	public Queen(PieceColor color, int x, int y) : base(PieceType.QUEEN, color, x, y) {
+	public Queen(Board.PieceColor color, int x, int y) : base(PieceType.QUEEN, color, x, y) {
 	}
 
 	/// <summary>
@@ -36,7 +36,7 @@ public class Queen : Piece {
 		// Diagonal movement
 		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
 			for(int i = 1; i < Math.Abs(fromRow - toRow); i++) {
-				if(board.BoardGrid[fromRow + i * directionY, fromCol + i * directionX].getColor() != PieceColor.NONE)
+				if(board.BoardGrid[fromRow + i * directionY, fromCol + i * directionX].getColor() != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;
@@ -44,7 +44,7 @@ public class Queen : Piece {
 		// Vertical movement
 		if(fromCol - toCol == 0) {
 			for(int i = 1; i < Math.Abs(fromRow - toRow); i++) {
-				if(board.BoardGrid[fromRow + i * directionY, fromCol].getColor() != PieceColor.NONE)
+				if(board.BoardGrid[fromRow + i * directionY, fromCol].getColor() != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;
@@ -52,7 +52,7 @@ public class Queen : Piece {
 		// Horisontal movement
 		if(fromRow - toRow == 0) {
 			for(int i = 1; i < Math.Abs(fromCol - toCol); i++) {
-				if(board.BoardGrid[fromRow, fromCol + i * directionX].getColor() != PieceColor.NONE)
+				if(board.BoardGrid[fromRow, fromCol + i * directionX].getColor() != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;

@@ -2,7 +2,7 @@ using System;
 
 public class Rook : Piece {
 
-	public Rook(PieceColor color, int x, int y) : base(PieceType.ROOK, color, x, y) {
+	public Rook(Board.PieceColor color, int x, int y) : base(PieceType.ROOK, color, x, y) {
 	}
 
 	/// <summary>
@@ -38,7 +38,7 @@ public class Rook : Piece {
 		// Vertical movement
 		if(fromCol - toCol == 0) {
 			for(int i = 1; i < Math.Abs(fromRow - toRow); i++) {
-				if(board.BoardGrid[fromRow + i * directionY, fromCol].getColor() != PieceColor.NONE)
+				if(board.BoardGrid[fromRow + i * directionY, fromCol].getColor() != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;
@@ -46,7 +46,7 @@ public class Rook : Piece {
 		// Horisontal movement
 		if(fromRow - toRow == 0) {
 			for(int i = 1; i < Math.Abs(fromCol - toCol); i++) {
-				if(board.BoardGrid[fromRow, fromCol + i * directionX].getColor() != PieceColor.NONE)
+				if(board.BoardGrid[fromRow, fromCol + i * directionX].getColor() != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;

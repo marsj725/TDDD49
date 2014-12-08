@@ -1,12 +1,5 @@
 public abstract class Piece {
 
-	public enum PieceColor {
-		WHITE,
-		BLACK,
-		NONE}
-
-	;
-
 	public enum PieceType {
 		NONE,
 		PAWN,
@@ -15,16 +8,15 @@ public abstract class Piece {
 		KNIGHT,
 		KING,
 		QUEEN}
-
 	;
 
 	public int Row;
 	public int Col;
 
-	private PieceColor color;
 	private PieceType type;
+	private Board.PieceColor color;
 
-	public Piece(PieceType type, PieceColor color, int row, int col) {
+	public Piece(PieceType type, Board.PieceColor color, int row, int col) {
 		this.color = color;
 		this.type = type;
 		this.Col = col;
@@ -41,7 +33,7 @@ public abstract class Piece {
 	/// <param name="toCol">To col.</param>
 	public abstract bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol);
 
-	public PieceColor getColor() {
+	public Board.PieceColor getColor() {
 		return this.color;
 	}
 
@@ -49,12 +41,12 @@ public abstract class Piece {
 		return this.type;
 	}
 
-	public PieceColor getOppositeColor() {
-		if(color == PieceColor.NONE)
-			return PieceColor.NONE;
-		if(color == PieceColor.BLACK)
-			return PieceColor.WHITE;
-		return PieceColor.BLACK;
+	public Board.PieceColor getOppositeColor() {
+		if(color == Board.PieceColor.NONE)
+			return Board.PieceColor.NONE;
+		if(color == Board.PieceColor.BLACK)
+			return Board.PieceColor.WHITE;
+		return Board.PieceColor.BLACK;
 	}
 }
 

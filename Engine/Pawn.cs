@@ -2,8 +2,7 @@ using System;
 
 public class Pawn : Piece {
 
-	public Pawn(PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
-
+	public Pawn(Board.PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
 	}
 
 	/// <summary>
@@ -28,7 +27,7 @@ public class Pawn : Piece {
 		bool horisontalCheck = false;
 		int direction;
 
-		if(getColor() == PieceColor.BLACK)
+		if(getColor() == Board.PieceColor.BLACK)
 			direction = -1;
 		else
 			direction = 1;
@@ -51,7 +50,7 @@ public class Pawn : Piece {
 		}
 
 		if(fromCol - toCol == 0) {
-			if(board.BoardGrid[toRow, toCol].getColor() == PieceColor.NONE)
+			if(board.BoardGrid[toRow, toCol].getColor() == Board.PieceColor.NONE)
 				horisontalCheck = true;
 		} else if(Math.Abs(fromCol - toCol) == 1) {
 			if(board.BoardGrid[toRow, toCol].getColor() == this.getOppositeColor() && !twoSteps) {

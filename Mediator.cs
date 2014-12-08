@@ -10,14 +10,28 @@ public class Mediator {
 
 	private Player Player1;
 	private Player Player2;
+	private Player Player;
+	private Engine engine;
+	private Board board;
+
+
 
 	public Engine Engine {
 		get {
-			return this.Engine;
+			return this.engine;
 		}
 		set {
-			Engine = value;
+			engine = value;
 		}
+	}
+	public Board Board {
+		get {
+			return this.engine.board;
+		}
+	}
+
+	public void InitializeEngine(Engine engine){
+		this.Engine = engine;
 	}
 
 	/// <summary>
@@ -29,8 +43,9 @@ public class Mediator {
 	/// <param name="fromCol">From col.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public bool makeDraw(Piece.PieceColor color, int fromRow, int fromCol, int toRow, int toCol) {
-		return this.Engine.performDraw(color, fromRow, fromCol, toRow, toCol); 
+	public bool makeDraw (int fromRow, int fromCol, int toRow, int toCol)
+	{
+		return this.Engine.performDraw(fromRow, fromCol, toRow, toCol);
 	}
 
 	/// <summary>
@@ -39,8 +54,9 @@ public class Mediator {
 	/// <param name="board">Board.</param>
 	public void updateBoard(Piece[,] board) {
 		Player1.updateBoard(board);
-		Player2.updateBoard(board);
+		//Player2.updateBoard(board);
 	}
+
 
 	/// <summary>
 	/// A player registers itself in the mediator. 
@@ -48,10 +64,10 @@ public class Mediator {
 	/// <returns><c>true</c>, if player was registered, <c>false</c> otherwise.</returns>
 	/// <param name="player">Player.</param>
 	public bool registerPlayer(Player player) {
-		if(this.Player1 != null) {
+		if(this.Player1 == null) {
 			this.Player1 = player;
 			return true;
-		} else if(this.Player2 != null) {
+		} else if(this.Player2 == null) {
 			this.Player2 = player;
 			return true;
 		}

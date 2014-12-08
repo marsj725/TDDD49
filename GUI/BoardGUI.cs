@@ -6,12 +6,13 @@ namespace Window {
 	public class BoardGUI : TableLayoutPanel, Player {
 
 		private bool myTurn;
-		private Piece.PieceColor color;
+		private Board.PieceColor color;
 
 		
 		public bool positionChosen;
 		public int positionChosenX;
 		public int positionChosenY;
+		private Mediator mediator;
 
 		/// <summary>
 		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
@@ -22,7 +23,7 @@ namespace Window {
 			set { myTurn = value; }
 		}
 
-		public Piece.PieceColor Color {
+		public Board.PieceColor Color {
 			get { return color; }
 			private set { 
 				color = value;
@@ -38,15 +39,17 @@ namespace Window {
 
 		private BoardPositionGUI[,] chessPositions;
 
-		public BoardGUI(Piece.PieceColor color) {
+		public BoardGUI(Mediator mediator) {
+			System.Console.WriteLine(mediator.registerPlayer(this));
+
 			MyTurn = false;
 			Color = color;
 			positionChosen = false;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
+			this.mediator = mediator;
 
 			// Initializes all the positions on the board.
 			InitializeBoardPositions();
-
 			AddChessPositionsToBoard();
 			SetBoardDimensions(BOARD_ROWS, BOARD_COLUMNS);
 			this.Location = new System.Drawing.Point(0, 0);
@@ -63,10 +66,12 @@ namespace Window {
 		}
 
 		public void fetchBoard() {
+
 			//ToDo: Return current position of all pieces!
 		}
 
-		public void addPieces() {
+		public void addPieces ()
+		{
 			//ToDo: Add Pieces to the board
 		}
 
@@ -136,7 +141,7 @@ namespace Window {
 			for(int i = 0; i < this.chessPositions.GetLength(0); i++) {
 				for(int j = 0; j < this.chessPositions.GetLength(1); j++) {
 					if(i % 2 == 0) {
-						System.Console.WriteLine("here");
+						System.Console.WriteLine("here!");
 						if(j % 2 == 0)
 							this.chessPositions[i, j].BackColor = System.Drawing.Color.Black;
 						else
@@ -161,7 +166,7 @@ namespace Window {
 		/// <param name="toRow">To row.</param>
 		/// <param name="toCol">To col.</param>
 		public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
-			return this.engine.performDraw(this.color, fromRow, fromCol, toRow, toCol);
+			return this.mediator.makeDraw(fromRow, fromCol, toRow, toCol);
 		}
 
 		/// <summary>
@@ -184,7 +189,7 @@ namespace Window {
 		public bool initializeEngine(Engine engine) {
 			if(this.engine != null)
 				return false;
-			System.Console.Write("here");
+			System.Console.Write("hereX");
 			this.engine = engine;
 			return true;
 		}
@@ -209,7 +214,6 @@ namespace Window {
 			this.positionChosenY = col;
 			this.chessPositions[row, col].BackColor = System.Drawing.Color.Green;
 		}
-
 	}
 }
 
