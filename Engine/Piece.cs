@@ -3,13 +3,6 @@ using C5;
 
 public abstract class Piece {
 
-	public enum PieceColor {
-		WHITE,
-		BLACK,
-		NONE}
-
-	;
-
 	public enum PieceType {
 		NONE,
 		PAWN,
@@ -18,16 +11,15 @@ public abstract class Piece {
 		KNIGHT,
 		KING,
 		QUEEN}
-
 	;
 
 	public int Row;
 	public int Col;
 
-	private PieceColor color;
 	private PieceType type;
+	private Board.PieceColor color;
 
-	public Piece(PieceType type, PieceColor color, int row, int col) {
+	public Piece(PieceType type, Board.PieceColor color, int row, int col) {
 		this.color = color;
 		this.type = type;
 		this.Col = col;
@@ -42,9 +34,9 @@ public abstract class Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public abstract bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol);
+	public abstract bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol);
 
-	public PieceColor getColor() {
+	public Board.PieceColor getColor() {
 		return this.color;
 	}
 
@@ -80,8 +72,8 @@ public abstract class Piece {
 			boardLimitY = 7;
 
 		for(int i = 1; directionY * (this.Row + i * directionY) <= directionY * boardLimitY && directionX * (this.Col + i * directionX) <= directionX * boardLimitX; i++) {
-			Piece.PieceColor color = board.BoardGrid[this.Row + i * directionY, this.Col + i * directionX].getColor();
-			if(color == PieceColor.NONE) {
+			Board.PieceColor color = board.BoardGrid[this.Row + i * directionY, this.Col + i * directionX].getColor();
+			if(color == Board.PieceColor.NONE) {
 				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
 			} else if(color != this.getColor()) {
 				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
@@ -100,7 +92,7 @@ public abstract class Piece {
 	protected void possibleMovesHorisontallyAndVertically(ref C5.ArrayList<Tuple<int, int>> result, Board board) {
 
 		for(int i = -1; this.Row + i >= 0; i--) {
-			if(board.BoardGrid[this.Row + i, this.Col].getColor() == PieceColor.NONE)
+			if(board.BoardGrid[this.Row + i, this.Col].getColor() == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
 			else if(board.BoardGrid[this.Row + i, this.Col].getColor() != this.getColor()) {
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
@@ -110,7 +102,7 @@ public abstract class Piece {
 		}
 
 		for(int i = -1; this.Col + i >= 0; i--) {
-			if(board.BoardGrid[this.Row, this.Col + i].getColor() == PieceColor.NONE)
+			if(board.BoardGrid[this.Row, this.Col + i].getColor() == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
 			else if(board.BoardGrid[this.Row, this.Col + i].getColor() != this.getColor()) {
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
@@ -120,7 +112,7 @@ public abstract class Piece {
 		}
 
 		for(int i = 1; this.Row + i <= 7; i++) {
-			if(board.BoardGrid[this.Row + i, this.Col].getColor() == PieceColor.NONE)
+			if(board.BoardGrid[this.Row + i, this.Col].getColor() == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
 			else if(board.BoardGrid[this.Row + i, this.Col].getColor() != this.getColor()) {
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
@@ -130,14 +122,22 @@ public abstract class Piece {
 		}
 
 		for(int i = 1; this.Col + i <= 7; i++) {
-			if(board.BoardGrid[this.Row, this.Col + i].getColor() == PieceColor.NONE)
+			if(board.BoardGrid[this.Row, this.Col + i].getColor() == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
 			else if(board.BoardGrid[this.Row, this.Col + i].getColor() != this.getColor()) {
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
 				break;
 			} else
 				break;
-		}
+		}	
+	}
+
+	public Board.PieceColor getOppositeColor() {
+		if(color == Board.PieceColor.NONE)
+			return Board.PieceColor.NONE;
+		if(color == Board.PieceColor.BLACK)
+			return Board.PieceColor.WHITE;
+		return Board.PieceColor.BLACK;
 	}
 }
 

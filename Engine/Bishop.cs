@@ -1,9 +1,8 @@
 using System;
-using C5;
 
 public class Bishop : Piece {
 
-	public Bishop(PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
+	public Bishop(Board.PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>
@@ -18,12 +17,37 @@ public class Bishop : Piece {
 	/// 
 
 	//Checks that the change in rows is the same as the change in cols
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
-		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
-			return true;
-		} else {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
+
+		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
+
+		// The direction to iterate below. (The direction of the move).
+		int directionX;
+		int directionY;
+
+		if(fromRow < toRow)
+			directionY = 1;
+		else
+			directionY = -1;
+
+		if(fromCol < toCol)
+			directionX = 1;
+		else
+			directionX = -1;
+
+		// Check if there are any pieces in between.
+
+		// Diagonal movement
+		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
+			for(int i = 1; i < Math.Abs(fromRow - toRow); i++) {
+				if(board.BoardGrid[fromRow + i * directionY, fromCol + i * directionX].getColor() != Board.PieceColor.NONE)
+					return false;
+			}
+			return true;
 		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -32,9 +56,9 @@ public class Bishop : Piece {
 	/// <returns>The possible moves.</returns>
 	/// <param name="color">Color.</param>
 	/// <param name="board">Board.</param>
-	public override ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
+	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
 
-		ArrayList<Tuple<int, int>> result = new ArrayList<Tuple<int, int>>();
+		C5.ArrayList<Tuple<int, int>> result = new C5.ArrayList<Tuple<int, int>>();
 
 		possibleDrawsDiagonally(board, ref result, 1, 1);
 		possibleDrawsDiagonally(board, ref result, 1, -1);

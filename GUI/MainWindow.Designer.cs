@@ -6,7 +6,7 @@ namespace Window {
 
 		private System.ComponentModel.IContainer components = null;
 
-		private const int WINDOW_SIZE_WIDTH = 900;
+		private const int WINDOW_SIZE_WIDTH = 512;
 		private const int WINDOW_SIZE_HEIGHT = 512;
 
 		protected override void Dispose(bool disposing) {

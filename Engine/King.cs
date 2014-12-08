@@ -2,7 +2,7 @@ using System;
 
 public class King : Piece {
 
-	public King(PieceColor color, int x, int y) : base(PieceType.KING, color, x, y) {
+	public King(Board.PieceColor color,int x, int y) : base(PieceType.KING, color, x ,y) {
 	}
 
 	/// <summary>
@@ -14,7 +14,7 @@ public class King : Piece {
 	/// <param name="fromColumn">From column.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public override bool isMoveLegal(int fromRow, int fromCol, int toRow, int toCol) {
+	public override bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol) {
 		if(fromRow - toRow == 0 && fromCol - toCol == 0)
 			return false;
 
