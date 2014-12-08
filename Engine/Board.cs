@@ -1,4 +1,5 @@
 ﻿using System;
+using C5;
 
 public class Board {
 
@@ -33,6 +34,27 @@ public class Board {
 		this.BoardGrid[toRow, toCol].Row = toRow;
 		this.BoardGrid[toRow, toCol].Col = toCol;
 		this.BoardGrid[fromRow, fromCol] = new None(PieceColor.NONE, fromRow, fromCol);
+	}
+
+	/// <summary>
+	/// Returns all the positions where the color can possibly attack. 
+	/// </summary>
+	/// <returns>A boolean array where true is a position where the color can attack.</returns>
+	/// <param name="color">The color.</param>
+	public bool[,] getPossibleAttacks(Board.PieceColor color) {
+
+		bool[,] attackedPositions = new bool[8, 8];
+
+		foreach(Piece piece in BoardGrid) {
+			if(piece.getColor() == color) {
+				ArrayList<Tuple<int, int>> positions = piece.getPossibleMoves(this);
+				foreach(Tuple<int, int> position in positions) {
+					attackedPositions[position.Item1, position.Item2] = true;
+				}
+			}
+		}
+
+		return attackedPositions;
 	}
 
 	/// <summary>

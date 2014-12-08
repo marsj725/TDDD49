@@ -2,7 +2,7 @@ using System;
 
 public class Bishop : Piece {
 
-	public Bishop(Board.PieceColor color,int x, int y) : base(PieceType.BISHOP, color, x, y) {
+	public Bishop(Board.PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>
@@ -49,4 +49,23 @@ public class Bishop : Piece {
 
 		return false;
 	}
+
+	/// <summary>
+	/// Returns the possible moves of this piece.
+	/// </summary>
+	/// <returns>The possible moves.</returns>
+	/// <param name="color">Color.</param>
+	/// <param name="board">Board.</param>
+	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
+
+		C5.ArrayList<Tuple<int, int>> result = new C5.ArrayList<Tuple<int, int>>();
+
+		possibleDrawsDiagonally(board, ref result, 1, 1);
+		possibleDrawsDiagonally(board, ref result, 1, -1);
+		possibleDrawsDiagonally(board, ref result, -1, 1);
+		possibleDrawsDiagonally(board, ref result, -1, -1);
+
+		return result;
+	}
+
 }
