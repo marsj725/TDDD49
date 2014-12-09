@@ -12,6 +12,7 @@ public class Mediator {
 	private Player Player2;
 	private Player Player;
 	private Engine engine;
+	private GameLog gameLog;
 	private Board board;
 
 
@@ -24,13 +25,23 @@ public class Mediator {
 			engine = value;
 		}
 	}
+
 	public Board Board {
 		get {
 			return this.engine.board;
 		}
 	}
 
-	public void InitializeEngine(Engine engine){
+	public GameLog GameLog {
+		get {
+			return this.gameLog;
+		} 
+		private set {
+			this.gameLog = value;
+		}
+	}
+
+	public void InitializeEngine(Engine engine) {
 		this.Engine = engine;
 	}
 
@@ -43,8 +54,7 @@ public class Mediator {
 	/// <param name="fromCol">From col.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public bool makeDraw (int fromRow, int fromCol, int toRow, int toCol)
-	{
+	public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
 		return this.Engine.performDraw(fromRow, fromCol, toRow, toCol);
 	}
 
@@ -74,4 +84,11 @@ public class Mediator {
 		return false;
 	}
 
+	public bool registerGameLog(GameLog gameLog) {
+		if(this.GameLog == null) {
+			this.GameLog = gameLog;
+			return true;
+		}
+		return false;
+	}
 }

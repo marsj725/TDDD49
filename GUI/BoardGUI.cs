@@ -12,7 +12,7 @@ namespace Window {
 		public bool positionChosen;
 		public int positionChosenX;
 		public int positionChosenY;
-		private Mediator mediator;
+		public Mediator mediator;
 
 		/// <summary>
 		/// Sets a value indicating whether it is <see cref="Window.BoardGUI"/>s turn.
@@ -70,8 +70,7 @@ namespace Window {
 			//ToDo: Return current position of all pieces!
 		}
 
-		public void addPieces ()
-		{
+		public void addPieces() {
 			//ToDo: Add Pieces to the board
 		}
 
