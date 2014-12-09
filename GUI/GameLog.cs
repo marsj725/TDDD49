@@ -54,6 +54,12 @@ public class GameLog : TextBox {
 		writeLine(result);
 	}
 
+	public void writeWhosTurn(Board.PieceColor player) {
+		string result = "It is " + colorToString(player) + "'s turn";
+
+		writeLine(result);
+	}
+
 	private string typeToString(Piece.PieceType pieceType) {
 		if(pieceType == Piece.PieceType.BISHOP)
 			return "bishop";
