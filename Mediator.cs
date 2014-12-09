@@ -12,6 +12,7 @@ public class Mediator {
 	private Player player2;
 	private Engine engine;
 	private Window.BoardGUI gui;
+	private GameLog gameLog;
 
 	public Engine Engine {
 		get {
@@ -49,8 +50,13 @@ public class Mediator {
 		}
 	}
 
-	public void InitializeEngine(Engine engine) {
-		this.Engine = engine;
+	public GameLog GameLog {
+		get {
+			return this.gameLog;
+		} 
+		private set {
+			this.gameLog = value;
+		}
 	}
 
 	/// <summary>
@@ -85,7 +91,7 @@ public class Mediator {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public bool GUIMakeMove(int fromRow, int fromCol, int toRow, int toCol) {
-		if(Player1.MyTurn)
+		if(this.Engine.PlayerTurn == Player1.Color)
 			return Player1.makeDraw(fromRow, fromCol, toRow, toCol);
 		else
 			return Player2.makeDraw(fromRow, fromCol, toRow, toCol);
@@ -123,4 +129,11 @@ public class Mediator {
 		return false;
 	}
 
+	public bool registerGameLog(GameLog log) {
+		if(this.GameLog == null) {
+			this.GameLog = log;
+			return true;
+		}
+		return false;
+	}
 }

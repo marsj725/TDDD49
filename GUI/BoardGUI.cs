@@ -23,6 +23,7 @@ namespace Window {
 
 			positionChosen = false;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
+			this.mediator = mediator;
 
 			// Initializes all the positions on the board.
 			InitializeBoardPositions();
@@ -40,6 +41,7 @@ namespace Window {
 			SetBoardColors();
 
 		}
+
 
 		/// <summary>
 		/// Adds the chess positions to board.
@@ -130,8 +132,8 @@ namespace Window {
 		/// <param name="fromCol">From col.</param>
 		/// <param name="toRow">To row.</param>
 		/// <param name="toCol">To col.</param>
-		public void makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
-			this.mediator.GUIMakeMove(fromRow, fromCol, toRow, toCol);
+		public bool makeDraw(int fromRow, int fromCol, int toRow, int toCol) {
+			return this.mediator.GUIMakeMove(fromRow, fromCol, toRow, toCol);
 		}
 
 		/// <summary>

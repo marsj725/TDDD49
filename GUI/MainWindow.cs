@@ -21,7 +21,14 @@ namespace Window {
 
 			InitializeComponent();
 
+
 			this.Controls.Add(boardGUI);
+
+			GameLog log = new GameLog(mediator);
+			log.Location = new System.Drawing.Point(512, 0);
+			log.Size = new System.Drawing.Size(200, WINDOW_SIZE_HEIGHT);
+			Controls.Add(log);
+
 		}
 
 	}
