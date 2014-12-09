@@ -3,18 +3,39 @@
 /// <summary>
 /// A chess player.
 /// </summary>
-public interface Player {
+public abstract class Player {
+
+	private bool myTurn;
+	private Board.PieceColor color;
+	protected Mediator mediator;
 
 	/// <summary>
 	/// Sets a value indicating whether it is the <see cref="Player"/>s turn in the game.
 	/// </summary>
 	/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
-	bool MyTurn {
-		set;
+	protected bool MyTurn {
+		get {
+			return myTurn;
+		}
+		set {
+			setTurn(value);
+		}
 	}
 
-	Board.PieceColor Color {
-		get;
+	protected abstract void setTurn(bool value);
+
+	protected Board.PieceColor Color {
+		get {
+			return color;
+		} 
+		private set {
+			color = value;
+		}
+	}
+
+	public Player(Mediator mediator) {
+		MyTurn = false;
+		this.mediator = mediator;
 	}
 
 	/// <summary>
@@ -25,13 +46,13 @@ public interface Player {
 	/// <param name="fromCol">From col.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
+	protected abstract bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
 
-	bool initializeEngine(Engine engine);
+	abstract bool initializeEngine(Engine engine);
 
 	/// <summary>
 	/// Updates the board state.
 	/// </summary>
 	/// <param name="board">Board.</param>
-	void updateBoard(Piece[,] board);
+	abstract void updateBoard(Piece[,] board);
 }
