@@ -12,6 +12,7 @@ namespace Window {
 		private int column;
 
 		private Board.PieceColor pieceColor;
+		private Piece.PieceType pieceType;
 		private System.Drawing.Color positionColor;
 
 		public enum Pieces {
@@ -73,7 +74,11 @@ namespace Window {
 				parent.setChosen(row, column);
 			// Make a draw another piece is already chosen
 			else if(parent.positionChosen) {
-				parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column);
+				if(!parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column)) {
+					parent.mediator.GameLog.writeNotAllowed();
+				} else {
+					parent.mediator.GameLog.writeMove(this.pieceColor, this.pieceType, parent.positionChosenX + 1, parent.positionChosenY + 1, row + 1, column + 1);
+				}
 				parent.resetChosen();
 			}
 				
@@ -128,7 +133,7 @@ namespace Window {
 					this.ImageLocation = "Assets/queen_black.png";
 
 			}
-
+			this.pieceType = piece.getType();
 		}
 
 	}
