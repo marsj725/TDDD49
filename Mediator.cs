@@ -8,27 +8,45 @@
 /// </summary>
 public class Mediator {
 
-	private Player Player1;
-	private Player Player2;
-	private Player Player;
+	private Player player1;
+	private Player player2;
 	private Engine engine;
+	private Window.BoardGUI gui;
 	private GameLog gameLog;
-	private Board board;
-
-
 
 	public Engine Engine {
 		get {
 			return this.engine;
 		}
-		set {
+		private set {
 			engine = value;
 		}
 	}
 
-	public Board Board {
+	public Window.BoardGUI GUI {
 		get {
-			return this.engine.board;
+			return this.gui;
+		}
+		private set {
+			this.gui = value;
+		}
+	}
+
+	public Player Player1 {
+		get {
+			return player1;
+		}
+		private set {
+			player1 = value;
+		}
+	}
+
+	public Player Player2 {
+		get {
+			return player2;
+		}
+		private set {
+			player2 = value;
 		}
 	}
 
@@ -39,10 +57,6 @@ public class Mediator {
 		private set {
 			this.gameLog = value;
 		}
-	}
-
-	public void InitializeEngine(Engine engine) {
-		this.Engine = engine;
 	}
 
 	/// <summary>
@@ -64,9 +78,24 @@ public class Mediator {
 	/// <param name="board">Board.</param>
 	public void updateBoard(Piece[,] board) {
 		Player1.updateBoard(board);
-		//Player2.updateBoard(board);
+		Player2.updateBoard(board);
+		GUI.renderBoard(board);
 	}
 
+	/// <summary>
+	/// Called when the GUI detects that someone will make a move.
+	/// </summary>
+	/// <returns><c>true</c>, if the move where allowed, <c>false</c> otherwise.</returns>
+	/// <param name="fromRow">From row.</param>
+	/// <param name="fromCol">From col.</param>
+	/// <param name="toRow">To row.</param>
+	/// <param name="toCol">To col.</param>
+	public bool GUIMakeMove(int fromRow, int fromCol, int toRow, int toCol) {
+		if(this.Engine.PlayerTurn == Player1.Color)
+			return Player1.makeDraw(fromRow, fromCol, toRow, toCol);
+		else
+			return Player2.makeDraw(fromRow, fromCol, toRow, toCol);
+	}
 
 	/// <summary>
 	/// A player registers itself in the mediator. 
@@ -84,9 +113,25 @@ public class Mediator {
 		return false;
 	}
 
-	public bool registerGameLog(GameLog gameLog) {
+	public bool registerEngine(Engine engine) {
+		if(this.Engine == null) {
+			this.Engine = engine;
+			return true;
+		}
+		return false;
+	}
+
+	public bool registerGUI(Window.BoardGUI gui) {
+		if(this.GUI == null) {
+			this.GUI = gui;
+			return true;
+		}
+		return false;
+	}
+
+	public bool registerGameLog(GameLog log) {
 		if(this.GameLog == null) {
-			this.GameLog = gameLog;
+			this.GameLog = log;
 			return true;
 		}
 		return false;

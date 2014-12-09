@@ -5,14 +5,6 @@
 /// </summary>
 public interface Player {
 
-	/// <summary>
-	/// Sets a value indicating whether it is the <see cref="Player"/>s turn in the game.
-	/// </summary>
-	/// <value><c>true</c> if my turn; otherwise, <c>false</c>.</value>
-	bool MyTurn {
-		set;
-	}
-
 	Board.PieceColor Color {
 		get;
 	}
@@ -26,8 +18,6 @@ public interface Player {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
-
-	bool initializeEngine(Engine engine);
 
 	/// <summary>
 	/// Updates the board state.
