@@ -17,8 +17,15 @@ public abstract class Player {
 		}
 	}
 
-	public Player(Mediator mediator) {
+	/// <summary>
+	/// Called to inform the player that it is his/her turn.
+	/// </summary>
+	public abstract void turnChanged();
+
+	public Player(Mediator mediator, Board.PieceColor color) {
+		mediator.registerPlayer(this);
 		this.mediator = mediator;
+		Color = color;
 	}
 
 	/// <summary>
@@ -30,10 +37,4 @@ public abstract class Player {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public abstract bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
-
-	/// <summary>
-	/// Updates the board state.
-	/// </summary>
-	/// <param name="board">Board.</param>
-	public abstract void updateBoard(Piece[,] board);
 }

@@ -15,13 +15,12 @@ namespace Window {
 			Mediator mediator = new Mediator();
 
 			new User(mediator, Board.PieceColor.WHITE);
-			new User(mediator, Board.PieceColor.BLACK);
+			new AI(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
-			Database database = new Database(mediator);
+			new Database(mediator);
 			new Engine(mediator);
 
 			InitializeComponent();
-
 
 			this.Controls.Add(boardGUI);
 

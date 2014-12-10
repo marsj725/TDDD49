@@ -17,7 +17,7 @@ public class Engine {
 		this.mediator = mediator;
 		this.mediator.registerEngine(this);
 		this.mediator.updateBoard(board.BoardGrid);
-		this.activePlayer = Board.PieceColor.WHITE;
+		this.PlayerTurn = Board.PieceColor.WHITE;
 	}
 	//Sets and controls which player is currently active!
 	public Board.PieceColor PlayerTurn {
@@ -26,14 +26,15 @@ public class Engine {
 		}
 		private set {
 			this.activePlayer = value;
+			mediator.informOfTurnChange();
 		}
 	}
 
 	private void switchTurn() {
-		if(this.activePlayer == Board.PieceColor.WHITE)
-			this.activePlayer = Board.PieceColor.BLACK;
+		if(this.PlayerTurn == Board.PieceColor.WHITE)
+			this.PlayerTurn = Board.PieceColor.BLACK;
 		else
-			this.activePlayer = Board.PieceColor.WHITE;
+			this.PlayerTurn = Board.PieceColor.WHITE;
 	}
 
 	/// <summary>
@@ -74,7 +75,7 @@ public class Engine {
 
 		Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
 
-		if(board.getPossibleAttacks(oppositeColor)[kingPosition.Item1, kingPosition.Item2] == true)
+		if(board.getAttackedPositions(oppositeColor)[kingPosition.Item1, kingPosition.Item2] == true)
 			return true;
 
 		return false;

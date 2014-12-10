@@ -77,8 +77,6 @@ public class Mediator {
 	/// </summary>
 	/// <param name="board">Board.</param>
 	public void updateBoard(Piece[,] board) {
-		Player1.updateBoard(board);
-		Player2.updateBoard(board);
 		GUI.renderBoard(board);
 	}
 
@@ -135,5 +133,10 @@ public class Mediator {
 			return true;
 		}
 		return false;
+	}
+
+	public void informOfTurnChange() {
+		Player1.turnChanged();
+		Player2.turnChanged();
 	}
 }
