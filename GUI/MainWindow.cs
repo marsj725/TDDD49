@@ -17,6 +17,7 @@ namespace Window {
 			new User(mediator, Board.PieceColor.WHITE);
 			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
+			Database database = new Database(mediator);
 			new Engine(mediator);
 
 			InitializeComponent();
