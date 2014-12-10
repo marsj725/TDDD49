@@ -54,7 +54,8 @@ public class Engine {
 			return false;
 		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(this.board, fromRow, fromCol, toRow, toCol)) {
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
-			mediator.updateBoard(this.board.BoardGrid);
+			mediator.updateBoard(fromRow, fromCol);
+			mediator.updateBoard(toRow, toCol);
 			switchTurn();
 			return true;
 		}
