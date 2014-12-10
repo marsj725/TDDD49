@@ -12,6 +12,7 @@ namespace Window {
 		private int column;
 
 		private Board.PieceColor pieceColor;
+		private Piece.PieceType pieceType;
 		private System.Drawing.Color positionColor;
 
 		public enum Pieces {
@@ -69,13 +70,22 @@ namespace Window {
 			BoardGUI parent = (BoardGUI)this.Parent;
 
 			// Set as chosen as long as the piece is the same color as the user.
-			if(parent.Color == this.pieceColor)
+			if(parent.mediator.Engine.PlayerTurn == this.pieceColor) {
 				parent.setChosen(row, column);
+				return;
+			}
+
 			// Make a draw another piece is already chosen
 			else if(parent.positionChosen) {
-				parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column);
+				if(!parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column)) {
+					parent.mediator.GameLog.writeNotAllowed();
+				} else {
+					parent.mediator.GameLog.writeMove(this.pieceColor, this.pieceType, parent.positionChosenX + 1, parent.positionChosenY + 1, row + 1, column + 1);
+				}
 				parent.resetChosen();
+				return;
 			}
+			parent.mediator.GameLog.writeWhosTurn(parent.mediator.Engine.PlayerTurn);
 				
 		}
 
@@ -98,7 +108,6 @@ namespace Window {
 				this.Image = null;
 				return;
 			}
-			Console.WriteLine("Adding piece");
 			if(piece.getColor() == Board.PieceColor.WHITE) {
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_white.png";
@@ -128,7 +137,7 @@ namespace Window {
 					this.ImageLocation = "Assets/queen_black.png";
 
 			}
-
+			this.pieceType = piece.getType();
 		}
 
 	}
