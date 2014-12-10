@@ -50,6 +50,15 @@ public class Mediator {
 		}
 	}
 
+	public Database database {
+		get {
+			return database;
+		}
+		private set {
+			this.database = value;
+		}
+	}
+
 	public GameLog GameLog {
 		get {
 			return this.gameLog;
@@ -138,5 +147,9 @@ public class Mediator {
 	public void informOfTurnChange() {
 		Player1.turnChanged();
 		Player2.turnChanged();
+	}
+
+	public Board requestSQLBoard (){
+		return this.database.getDatabaseBoard();
 	}
 }

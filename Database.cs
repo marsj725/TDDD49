@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Data.Linq;
 using System.Collections.Generic;
 using Mono.Data.Sqlite;
 
@@ -19,28 +20,6 @@ public class Database
 		public int moved;
 		public string piece;
 		public string color;
-	}
-	public Board derp(){
-		setUpConnection ();
-		Board tempboard = new Board();
-		List<boardData> list = new List<boardData>();
-		string sql = "select * from chess order by row desc";
-		SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
-
-		SqliteDataReader reader = command.ExecuteReader ();
-
-		while (reader.Read()) {
-			boardData temp = new boardData();
-			temp.col = (int)reader["cols"];
-			temp.row = (int)reader["rows"];
-			temp.piece = (string)reader["piece"];
-			temp.color = (string)reader["color"];
-			temp.moved = (int)reader["moved"];
-			list.Add(temp);
-		}
-		closeConnection();
-		tempboard = convertToEngineStructure(list);
-		return tempboard;
 	}
 	public void setUpSQLLITE3 ()
 	{
@@ -117,7 +96,7 @@ public class Database
 		this.m_dbConnection.Close();
 	}
 
-	public void saveToDatabase (Board board)
+	public void setDatabaseBoard (Board board)
 	{
 		setUpConnection ();
 		List<boardData> list = new List<boardData> ();
@@ -130,6 +109,28 @@ public class Database
 
 		closeConnection();
 			
+	}
+	public Board getDatabaseBoard (){
+		setUpConnection ();
+		Board tempboard = new Board();
+		List<boardData> list = new List<boardData>();
+		string sql = "select * from chess order by row desc";
+		SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
+
+		SqliteDataReader reader = command.ExecuteReader ();
+
+		while (reader.Read()) {
+			boardData temp = new boardData();
+			temp.col = (int)reader["cols"];
+			temp.row = (int)reader["rows"];
+			temp.piece = (string)reader["piece"];
+			temp.color = (string)reader["color"];
+			temp.moved = (int)reader["moved"];
+			list.Add(temp);
+		}
+		closeConnection();
+		tempboard = convertToEngineStructure(list);
+		return tempboard;
 	}
 	public void fetchfromDatabase ()
 	{
@@ -185,26 +186,30 @@ public class Database
 	public Board convertToEngineStructure (List<boardData> list)
 	{
 		Board board = new Board ();
-		LocalPiece piece = new LocalPiece();
+		Board.PieceColor color;
 		foreach (boardData brade in list) {
-			if(brade.piece == "rook"){
-				piece.piece = Piece.PieceType.ROOK;
-			}else if(brade.piece == "knight"){
-				piece.piece = Piece.PieceType.KNIGHT;
-			}else if(brade.piece == "bishop"){
-				piece.piece = Piece.PieceType.BISHOP;
-			}else if(brade.piece == "queen"){
-				piece.piece = Piece.PieceType.QUEEN;
-			}else if(brade.piece == "king"){
-				piece.piece = Piece.PieceType.KING;
-			}else if(brade.piece == "pawn"){
-				piece.piece = Piece.PieceType.PAWN;
+			if(brade.color == "white"){
+				color = Board.PieceColor.WHITE;
+			}else if(brade.color == "black"){
+				color = Board.PieceColor.BLACK;
 			}else{
-				piece.piece = Piece.PieceType.NONE;
+				color = Board.PieceColor.NONE;
 			}
-			piece.col = brade.col;
-			piece.row = brade.row;
-			//Skall fixas är att spara det hela som ett board.
+			if(brade.piece == "rook"){
+				board.BoardGrid[brade.row, brade.col] = new Rook(color, brade.row, brade.col);
+			}else if(brade.piece == "knight"){
+				board.BoardGrid[brade.row, brade.col] = new Knight(color, brade.row, brade.col);
+			}else if(brade.piece == "bishop"){
+				board.BoardGrid[brade.row, brade.col] = new Bishop(color, brade.row, brade.col);
+			}else if(brade.piece == "queen"){
+				board.BoardGrid[brade.row, brade.col] = new Queen(color, brade.row, brade.col);
+			}else if(brade.piece == "king"){
+				board.BoardGrid[brade.row, brade.col] = new King(color, brade.row, brade.col);
+			}else if(brade.piece == "pawn"){
+				board.BoardGrid[brade.row, brade.col] = new Pawn(color, brade.row, brade.col);
+			}else{
+				board.BoardGrid[brade.row, brade.col] = new None(color, brade.row, brade.col);
+			}
 		}
 		return board;
 	}
