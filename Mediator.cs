@@ -147,4 +147,9 @@ public class Mediator {
 		Player1.turnChanged();
 		Player2.turnChanged();
 	}
+
+	public void printWinner(Board.PieceColor color) {
+		GUI.winnerMessage(color);
+		GameLog.Text = "";
+	}
 }

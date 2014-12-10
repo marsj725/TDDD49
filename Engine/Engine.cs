@@ -1,4 +1,5 @@
 using System;
+using C5;
 
 /// <summary>
 /// Chess engine.
@@ -47,13 +48,31 @@ public class Engine {
 	/// <param name="toCol">To col.</param>
 	public bool performDraw(int fromRow, int fromCol, int toRow, int toCol) {
 		// The draw is obviously not allowed if the user trying to make the draw isn't the same color.
-		Board.PieceColor color = this.activePlayer;
+		Board.PieceColor color = this.PlayerTurn;
 		if(this.board.BoardGrid[fromRow, fromCol].getColor() != color)
 			return false;
+
 		if(this.board.BoardGrid[toRow, toCol].getColor() == color)
 			return false;
+
 		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(this.board, fromRow, fromCol, toRow, toCol)) {
+			// Create a backup of the piece in order to revert the draw if the player puts himself in a chess position.
+			Type backupType = this.board.BoardGrid[toRow, toCol].GetType();
+			Board.PieceColor backupColor = this.board.BoardGrid[toRow, toCol].getColor();
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
+			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
+			if(isCheckMate(getOppositeColor(this.PlayerTurn))) {
+				winner(this.PlayerTurn);
+				return true;
+			}
+			// If the player puts himself in a chess position revert the draw, since the draw is not allowed.
+			if(isCheck(this.PlayerTurn)) {
+				this.board.movePiece(toRow, toCol, fromRow, fromCol);
+				this.board.BoardGrid[toRow, toCol] = (Piece)System.Activator.CreateInstance(backupType, backupColor, toRow, toCol);
+				mediator.updateBoard(fromRow, fromCol);
+				mediator.updateBoard(toRow, toCol);
+				return false;
+			}
 			mediator.updateBoard(fromRow, fromCol);
 			mediator.updateBoard(toRow, toCol);
 			switchTurn();
@@ -67,6 +86,7 @@ public class Engine {
 	/// </summary>
 	/// <returns><c>true</c>, if check, <c>false</c> otherwise.</returns>
 	private bool isCheck(Board.PieceColor color) {
+
 		Board.PieceColor oppositeColor;
 
 		if(color == Board.PieceColor.WHITE)
@@ -86,8 +106,22 @@ public class Engine {
 	///	Controls whether it is check mate or not. 
 	/// </summary>
 	/// <returns><c>true</c>, if check mate, <c>false</c> otherwise.</returns>
-	private bool isCheckMate() {
-		// To be implemented
+	private bool isCheckMate(Board.PieceColor color) {
+		if(isCheck(color)) {
+			
+			bool[,] possibleAttacks = board.getAttackedPositions(getOppositeColor(color));
+
+			Tuple<int, int> kingPosition = this.getPositionOf(Piece.PieceType.KING, color);
+			ArrayList<Tuple<int, int>> kingPossibleMoves = board.BoardGrid[kingPosition.Item1, kingPosition.Item2].getPossibleMoves(this.board);
+
+			foreach(Tuple<int, int> possibleMove in kingPossibleMoves) {
+				if(!possibleAttacks[possibleMove.Item1, possibleMove.Item2])
+					return false;
+			}
+
+			return true;
+		}
+
 		return false;
 	}
 
@@ -105,5 +139,28 @@ public class Engine {
 		return null;
 	}
 
+	/// <summary>
+	/// Is called when there is a winner. Prints a winner message and resets the engine.
+	/// </summary>
+	/// <param name="winner">Winner.</param>
+	void winner(Board.PieceColor winner) {
+		mediator.printWinner(winner);
+		this.board.resetBoard();
+		mediator.updateBoard(this.board.BoardGrid);
+		PlayerTurn = Board.PieceColor.WHITE;
+	}
+
+	/// <summary>
+	/// Gets the opposite color of the input parameter.
+	/// </summary>
+	/// <returns>The opposite color.</returns>
+	/// <param name="color">Color.</param>
+	public Board.PieceColor getOppositeColor(Board.PieceColor color) {
+		if(color == Board.PieceColor.NONE)
+			return Board.PieceColor.NONE;
+		if(color == Board.PieceColor.BLACK)
+			return Board.PieceColor.WHITE;
+		return Board.PieceColor.BLACK;
+	}
 }
 

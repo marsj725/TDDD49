@@ -132,6 +132,11 @@ public abstract class Piece {
 		}	
 	}
 
+	/// <summary>
+	/// Gets the opposite color of the input parameter.
+	/// </summary>
+	/// <returns>The opposite color.</returns>
+	/// <param name="color">Color.</param>
 	public Board.PieceColor getOppositeColor() {
 		if(color == Board.PieceColor.NONE)
 			return Board.PieceColor.NONE;
@@ -139,5 +144,6 @@ public abstract class Piece {
 			return Board.PieceColor.WHITE;
 		return Board.PieceColor.BLACK;
 	}
+
 }
 

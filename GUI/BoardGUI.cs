@@ -177,6 +177,17 @@ namespace Window {
 			this.positionChosenY = col;
 			this.chessPositions[row, col].BackColor = System.Drawing.Color.Green;
 		}
+
+		public void winnerMessage(Board.PieceColor color) {
+			string winnerString;
+
+			if(color == Board.PieceColor.BLACK)
+				winnerString = "Black";
+			else
+				winnerString = "White";
+
+			MessageBox.Show(winnerString + " won the game!");
+		}
 	}
 }
 
