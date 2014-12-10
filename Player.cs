@@ -3,10 +3,29 @@
 /// <summary>
 /// A chess player.
 /// </summary>
-public interface Player {
+public abstract class Player {
 
-	Board.PieceColor Color {
-		get;
+	private Board.PieceColor color;
+	protected Mediator mediator;
+
+	public Board.PieceColor Color {
+		get {
+			return color;
+		} 
+		private set {
+			color = value;
+		}
+	}
+
+	/// <summary>
+	/// Called to inform the player that it is his/her turn.
+	/// </summary>
+	public abstract void turnChanged();
+
+	public Player(Mediator mediator, Board.PieceColor color) {
+		mediator.registerPlayer(this);
+		this.mediator = mediator;
+		Color = color;
 	}
 
 	/// <summary>
@@ -17,11 +36,5 @@ public interface Player {
 	/// <param name="fromCol">From col.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
-
-	/// <summary>
-	/// Updates the board state.
-	/// </summary>
-	/// <param name="board">Board.</param>
-	void updateBoard(Piece[,] board);
+	public abstract bool makeDraw(int fromRow, int fromCol, int toRow, int toCol);
 }

@@ -1,4 +1,6 @@
 *.csproj
 *.mdb
 *.exe
+*.sqlite
+*.orig
 obj/

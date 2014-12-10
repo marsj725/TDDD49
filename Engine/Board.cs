@@ -41,7 +41,7 @@ public class Board {
 	/// </summary>
 	/// <returns>A boolean array where true is a position where the color can attack.</returns>
 	/// <param name="color">The color.</param>
-	public bool[,] getPossibleAttacks(Board.PieceColor color) {
+	public bool[,] getAttackedPositions(Board.PieceColor color) {
 
 		bool[,] attackedPositions = new bool[8, 8];
 
@@ -56,6 +56,30 @@ public class Board {
 
 		return attackedPositions;
 	}
+
+	/// <summary>
+	/// Returns all the draws the color can possibly make. 
+	/// </summary>
+	/// <returns>An array of draws. The draws are represented as an integer array where the two first indexes is 
+	/// from where the draw is made and the last two is to where the draws are made.</returns>
+	/// <param name="color">The color.</param>
+	public ArrayList<int[]> getPossibleAttacks(Board.PieceColor color) {
+
+		ArrayList<int[]> possibleAttacks = new ArrayList<int[]>();
+
+		foreach(Piece piece in BoardGrid) {
+			if(piece.getColor() == color) {
+				ArrayList<Tuple<int, int>> positions = piece.getPossibleMoves(this);
+				foreach(Tuple<int, int> position in positions) {
+					int[] possibleAttack = { piece.Row, piece.Col, position.Item1, position.Item2 };
+					possibleAttacks.Add(possibleAttack);
+				}
+			}
+		}
+
+		return possibleAttacks;
+	}
+
 
 	/// <summary>
 	/// Resets the board pieces to its initial positions.
