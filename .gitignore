@@ -2,4 +2,5 @@
 *.mdb
 *.exe
 *.sqlite
+*.orig
 obj/
