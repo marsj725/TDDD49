@@ -14,28 +14,32 @@ public class AI : Player {
 	/// Calculates which draw to make and performs it.
 	/// </summary>
 	/// <returns><c>true</c>, if draw was made, <c>false</c> otherwise.</returns>
-	private bool makeDraw() {
+	private void makeDraw() {
 		ArrayList<int[]> possibleDraws = mediator.Engine.board.getPossibleAttacks(this.Color);
 
 		// If the player can kill an opponent, do that!
 		foreach(int[] draw in possibleDraws) {
 			if(this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].getColor() != this.Color &&
 			   this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].getColor() != Board.PieceColor.NONE)
-				return makeDraw(draw[0], draw[1], draw[2], draw[3]);
+			if(makeDraw(draw[0], draw[1], draw[2], draw[3]))
+				return;
 		}
 
 		// Otherwise make a random draw
+		bool drawSucceeded = false;
 
-		Random random = new Random();
+		while(!drawSucceeded) {
+			Random random = new Random();
 
-		int randomDraw = random.Next(0, possibleDraws.Count - 1);
+			int randomDraw = random.Next(0, possibleDraws.Count - 1);
 
-		int fromRow = possibleDraws[randomDraw][0];
-		int fromCol = possibleDraws[randomDraw][1];
-		int toRow = possibleDraws[randomDraw][2];
-		int toCol = possibleDraws[randomDraw][3];
+			int fromRow = possibleDraws[randomDraw][0];
+			int fromCol = possibleDraws[randomDraw][1];
+			int toRow = possibleDraws[randomDraw][2];
+			int toCol = possibleDraws[randomDraw][3];
 		
-		return makeDraw(fromRow, fromCol, toRow, toCol);
+			drawSucceeded = makeDraw(fromRow, fromCol, toRow, toCol);
+		}
 
 	}
 
