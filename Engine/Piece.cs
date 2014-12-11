@@ -15,6 +15,7 @@ public abstract class Piece {
 
 	public int Row;
 	public int Col;
+	public int Moved;
 
 	private PieceType type;
 	private Board.PieceColor color;
@@ -24,6 +25,7 @@ public abstract class Piece {
 		this.type = type;
 		this.Col = col;
 		this.Row = row;
+		this.Moved = 0;
 	}
 
 	/// <summary>

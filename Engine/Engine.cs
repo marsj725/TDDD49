@@ -69,7 +69,6 @@ public class Engine {
 			if(isCheck(this.PlayerTurn)) {
 				this.board.movePiece(toRow, toCol, fromRow, fromCol);
 				this.board.BoardGrid[toRow, toCol] = (Piece)System.Activator.CreateInstance(backupType, backupColor, toRow, toCol);
-				this.draw();
 				mediator.updateBoard(fromRow, fromCol);
 				mediator.updateBoard(toRow, toCol);
 				return false;
