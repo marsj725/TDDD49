@@ -150,6 +150,11 @@ public class Mediator {
 
 	public void printWinner(Board.PieceColor color) {
 		GUI.winnerMessage(color);
-		GameLog.Text = "";
+		GameLog.Clear();
+	}
+
+	public void printDraw() {
+		GUI.drawMessage();
+		GameLog.Clear();
 	}
 }

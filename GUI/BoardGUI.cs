@@ -188,6 +188,10 @@ namespace Window {
 
 			MessageBox.Show(winnerString + " won the game!");
 		}
+
+		public void drawMessage() {
+			MessageBox.Show("The game resulted in a draw!");
+		}
 	}
 }
 

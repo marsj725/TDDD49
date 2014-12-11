@@ -63,18 +63,26 @@ public class Engine {
 			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
 			if(isCheckMate(getOppositeColor(this.PlayerTurn))) {
 				winner(this.PlayerTurn);
-				return true;
+				return false;
 			}
 			// If the player puts himself in a chess position revert the draw, since the draw is not allowed.
 			if(isCheck(this.PlayerTurn)) {
 				this.board.movePiece(toRow, toCol, fromRow, fromCol);
 				this.board.BoardGrid[toRow, toCol] = (Piece)System.Activator.CreateInstance(backupType, backupColor, toRow, toCol);
+				this.draw();
 				mediator.updateBoard(fromRow, fromCol);
 				mediator.updateBoard(toRow, toCol);
 				return false;
 			}
 			mediator.updateBoard(fromRow, fromCol);
 			mediator.updateBoard(toRow, toCol);
+
+			if(this.board.getPossibleAttacks(this.PlayerTurn).IsEmpty ||
+			   this.board.getPossibleAttacks(getOppositeColor(this.PlayerTurn)).IsEmpty) {
+				draw();
+				return true;
+			}
+
 			switchTurn();
 			return true;
 		}
@@ -143,8 +151,15 @@ public class Engine {
 	/// Is called when there is a winner. Prints a winner message and resets the engine.
 	/// </summary>
 	/// <param name="winner">Winner.</param>
-	void winner(Board.PieceColor winner) {
+	private void winner(Board.PieceColor winner) {
 		mediator.printWinner(winner);
+		this.board.resetBoard();
+		mediator.updateBoard(this.board.BoardGrid);
+		PlayerTurn = Board.PieceColor.WHITE;
+	}
+
+	private void draw() {
+		mediator.printDraw();
 		this.board.resetBoard();
 		mediator.updateBoard(this.board.BoardGrid);
 		PlayerTurn = Board.PieceColor.WHITE;
