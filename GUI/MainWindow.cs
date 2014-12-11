@@ -15,7 +15,7 @@ namespace Window {
 			Mediator mediator = new Mediator();
 
 			new User(mediator, Board.PieceColor.WHITE);
-			new AI(mediator, Board.PieceColor.BLACK);
+			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
 			new Database(mediator);
 			new Engine(mediator);

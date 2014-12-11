@@ -19,7 +19,7 @@ public class Board {
 
 	public Board() {
 		this.BoardGrid = new Piece[ROWS, COLUMNS];
-	//	this.resetBoard();
+		this.resetBoard();
 	}
 
 	/// <summary>

@@ -137,7 +137,7 @@ namespace Window {
 		}
 
 		/// <summary>
-		/// Updates the board state.
+		/// Renders the board.
 		/// </summary>
 		/// <param name="board">Board.</param>
 		public void renderBoard(Piece[,] board) {
@@ -146,6 +146,15 @@ namespace Window {
 					this.chessPositions[i, j].setPiece(board[i, j]);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Renders a position of the board.
+		/// </summary>
+		/// <param name="row">Row.</param>
+		/// <param name="col">Col.</param>
+		public void renderBoard(int row, int col) {
+			this.chessPositions[row, col].setPiece(this.mediator.Engine.board.BoardGrid[row, col]);
 		}
 
 		/// <summary>
@@ -167,6 +176,21 @@ namespace Window {
 			this.positionChosenX = row;
 			this.positionChosenY = col;
 			this.chessPositions[row, col].BackColor = System.Drawing.Color.Green;
+		}
+
+		public void winnerMessage(Board.PieceColor color) {
+			string winnerString;
+
+			if(color == Board.PieceColor.BLACK)
+				winnerString = "Black";
+			else
+				winnerString = "White";
+
+			MessageBox.Show(winnerString + " won the game!");
+		}
+
+		public void drawMessage() {
+			MessageBox.Show("The game resulted in a draw!");
 		}
 	}
 }

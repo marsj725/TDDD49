@@ -82,11 +82,19 @@ public class Mediator {
 	}
 
 	/// <summary>
-	/// The players are informed of a change in the board.
+	/// Re-renders the board.
 	/// </summary>
 	/// <param name="board">Board.</param>
 	public void updateBoard(Piece[,] board) {
 		GUI.renderBoard(board);
+	}
+
+	/// <summary>
+	/// Re-renders a position of the board.
+	/// </summary>
+	/// <param name="board">Board.</param>
+	public void updateBoard(int row, int col) {
+		GUI.renderBoard(row, col);
 	}
 
 	/// <summary>
@@ -147,6 +155,16 @@ public class Mediator {
 	public void informOfTurnChange() {
 		Player1.turnChanged();
 		Player2.turnChanged();
+	}
+
+	public void printWinner(Board.PieceColor color) {
+		GUI.winnerMessage(color);
+		GameLog.Clear();
+	}
+
+	public void printDraw() {
+		GUI.drawMessage();
+		GameLog.Clear();
 	}
 
 	public Board requestSQLBoard (){
