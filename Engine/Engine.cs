@@ -62,6 +62,8 @@ public class Engine {
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
 			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
 			if(isCheckMate(getOppositeColor(this.PlayerTurn))) {
+				mediator.updateBoard(fromRow, fromCol);
+				mediator.updateBoard(toRow, toCol);
 				winner(this.PlayerTurn);
 				return false;
 			}
@@ -115,20 +117,22 @@ public class Engine {
 	/// <returns><c>true</c>, if check mate, <c>false</c> otherwise.</returns>
 	private bool isCheckMate(Board.PieceColor color) {
 		if(isCheck(color)) {
-			
-			bool[,] possibleAttacks = board.getAttackedPositions(getOppositeColor(color));
+			Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
+			ArrayList<Tuple<int, int>> possibleAttacks = board.BoardGrid[kingPosition.Item1, kingPosition.Item2].getPossibleMoves(this.board);
 
-			Tuple<int, int> kingPosition = this.getPositionOf(Piece.PieceType.KING, color);
-			ArrayList<Tuple<int, int>> kingPossibleMoves = board.BoardGrid[kingPosition.Item1, kingPosition.Item2].getPossibleMoves(this.board);
+			foreach(Tuple<int, int> draw in possibleAttacks) {
+				Type backupType = this.board.BoardGrid[draw.Item1, draw.Item2].GetType();
+				Board.PieceColor backupColor = this.board.BoardGrid[draw.Item1, draw.Item2].getColor();
 
-			foreach(Tuple<int, int> possibleMove in kingPossibleMoves) {
-				if(!possibleAttacks[possibleMove.Item1, possibleMove.Item2])
+				board.movePiece(kingPosition.Item1, kingPosition.Item2, draw.Item1, draw.Item2);
+				if(!isCheck(color))
 					return false;
-			}
 
+				this.board.movePiece(draw.Item1, draw.Item2, kingPosition.Item1, kingPosition.Item2);
+				this.board.BoardGrid[draw.Item1, draw.Item2] = (Piece)System.Activator.CreateInstance(backupType, backupColor, draw.Item1, draw.Item2);
+			}			
 			return true;
 		}
-
 		return false;
 	}
 
