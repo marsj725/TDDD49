@@ -1,17 +1,19 @@
 using System;
 using System.IO;
-using System.Data.Linq;
 using System.Collections.Generic;
-using Mono.Data.Sqlite;
-
+using System.Data.SQLite;
+using System.Data.SQLite.Linq;
+using System.Linq;
 public class Database
 {
-	private SqliteConnection m_dbConnection;
+	private SQLiteConnection m_dbConnection; 
+	public class DataContext : IDisposable();
+	//SqliteConnection m_dbConnection;
 	private Mediator mediator;
 
 	public Database(Mediator mediator){
 		this.mediator = mediator;
-		this.m_dbConnection = new SqliteConnection("Data Source=database.sqlite;Version=3;");
+		this.m_dbConnection = new SQLiteConnection("Data Source=database.sqlite;Version=3;");
 		setUpSQLLITE3();
 	}
 	public class boardData{
@@ -21,22 +23,36 @@ public class Database
 		public string piece;
 		public string color;
 	}
+	public void alterantive (){
+		string connection = "Data Source=database.sqlite;Version=3";
+
+		DataContext dataContext = new DataContext (connection);
+		Table<Spanish_German> words = dataContext.GetTable<Spanish_German> ();
+
+		var query = from word in words select word;
+
+		foreach (var word in query)
+			Console.WriteLine (word.Spanish);
+	}
+
 	public void setUpSQLLITE3 ()
 	{
 		if(!File.Exists("database.sqlite")){
 			//Creates database file and opens database connection.
-			SqliteConnection.CreateFile("database.sqlite");
+			SQLiteConnection.CreateFile("database.sqlite");
 
 			setUpConnection();
 			//Creates tables.
 			string sql = "create table chess (rows int, cols int, piece varchar(6), color varchar(5), moved int)";
 			//Generates pieces on the board.
-			SqliteCommand command = new SqliteCommand(sql, this.m_dbConnection);
+			SQLiteCommand command = new SQLiteCommand(sql, this.m_dbConnection);
 			command.ExecuteNonQuery();
 			generateNewChessBoard();
 			closeConnection();
 		}
 	}
+
+
 	public void generateNewChessBoard ()
 	{
 		clearTable();
@@ -81,14 +97,14 @@ public class Database
 	{
 		setUpConnection();
 		foreach (string sql in query) {
-			SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
+			SQLiteCommand command = new SQLiteCommand (sql, this.m_dbConnection);
 			command.ExecuteNonQuery();
 		}
 		closeConnection();
 	}
 
 	public void setUpConnection(){
-		this.m_dbConnection = new SqliteConnection("Data Source = database.sqlite;version=3;");
+		this.m_dbConnection = new SQLiteConnection("Data Source = database.sqlite;version=3;");
 		this.m_dbConnection.Open();
 	}
 
@@ -115,9 +131,9 @@ public class Database
 		Board tempboard = new Board();
 		List<boardData> list = new List<boardData>();
 		string sql = "select * from chess order by row desc";
-		SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
+		SQLiteCommand command = new SQLiteCommand (sql, this.m_dbConnection);
 
-		SqliteDataReader reader = command.ExecuteReader ();
+		SQLiteDataReader reader = command.ExecuteReader ();
 
 		while (reader.Read()) {
 			boardData temp = new boardData();
@@ -141,6 +157,8 @@ public class Database
 		runQuery(query);
 		closeConnection();
 	}
+
+
 	public List<boardData> convertToSQLStructure (Board board)
 	{
 		List<boardData> SQLList = new List<boardData>();

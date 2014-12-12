@@ -50,14 +50,14 @@ public class Mediator {
 		}
 	}
 
-	public Database database {
-		get {
-			return database;
-		}
-		private set {
-			this.database = value;
-		}
-	}
+	//public Database database {
+	//	get {
+	//		return database;
+	//	}
+	//	private set {
+	//		this.database = value;
+	//	}
+	//}
 
 	public GameLog GameLog {
 		get {
@@ -167,7 +167,7 @@ public class Mediator {
 		GameLog.Clear();
 	}
 
-	public Board requestSQLBoard (){
-		return this.database.getDatabaseBoard();
-	}
+//	public Board requestSQLBoard (){
+//		return this.database.getDatabaseBoard();
+//	}
 }
