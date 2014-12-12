@@ -81,7 +81,7 @@ public class Engine {
 				draw();
 				return true;
 			}
-
+			//Implement database;
 			switchTurn();
 			return true;
 		}
@@ -152,16 +152,12 @@ public class Engine {
 	/// <param name="winner">Winner.</param>
 	private void winner(Board.PieceColor winner) {
 		mediator.printWinner(winner);
-		this.board.resetBoard();
-		mediator.updateBoard(this.board.BoardGrid);
-		PlayerTurn = Board.PieceColor.WHITE;
+		reset();
 	}
 
 	private void draw() {
 		mediator.printDraw();
-		this.board.resetBoard();
-		mediator.updateBoard(this.board.BoardGrid);
-		PlayerTurn = Board.PieceColor.WHITE;
+		reset();
 	}
 
 	/// <summary>
@@ -175,6 +171,12 @@ public class Engine {
 		if(color == Board.PieceColor.BLACK)
 			return Board.PieceColor.WHITE;
 		return Board.PieceColor.BLACK;
+	}
+
+	public void reset() {
+		this.board.resetBoard();
+		mediator.updateBoard(this.board.BoardGrid);
+		PlayerTurn = Board.PieceColor.WHITE;
 	}
 }
 

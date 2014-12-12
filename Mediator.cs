@@ -36,7 +36,7 @@ public class Mediator {
 		get {
 			return player1;
 		}
-		private set {
+		set {
 			player1 = value;
 		}
 	}
@@ -45,19 +45,19 @@ public class Mediator {
 		get {
 			return player2;
 		}
-		private set {
+		set {
 			player2 = value;
 		}
 	}
 
-	//public Database database {
-	//	get {
-	//		return database;
-	//	}
-	//	private set {
-	//		this.database = value;
-	//	}
-	//}
+	public Database database {
+		get {
+			return database;
+		}
+		private set {
+			this.database = value;
+		}
+	}
 
 	public GameLog GameLog {
 		get {
@@ -167,7 +167,12 @@ public class Mediator {
 		GameLog.Clear();
 	}
 
-//	public Board requestSQLBoard (){
-//		return this.database.getDatabaseBoard();
-//	}
+	//public Board requestSQLBoard() {
+	//	return this.database.getDatabaseBoard();
+	//}
+
+	public void resetGame() {
+		Engine.reset();
+		GameLog.Clear();
+	}
 }

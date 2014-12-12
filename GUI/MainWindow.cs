@@ -17,11 +17,12 @@ namespace Window {
 			new User(mediator, Board.PieceColor.WHITE);
 			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
-			new Database(mediator);
+			ChessMenu mainMenu = new ChessMenu(mediator);
 			new Engine(mediator);
-
+			new Database(mediator);
 			InitializeComponent();
 
+			Menu = mainMenu;
 			this.Controls.Add(boardGUI);
 
 			GameLog log = new GameLog(mediator);
