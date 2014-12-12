@@ -1,19 +1,15 @@
-using System;
+﻿using System;
 using System.IO;
-using System.Data.Linq;
 using System.Collections.Generic;
-using Mono.Data.Sqlite;
+using System.Xml;
+using System.Xml.Linq;
+using System.Linq;
+public class Database{
 
-public class Database
-{
-	private SqliteConnection m_dbConnection;
 	private Mediator mediator;
+	public string database;
+	public Board bradet;
 
-	public Database(Mediator mediator){
-		this.mediator = mediator;
-		this.m_dbConnection = new SqliteConnection("Data Source=database.sqlite;Version=3;");
-		setUpSQLLITE3();
-	}
 	public class boardData{
 		public int col;
 		public int row;
@@ -21,129 +17,88 @@ public class Database
 		public string piece;
 		public string color;
 	}
-	public void setUpSQLLITE3 ()
-	{
-		if(!File.Exists("database.sqlite")){
-			//Creates database file and opens database connection.
-			SqliteConnection.CreateFile("database.sqlite");
+	public Database(Mediator mediator){
+		this.mediator = mediator;
+		this.bradet = this.mediator.Engine.board;
 
-			setUpConnection();
-			//Creates tables.
-			string sql = "create table chess (rows int, cols int, piece varchar(6), color varchar(5), moved int)";
-			//Generates pieces on the board.
-			SqliteCommand command = new SqliteCommand(sql, this.m_dbConnection);
-			command.ExecuteNonQuery();
-			generateNewChessBoard();
-			closeConnection();
-		}
+		this.database = "databas.xml";
+		movePiece (0, 0, 0, 1);
 	}
-	public void generateNewChessBoard ()
-	{
-		clearTable();
-		List<string> query = new List<string>();
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 0, 'rook', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 7, 'rook', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 1, 'knight', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 6, 'knight', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 2, 'bishop', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 5, 'bishop', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 3, 'queen', 'black', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(0, 4, 'king', 'black', 0)");
-		for(int i = 0; i < 8; i++) {
-			query.Add("insert into chess (rows, cols, piece, color, moved) values(0, "+i+", 'pawn', 'black', 0)");
-			query.Add("insert into chess (rows, cols, piece, color, moved) values(0, "+i+", 'pawn', 'white', 0)");
-		}
-		for(int i = 2; i < 6; i++) {
-			for(int j = 0; j < 8; j++) {
-				query.Add("insert into chess (rows, cols, piece, color, moved) values("+i+", "+j+", 'none', 'none', 0)");
-			}
-		}
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 0, 'rook', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 7, 'rook', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 1, 'knight', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 6, 'knight', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 2, 'bishop', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 5, 'bishop', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 3, 'queen', 'white', 0)");
-		query.Add("insert into chess (rows, cols, piece, color, moved) values(7, 4, 'king', 'white', 0)");
-
-		runQuery(query);
-	}
-	//Clears tablestructure of all data
-	public void clearTable ()
-	{
-		List<string> query = new List<string>();
-		query.Add ("delete from chess");
-		runQuery(query);
-	}
-	//Executes all queries in the list! 
-	public void runQuery (List<string> query)
-	{
-		setUpConnection();
-		foreach (string sql in query) {
-			SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
-			command.ExecuteNonQuery();
-		}
-		closeConnection();
-	}
-
-	public void setUpConnection(){
-		this.m_dbConnection = new SqliteConnection("Data Source = database.sqlite;version=3;");
-		this.m_dbConnection.Open();
-	}
-
-	public void closeConnection (){
-		this.m_dbConnection.Close();
-	}
-
-	public void setDatabaseBoard (Board board)
-	{
-		setUpConnection ();
-		List<boardData> list = new List<boardData> ();
-		List<string> query = new List<string> ();
-		list = convertToSQLStructure (board);
-		foreach (boardData brade in list) {
-			query.Add("insert into chess (rows, cols, piece, color, moved) values("+brade.row+", "+brade.col+", '"+brade.piece+"', '"+brade.color+"', 0)");
-		}
-		runQuery(query);
-
-		closeConnection();
-			
-	}
-	public Board getDatabaseBoard (){
-		setUpConnection ();
+		
+	public Board fetchXMLBoard(){
 		Board tempboard = new Board();
-		List<boardData> list = new List<boardData>();
-		string sql = "select * from chess order by row desc";
-		SqliteCommand command = new SqliteCommand (sql, this.m_dbConnection);
-
-		SqliteDataReader reader = command.ExecuteReader ();
-
-		while (reader.Read()) {
+		List<boardData> XMList = new List<boardData>();
+		XElement XMLdata = XElement.Load (this.database);
+		IEnumerable<XElement> chess = XMLdata.Elements ();
+		foreach (var type in chess) {
 			boardData temp = new boardData();
-			temp.col = (int)reader["cols"];
-			temp.row = (int)reader["rows"];
-			temp.piece = (string)reader["piece"];
-			temp.color = (string)reader["color"];
-			temp.moved = (int)reader["moved"];
-			list.Add(temp);
+			temp.col = (int)type.Element("col");
+			temp.row = (int)type.Element("row");
+			temp.piece = (string)type.Element("piece");
+			temp.color = (string)type.Element("color");
+			temp.moved = (int)type.Element("moved");
+			XMList.Add(temp);
 		}
-		closeConnection();
-		tempboard = convertToEngineStructure(list);
+		tempboard = convertToEngineStructure(XMList);
 		return tempboard;
 	}
-	public void fetchfromDatabase ()
-	{
-		//TODO
-		setUpConnection();
-		List<string> query = new List<string>();
-		query.Add("select * from chess");
-		runQuery(query);
-		closeConnection();
+	public void createXMLfile(){
+		XDocument XML = new XDocument (this.database);
 	}
-	public List<boardData> convertToSQLStructure (Board board)
+
+	public void setXMLBoard (Board board)
 	{
-		List<boardData> SQLList = new List<boardData>();
+		List<boardData> list = new List<boardData> ();
+		list = convertToXMLStructure (board);
+		XElement XMLdata = XElement.Load (this.database);
+		foreach (var item in list) {
+			addXMLValue (item.row, item.col, item.piece, item.color, item.moved);
+		}
+	}
+	public void clearXML(){
+		XElement XMLdata = XElement.Load (this.database);
+		XMLdata.RemoveNodes ();
+		XMLdata.Save (this.database);
+	}
+	public void movePiece(int fromrow, int fromcol, int torow,int tocol){
+		string tmpPiece = "";
+		string tmpColor = "";
+		XElement XMLdata = XElement.Load (this.database);
+		var oldPiece =
+			(from square in XMLdata.Descendants ("square")
+				where int.Parse(square.Element ("row").Value) == fromrow && int.Parse(square.Element ("col").Value) == fromcol
+				select square);
+		var newPiece =
+			(from square in XMLdata.Descendants ("square")
+				where int.Parse(square.Element ("row").Value) == torow && int.Parse(square.Element ("col").Value) == tocol
+				select square);
+		foreach (XElement square in oldPiece){
+			tmpPiece = square.Element ("piece").Value;
+			tmpColor = square.Element ("color").Value;
+			square.SetElementValue ("piece", "none");
+			square.SetElementValue ("color", "none");
+		}
+		foreach (XElement square in newPiece){
+			square.SetElementValue ("piece", tmpPiece);
+			square.SetElementValue ("color", tmpColor);
+		}
+		XMLdata.Save (this.database);
+	}
+
+	public void addXMLValue(int row,int col,string piece, string color,int moved){
+		XElement XMLdata = XElement.Load (this.database);
+		XMLdata.Add(new XElement("square",
+			new XElement("row",row),
+			new XElement("col",col),
+			new XElement("piece",piece),
+			new XElement("color",color),
+			new XElement("moved",moved)));
+		XMLdata.Save (this.database);
+	}
+
+	public List<boardData> convertToXMLStructure (Board board)
+	{
+		List<boardData> XMList = new List<boardData>();
 		//board = mediator.Engine.board;
 
 		foreach(Piece piece in board.BoardGrid){
@@ -174,15 +129,11 @@ public class Database
 			output.row = piece.Row;
 			//TEMP LÖSNING!!!!
 			output.moved = 0;
-			SQLList.Add(output);
+			XMList.Add(output);
 		}
-		return SQLList;
+		return XMList;
 	}
-	public class LocalPiece{
-		public Piece.PieceType piece;
-		public int col;
-		public int row;
-	}
+
 	public Board convertToEngineStructure (List<boardData> list)
 	{
 		Board board = new Board ();
