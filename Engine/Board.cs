@@ -19,6 +19,7 @@ public class Board {
 
 	public Board() {
 		this.BoardGrid = new Piece[ROWS, COLUMNS];
+		//Implement database read
 		this.resetBoard();
 	}
 

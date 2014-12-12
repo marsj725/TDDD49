@@ -83,7 +83,7 @@ public class Engine {
 				draw();
 				return true;
 			}
-
+			//Implement database;
 			switchTurn();
 			return true;
 		}

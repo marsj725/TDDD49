@@ -167,9 +167,9 @@ public class Mediator {
 		GameLog.Clear();
 	}
 
-	public Board requestSQLBoard() {
-		return this.database.getDatabaseBoard();
-	}
+	//public Board requestSQLBoard() {
+	//	return this.database.getDatabaseBoard();
+	//}
 
 	public void resetGame() {
 		Engine.reset();

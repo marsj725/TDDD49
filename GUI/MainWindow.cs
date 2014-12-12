@@ -18,9 +18,8 @@ namespace Window {
 			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
 			ChessMenu mainMenu = new ChessMenu(mediator);
-			new Database(mediator);
 			new Engine(mediator);
-
+			new Database(mediator);
 			InitializeComponent();
 
 			Menu = mainMenu;
