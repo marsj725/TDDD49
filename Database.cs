@@ -7,8 +7,9 @@ using System.Linq;
 public class Database{
 
 	private Mediator mediator;
-	public string database;
-	public Board bradet;
+	private Database database;
+	public string database_dir;
+//	public Board bradet;
 
 	public class boardData{
 		public int col;
@@ -19,16 +20,38 @@ public class Database{
 	}
 	public Database(Mediator mediator){
 		this.mediator = mediator;
-		this.bradet = this.mediator.Engine.board;
+		this.mediator.Database = this;
+	//	this.bradet = this.mediator.Engine.board;
 
-		this.database = "databas.xml";
-		movePiece (0, 0, 0, 1);
+		this.database_dir = "databas.xml";
+		onFileChange ();
+	}
+	/// <summary>
+	/// Checks if the XMLfile exists
+	/// </summary>
+	/// <returns><c>true</c>, if XMLfile exists, <c>false</c> otherwise.</returns>
+	public bool checkXMLfile ()
+	{
+		if (!File.Exists (this.database_dir)) {
+			using (StreamWriter sw = File.CreateText(this.database_dir)) 
+			{
+				sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<chess>");
+				sw.WriteLine("</chess>");
+			}	
+			return false;
+		}
+		Console.WriteLine ("fileExists");
+		return true;
 	}
 		
-	public Board fetchXMLBoard(){
-		Board tempboard = new Board();
+	/// <summary>
+	/// Fetches chess board positions and what's occuping the squares.
+	/// </summary>
+	/// <returns>The XML board.</returns>
+	public Piece[,] fetchXMLBoard(){
+		Piece[,] grid = new Piece[8,8];
 		List<boardData> XMList = new List<boardData>();
-		XElement XMLdata = XElement.Load (this.database);
+		XElement XMLdata = XElement.Load (this.database_dir);
 		IEnumerable<XElement> chess = XMLdata.Elements ();
 		foreach (var type in chess) {
 			boardData temp = new boardData();
@@ -39,31 +62,40 @@ public class Database{
 			temp.moved = (int)type.Element("moved");
 			XMList.Add(temp);
 		}
-		tempboard = convertToEngineStructure(XMList);
-		return tempboard;
+		grid = convertToEngineStructure(XMList);
+		return grid;
 	}
-	public void createXMLfile(){
-		XDocument XML = new XDocument (this.database);
-	}
-
+	/// <summary>
+	/// Sets the XML board.
+	/// </summary>
+	/// <param name="board">Board.</param>
 	public void setXMLBoard (Board board)
 	{
+		clearXML ();
 		List<boardData> list = new List<boardData> ();
 		list = convertToXMLStructure (board);
-		XElement XMLdata = XElement.Load (this.database);
+		XElement XMLdata = XElement.Load (this.database_dir);
 		foreach (var item in list) {
 			addXMLValue (item.row, item.col, item.piece, item.color, item.moved);
+			Console.WriteLine ("Writingline!");
 		}
 	}
-	public void clearXML(){
-		XElement XMLdata = XElement.Load (this.database);
+	private void clearXML(){
+		XElement XMLdata = XElement.Load (this.database_dir);
 		XMLdata.RemoveNodes ();
-		XMLdata.Save (this.database);
+		XMLdata.Save (this.database_dir);
 	}
+	/// <summary>
+	/// Moves a piece from a col row to a new col row.
+	/// </summary>
+	/// <param name="fromrow">Fromrow.</param>
+	/// <param name="fromcol">Fromcol.</param>
+	/// <param name="torow">Torow.</param>
+	/// <param name="tocol">Tocol.</param>
 	public void movePiece(int fromrow, int fromcol, int torow,int tocol){
 		string tmpPiece = "";
 		string tmpColor = "";
-		XElement XMLdata = XElement.Load (this.database);
+		XElement XMLdata = XElement.Load (this.database_dir);
 		var oldPiece =
 			(from square in XMLdata.Descendants ("square")
 				where int.Parse(square.Element ("row").Value) == fromrow && int.Parse(square.Element ("col").Value) == fromcol
@@ -82,21 +114,38 @@ public class Database{
 			square.SetElementValue ("piece", tmpPiece);
 			square.SetElementValue ("color", tmpColor);
 		}
-		XMLdata.Save (this.database);
+		XMLdata.Save (this.database_dir);
+	}
+	public void onFileChange(){
+		FileSystemWatcher watcher = new FileSystemWatcher();
+		watcher.Filter = this.database_dir;
+		watcher.Changed += new FileSystemEventHandler (fileChanged);
+		watcher.EnableRaisingEvents = true;
+	}
+	public void fileChanged(object source, FileSystemEventArgs e){
+		Piece[,] grid = new Piece[8,8];
+
+		Console.WriteLine ("Change in database detected!");
+
+		grid = fetchXMLBoard ();
+
+
+		Console.WriteLine ("Reloading file and pushing to engine!");
+		this.mediator.forcedBoardUpdate (grid);
 	}
 
-	public void addXMLValue(int row,int col,string piece, string color,int moved){
-		XElement XMLdata = XElement.Load (this.database);
+	private void addXMLValue(int row,int col,string piece, string color,int moved){
+		XElement XMLdata = XElement.Load (this.database_dir);
 		XMLdata.Add(new XElement("square",
 			new XElement("row",row),
 			new XElement("col",col),
 			new XElement("piece",piece),
 			new XElement("color",color),
 			new XElement("moved",moved)));
-		XMLdata.Save (this.database);
+		XMLdata.Save (this.database_dir);
 	}
 
-	public List<boardData> convertToXMLStructure (Board board)
+	private List<boardData> convertToXMLStructure (Board board)
 	{
 		List<boardData> XMList = new List<boardData>();
 		//board = mediator.Engine.board;
@@ -134,10 +183,12 @@ public class Database{
 		return XMList;
 	}
 
-	public Board convertToEngineStructure (List<boardData> list)
+	private Piece[,] convertToEngineStructure (List<boardData> list)
 	{
-		Board board = new Board ();
+		//Board board = new Board ();
 		Board.PieceColor color;
+		//Board.BoardGrid = new Board.BoardGrid ();
+		Piece[,] grid = new Piece[8,8];
 		foreach (boardData brade in list) {
 			if(brade.color == "white"){
 				color = Board.PieceColor.WHITE;
@@ -147,21 +198,21 @@ public class Database{
 				color = Board.PieceColor.NONE;
 			}
 			if(brade.piece == "rook"){
-				board.BoardGrid[brade.row, brade.col] = new Rook(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new Rook (color, brade.row, brade.col);
 			}else if(brade.piece == "knight"){
-				board.BoardGrid[brade.row, brade.col] = new Knight(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new Knight(color, brade.row, brade.col);
 			}else if(brade.piece == "bishop"){
-				board.BoardGrid[brade.row, brade.col] = new Bishop(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new Bishop(color, brade.row, brade.col);
 			}else if(brade.piece == "queen"){
-				board.BoardGrid[brade.row, brade.col] = new Queen(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new Queen(color, brade.row, brade.col);
 			}else if(brade.piece == "king"){
-				board.BoardGrid[brade.row, brade.col] = new King(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new King(color, brade.row, brade.col);
 			}else if(brade.piece == "pawn"){
-				board.BoardGrid[brade.row, brade.col] = new Pawn(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new Pawn(color, brade.row, brade.col);
 			}else{
-				board.BoardGrid[brade.row, brade.col] = new None(color, brade.row, brade.col);
+				grid [brade.row, brade.col] = new None(color, brade.row, brade.col);
 			}
 		}
-		return board;
+		return grid;
 	}
 }

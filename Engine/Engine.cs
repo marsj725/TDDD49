@@ -14,8 +14,9 @@ public class Engine {
 	/// Initializes a new instance of the <see cref="Engine"/> class.
 	/// </summary>
 	public Engine(Mediator mediator) {
-		this.board = new Board();
 		this.mediator = mediator;
+		this.board = new Board(this.mediator);
+
 		this.mediator.registerEngine(this);
 		this.mediator.updateBoard(board.BoardGrid);
 		this.PlayerTurn = Board.PieceColor.WHITE;
@@ -83,7 +84,8 @@ public class Engine {
 				draw();
 				return true;
 			}
-			//Implement database;
+			//Updates database with current piece movement.
+			this.mediator.movePiece (fromRow, fromCol, toRow, toCol);
 			switchTurn();
 			return true;
 		}

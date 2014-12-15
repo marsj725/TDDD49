@@ -16,11 +16,18 @@ public class Board {
 
 	public const int ROWS = 8;
 	public const int COLUMNS = 8;
+	private Mediator mediator;
 
-	public Board() {
+	public Board(Mediator mediator) {
 		this.BoardGrid = new Piece[ROWS, COLUMNS];
+		this.mediator = mediator;
 		//Implement database read
-		this.resetBoard();
+		if (!mediator.checkXMLfile ()) {
+			this.resetBoard ();
+			this.mediator.setXMLBoard (this);
+		} else {
+			this.BoardGrid = this.mediator.fetchXMLBoard ();
+		}
 	}
 
 	/// <summary>
@@ -35,6 +42,12 @@ public class Board {
 		this.BoardGrid[toRow, toCol].Row = toRow;
 		this.BoardGrid[toRow, toCol].Col = toCol;
 		this.BoardGrid[fromRow, fromCol] = new None(PieceColor.NONE, fromRow, fromCol);
+	}
+
+	public void forcedBoardUpdate(Piece[,] grid){
+		Console.WriteLine ("Board reporting updating");
+		this.BoardGrid = grid;
+		this.mediator.updateBoard (grid);
 	}
 
 	/// <summary>

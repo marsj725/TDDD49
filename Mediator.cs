@@ -11,6 +11,7 @@ public class Mediator {
 	private Player player1;
 	private Player player2;
 	private Engine engine;
+	private Database database;
 	private Window.BoardGUI gui;
 	private GameLog gameLog;
 
@@ -50,11 +51,11 @@ public class Mediator {
 		}
 	}
 
-	public Database database {
+	public Database Database{
 		get {
-			return database;
+			return this.database;
 		}
-		private set {
+		set {
 			this.database = value;
 		}
 	}
@@ -167,12 +168,23 @@ public class Mediator {
 		GameLog.Clear();
 	}
 
-	//public Board requestSQLBoard() {
-	//	return this.database.getDatabaseBoard();
-	//}
-
 	public void resetGame() {
 		Engine.reset();
 		GameLog.Clear();
+	}
+	public bool checkXMLfile(){
+		return this.database.checkXMLfile ();
+	}
+	public void setXMLBoard(Board board){
+		this.database.setXMLBoard (board);
+	}
+	public Piece[,] fetchXMLBoard(){
+		return this.database.fetchXMLBoard ();
+	}
+	public void movePiece(int fromrow, int fromcol, int torow,int tocol){
+		this.database.movePiece(fromrow,fromcol,torow,tocol);
+	}
+	public void forcedBoardUpdate(Piece[,] grid){
+		this.Engine.board.forcedBoardUpdate (grid);
 	}
 }
