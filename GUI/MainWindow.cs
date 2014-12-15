@@ -13,13 +13,13 @@ namespace Window {
 		public MainWindow() {
 
 			Mediator mediator = new Mediator();
-
+			new Database(mediator);
 			new User(mediator, Board.PieceColor.WHITE);
 			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
 			ChessMenu mainMenu = new ChessMenu(mediator);
+
 			new Engine(mediator);
-			new Database(mediator);
 			InitializeComponent();
 
 			Menu = mainMenu;
