@@ -187,4 +187,5 @@ public class Mediator {
 	public void forcedBoardUpdate(Piece[,] grid){
 		this.Engine.board.forcedBoardUpdate (grid);
 	}
+
 }

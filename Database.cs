@@ -9,7 +9,8 @@ public class Database{
 	private Mediator mediator;
 	private Database database;
 	public string database_dir;
-//	public Board bradet;
+	public FileSystemWatcher watcher;
+	public System.IO.FileInfo fileInfo; 
 
 	public class boardData{
 		public int col;
@@ -21,9 +22,9 @@ public class Database{
 	public Database(Mediator mediator){
 		this.mediator = mediator;
 		this.mediator.Database = this;
-	//	this.bradet = this.mediator.Engine.board;
-
 		this.database_dir = "databas.xml";
+		this.watcher = new FileSystemWatcher();
+		this.fileInfo = new System.IO.FileInfo(this.database_dir);
 		onFileChange ();
 	}
 	/// <summary>
@@ -35,13 +36,24 @@ public class Database{
 		if (!File.Exists (this.database_dir)) {
 			using (StreamWriter sw = File.CreateText(this.database_dir)) 
 			{
-				sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<chess>");
+				sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+				sw.WriteLine ("<chess>");
+					sw.WriteLine ("<status>");
+					sw.WriteLine ("</status>");
 				sw.WriteLine("</chess>");
 			}	
 			return false;
 		}
-		Console.WriteLine ("fileExists");
 		return true;
+	}
+
+	public void startListener(){
+		this.fileInfo = new System.IO.FileInfo(this.database_dir);
+		this.watcher.EnableRaisingEvents = true;
+	}
+
+	public void stopListener(){
+		this.watcher.EnableRaisingEvents = false;
 	}
 		
 	/// <summary>
@@ -52,7 +64,7 @@ public class Database{
 		Piece[,] grid = new Piece[8,8];
 		List<boardData> XMList = new List<boardData>();
 		XElement XMLdata = XElement.Load (this.database_dir);
-		IEnumerable<XElement> chess = XMLdata.Elements ();
+		IEnumerable<XElement> chess = XMLdata.Elements ("square");
 		foreach (var type in chess) {
 			boardData temp = new boardData();
 			temp.col = (int)type.Element("col");
@@ -71,19 +83,26 @@ public class Database{
 	/// <param name="board">Board.</param>
 	public void setXMLBoard (Board board)
 	{
+		stopListener ();
 		clearXML ();
 		List<boardData> list = new List<boardData> ();
 		list = convertToXMLStructure (board);
 		XElement XMLdata = XElement.Load (this.database_dir);
+		XMLdata.Add (new XElement ("status",
+			new XElement ("activeplayer", "white"),
+			new XElement ("matchtype","HvAi")));
+		XMLdata.Save (this.database_dir);
 		foreach (var item in list) {
 			addXMLValue (item.row, item.col, item.piece, item.color, item.moved);
-			Console.WriteLine ("Writingline!");
 		}
+		startListener ();
 	}
 	private void clearXML(){
+		stopListener ();
 		XElement XMLdata = XElement.Load (this.database_dir);
 		XMLdata.RemoveNodes ();
 		XMLdata.Save (this.database_dir);
+		startListener ();
 	}
 	/// <summary>
 	/// Moves a piece from a col row to a new col row.
@@ -93,6 +112,7 @@ public class Database{
 	/// <param name="torow">Torow.</param>
 	/// <param name="tocol">Tocol.</param>
 	public void movePiece(int fromrow, int fromcol, int torow,int tocol){
+		stopListener ();
 		string tmpPiece = "";
 		string tmpColor = "";
 		XElement XMLdata = XElement.Load (this.database_dir);
@@ -115,23 +135,24 @@ public class Database{
 			square.SetElementValue ("color", tmpColor);
 		}
 		XMLdata.Save (this.database_dir);
+		startListener ();
 	}
 	public void onFileChange(){
-		FileSystemWatcher watcher = new FileSystemWatcher();
-		watcher.Filter = this.database_dir;
-		watcher.Changed += new FileSystemEventHandler (fileChanged);
-		watcher.EnableRaisingEvents = true;
+		this.watcher.Filter = this.database_dir;
+		this.watcher.Changed += new FileSystemEventHandler (fileChanged);
+		this.watcher.EnableRaisingEvents = true;
 	}
 	public void fileChanged(object source, FileSystemEventArgs e){
-		Piece[,] grid = new Piece[8,8];
-
-		Console.WriteLine ("Change in database detected!");
-
-		grid = fetchXMLBoard ();
-
-
-		Console.WriteLine ("Reloading file and pushing to engine!");
-		this.mediator.forcedBoardUpdate (grid);
+		System.IO.FileInfo temp = new System.IO.FileInfo (this.database_dir);
+		if (this.fileInfo.LastWriteTime != temp.LastWriteTime) {
+			Piece[,] grid = new Piece[8, 8];
+			grid = fetchXMLBoard ();
+			this.mediator.forcedBoardUpdate (grid);
+			Console.WriteLine ("pushing board update");
+			this.fileInfo = new System.IO.FileInfo(this.database_dir);
+		} else {
+			Console.WriteLine ("file was not updated!");
+		}
 	}
 
 	private void addXMLValue(int row,int col,string piece, string color,int moved){
@@ -185,9 +206,7 @@ public class Database{
 
 	private Piece[,] convertToEngineStructure (List<boardData> list)
 	{
-		//Board board = new Board ();
 		Board.PieceColor color;
-		//Board.BoardGrid = new Board.BoardGrid ();
 		Piece[,] grid = new Piece[8,8];
 		foreach (boardData brade in list) {
 			if(brade.color == "white"){
