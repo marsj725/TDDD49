@@ -187,5 +187,11 @@ public class Mediator {
 	public void forcedBoardUpdate(Piece[,] grid){
 		this.Engine.board.forcedBoardUpdate (grid);
 	}
+	public void updateActivePlayer(Board.PieceColor playerColor){
+		this.database.updateActivePlayer (playerColor);
+	}
+	public void setMatchType(string type){
+		this.database.setmatchType (type);
+	}
 
 }

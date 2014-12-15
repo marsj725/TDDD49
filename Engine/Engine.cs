@@ -25,10 +25,10 @@ public class Engine {
 	public Board.PieceColor PlayerTurn {
 		get {
 			return this.activePlayer;
-		}
-		private set {
+		}set{
 			this.activePlayer = value;
 			mediator.informOfTurnChange();
+			mediator.updateActivePlayer (this.activePlayer);
 		}
 	}
 

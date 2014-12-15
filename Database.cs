@@ -9,8 +9,9 @@ public class Database{
 	private Mediator mediator;
 	private Database database;
 	public string database_dir;
-	public FileSystemWatcher watcher;
-	public System.IO.FileInfo fileInfo; 
+	private FileSystemWatcher watcher;
+	private System.IO.FileInfo fileInfo;
+	private string matchType;
 
 	public class boardData{
 		public int col;
@@ -27,6 +28,20 @@ public class Database{
 		this.fileInfo = new System.IO.FileInfo(this.database_dir);
 		onFileChange ();
 	}
+
+	public void setmatchType (string type){
+		this.matchType = type;
+	}
+
+	public void startListener(){
+		this.fileInfo = new System.IO.FileInfo(this.database_dir);
+		this.watcher.EnableRaisingEvents = true;
+	}
+
+	public void stopListener(){
+		this.watcher.EnableRaisingEvents = false;
+	}
+
 	/// <summary>
 	/// Checks if the XMLfile exists
 	/// </summary>
@@ -40,20 +55,30 @@ public class Database{
 				sw.WriteLine ("<chess>");
 					sw.WriteLine ("<status>");
 					sw.WriteLine ("</status>");
+					sw.WriteLine ("<log>");
+					sw.WriteLine ("</log>");
 				sw.WriteLine("</chess>");
 			}	
 			return false;
 		}
 		return true;
 	}
-
-	public void startListener(){
-		this.fileInfo = new System.IO.FileInfo(this.database_dir);
-		this.watcher.EnableRaisingEvents = true;
-	}
-
-	public void stopListener(){
-		this.watcher.EnableRaisingEvents = false;
+		
+	public void updateActivePlayer(Board.PieceColor player){
+		string pieceColor;
+		if (player == Board.PieceColor.BLACK) {
+			pieceColor = "black";
+		} else {
+			pieceColor = "white";
+		}
+		XElement XMLdata = XElement.Load (this.database_dir);
+		var oldPiece =
+			(from activeplayer in XMLdata.Descendants ("status")
+				select activeplayer);
+		foreach (XElement status in oldPiece) {
+			status.Element ("activeplayer").Value = pieceColor;
+		}
+		XMLdata.Save (this.database_dir);
 	}
 		
 	/// <summary>
@@ -90,7 +115,7 @@ public class Database{
 		XElement XMLdata = XElement.Load (this.database_dir);
 		XMLdata.Add (new XElement ("status",
 			new XElement ("activeplayer", "white"),
-			new XElement ("matchtype","HvAi")));
+			new XElement ("matchtype",this.matchType)));
 		XMLdata.Save (this.database_dir);
 		foreach (var item in list) {
 			addXMLValue (item.row, item.col, item.piece, item.color, item.moved);
