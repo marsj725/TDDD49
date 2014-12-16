@@ -28,18 +28,21 @@ public class ChessMenu : MainMenu {
 	void humanVsHuman(object sender, EventArgs e) {
 		mediator.Player1 = new User(mediator, Board.PieceColor.WHITE);
 		mediator.Player2 = new User(mediator, Board.PieceColor.BLACK);
+		mediator.setMatchType ("HumanVsHuman");
 		mediator.resetGame();
 	}
 
 	void humanVsAI(object sender, EventArgs e) {
 		mediator.Player1 = new User(mediator, Board.PieceColor.WHITE);
 		mediator.Player2 = new AI(mediator, Board.PieceColor.BLACK);
+		mediator.setMatchType ("HumanVsAi");
 		mediator.resetGame();
 	}
 
 	void AIVsHuman(object sender, EventArgs e) {
 		mediator.Player1 = new AI(mediator, Board.PieceColor.WHITE);
 		mediator.Player2 = new User(mediator, Board.PieceColor.BLACK);
+		mediator.setMatchType ("AiVsHuman");
 		mediator.resetGame();
 	}
 }

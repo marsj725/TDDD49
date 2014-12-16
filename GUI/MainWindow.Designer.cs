@@ -6,8 +6,8 @@ namespace Window {
 
 		private System.ComponentModel.IContainer components = null;
 
-		private const int WINDOW_SIZE_WIDTH = 512;
-		private const int WINDOW_SIZE_HEIGHT = 512;
+		private const int WINDOW_SIZE_WIDTH = 720;
+		private const int WINDOW_SIZE_HEIGHT = 560;
 
 		protected override void Dispose(bool disposing) {
 			if(disposing && (components != null)) {
@@ -37,12 +37,12 @@ namespace Window {
 		/// Listener handeling window resizes, makes sure it's always in a square shape.
 		/// </summary>
 		private void OnResize(object sender, EventArgs a) {
-			if(this.Size.Width > this.Size.Height) {
-				this.Size = new System.Drawing.Size(this.Size.Width, this.Size.Width);
-			} else {
-				this.Size = new System.Drawing.Size(this.Size.Height, this.Size.Height);
+			if(!(this.Size.Width == WINDOW_SIZE_WIDTH)) {
+				this.Size = new System.Drawing.Size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
+			}
+			if(!(this.Size.Height == WINDOW_SIZE_HEIGHT)) {
+				this.Size = new System.Drawing.Size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
 			}
 		}
-
 	}
 }

@@ -21,10 +21,10 @@ public class Board {
 	public Board(Mediator mediator) {
 		this.BoardGrid = new Piece[ROWS, COLUMNS];
 		this.mediator = mediator;
-		//Implement database read
+		//Asks the database class if there is an existing database file, creates one otherwise.
 		if (!mediator.checkXMLfile ()) {
 			this.resetBoard ();
-			this.mediator.setXMLBoard (this);
+			Console.WriteLine ("creating a board!");
 		} else {
 			this.BoardGrid = this.mediator.fetchXMLBoard ();
 		}
@@ -43,9 +43,14 @@ public class Board {
 		this.BoardGrid[toRow, toCol].Col = toCol;
 		this.BoardGrid[fromRow, fromCol] = new None(PieceColor.NONE, fromRow, fromCol);
 	}
-
+	/// <summary>
+	/// Updates the board whenever there has been a change in databas XML file.
+	/// </summary>
+	/// <param name="grid">Grid.</param>
 	public void forcedBoardUpdate(Piece[,] grid){
-		Console.WriteLine ("Board reporting updating");
+		if (grid == BoardGrid) {
+			Console.WriteLine ("no update");
+		}
 		this.BoardGrid = grid;
 		this.mediator.updateBoard (grid);
 	}
@@ -128,5 +133,8 @@ public class Board {
 		this.BoardGrid[7, 5] = new Bishop(PieceColor.WHITE, 7, 5); 
 		this.BoardGrid[7, 3] = new Queen(PieceColor.WHITE, 7, 3);
 		this.BoardGrid[7, 4] = new King(PieceColor.WHITE, 7, 4);
+
+		//resets the database XML file with a clean board. 
+		this.mediator.setXMLBoard (this);
 	}
 }
