@@ -76,6 +76,13 @@ public class Engine {
 				mediator.updateBoard(toRow, toCol);
 				return false;
 			}
+			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
+			if(isCheckMate(getOppositeColor(this.PlayerTurn))) {
+				mediator.updateBoard(fromRow, fromCol);
+				mediator.updateBoard(toRow, toCol);
+				winner(this.PlayerTurn);
+				return false;
+			}
 			mediator.updateBoard(fromRow, fromCol);
 			mediator.updateBoard(toRow, toCol);
 
@@ -128,8 +135,11 @@ public class Engine {
 				Board.PieceColor backupColor = this.board.BoardGrid[draw.Item1, draw.Item2].getColor();
 
 				board.movePiece(kingPosition.Item1, kingPosition.Item2, draw.Item1, draw.Item2);
-				if(!isCheck(color))
+				if(!isCheck(color)) {
+					this.board.movePiece(draw.Item1, draw.Item2, kingPosition.Item1, kingPosition.Item2);
+					this.board.BoardGrid[draw.Item1, draw.Item2] = (Piece)System.Activator.CreateInstance(backupType, backupColor, draw.Item1, draw.Item2);
 					return false;
+				}
 
 				this.board.movePiece(draw.Item1, draw.Item2, kingPosition.Item1, kingPosition.Item2);
 				this.board.BoardGrid[draw.Item1, draw.Item2] = (Piece)System.Activator.CreateInstance(backupType, backupColor, draw.Item1, draw.Item2);
