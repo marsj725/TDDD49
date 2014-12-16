@@ -64,7 +64,7 @@ public class Mediator {
 		get {
 			return this.gameLog;
 		} 
-		private set {
+		set {
 			this.gameLog = value;
 		}
 	}
@@ -193,5 +193,11 @@ public class Mediator {
 	public void setMatchType(string type){
 		this.database.setmatchType (type);
 	}
-
+	public void updateDatabaseLog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
+		this.database.updateActivityLog(color,type,fromrow,fromcol,torow,tocol);
+	}
+	public void writeToGUILog(string input){
+		this.GameLog.writeLine (input);
+		//this.gameLog.writeLine (input);
+	}
 }

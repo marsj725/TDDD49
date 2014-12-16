@@ -18,14 +18,13 @@ namespace Window {
 			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
 			ChessMenu mainMenu = new ChessMenu(mediator);
-
+			GameLog log = new GameLog(mediator);
 			new Engine(mediator);
 			InitializeComponent();
 
 			Menu = mainMenu;
 			this.Controls.Add(boardGUI);
 
-			GameLog log = new GameLog(mediator);
 			log.Location = new System.Drawing.Point(512, 0);
 			log.Size = new System.Drawing.Size(200, WINDOW_SIZE_HEIGHT);
 			Controls.Add(log);

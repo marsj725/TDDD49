@@ -121,7 +121,6 @@ namespace Window {
 					this.ImageLocation = "Assets/king_white.png";
 				else
 					this.ImageLocation = "Assets/queen_white.png";
-
 			} else {
 				if(piece.getType() == Piece.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_black.png";
@@ -135,7 +134,6 @@ namespace Window {
 					this.ImageLocation = "Assets/king_black.png";
 				else
 					this.ImageLocation = "Assets/queen_black.png";
-
 			}
 			this.pieceType = piece.getType();
 		}
