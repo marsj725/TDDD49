@@ -65,8 +65,6 @@ public class Engine {
 			if(isCheck(this.PlayerTurn)) {
 				this.board.movePiece(toRow, toCol, fromRow, fromCol);
 				this.board.BoardGrid[toRow, toCol] = (Piece)System.Activator.CreateInstance(backupType, backupColor, toRow, toCol);
-				mediator.updateBoard(fromRow, fromCol);
-				mediator.updateBoard(toRow, toCol);
 				return false;
 			}
 			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
