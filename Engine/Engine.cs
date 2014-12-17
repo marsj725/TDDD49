@@ -216,7 +216,8 @@ public class Engine {
 			if(promotion) {
 				mediator.updateBoard(fromRow, fromCol);
 				mediator.updateBoard(toRow, toCol);
-				winner(this.PlayerTurn);
+				if(isCheckMate(getOppositeColor(PlayerTurn)))
+					winner(this.PlayerTurn);
 			}
 		}
 	}
