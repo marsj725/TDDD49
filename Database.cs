@@ -65,6 +65,7 @@ public class Database{
 	}
 		
 	public void updateActivePlayer(Board.PieceColor player){
+		stopListener ();
 		string pieceColor;
 		if (player == Board.PieceColor.BLACK) {
 			pieceColor = "black";
@@ -79,6 +80,23 @@ public class Database{
 			status.Element ("activeplayer").Value = pieceColor;
 		}
 		XMLdata.Save (this.database_dir);
+		startListener ();
+	}
+
+	public void updateActivityLog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
+		stopListener ();
+		string typ = convertPiecetoString (type);
+		Console.WriteLine("Player: "+color+" Piece: "+type+" from: "+fromrow+" "+fromcol+" to: "+torow+" "+tocol);
+		XElement XMLdata = XElement.Load (this.database_dir);
+		XMLdata.Add (new XElement ("log",
+			new XElement ("player", color),
+			new XElement ("piece", typ),
+			new XElement ("fromCol", fromcol),
+			new XElement ("fromRow", fromrow),
+			new XElement ("toRow", torow),
+			new XElement ("toCol", tocol)));
+		XMLdata.Save (this.database_dir);
+		startListener ();
 	}
 		
 	/// <summary>
@@ -98,6 +116,15 @@ public class Database{
 			temp.color = (string)type.Element("color");
 			temp.moved = (int)type.Element("moved");
 			XMList.Add(temp);
+		}
+		IEnumerable<XElement> log = XMLdata.Elements ("log");
+		foreach (var lg in log) {
+			//string output = "Player: "++ " Piece: "++" fromRow: "+" fromCol: "+(string)lg.Element("fromCol"+ "toRow");
+			string output = (string)lg.Element("player") + " moved " + (string)lg.Element("piece") + " from (" + (string)lg.Element("fromRow") + "," + (string)lg.Element("fromCol") + ") to (" + (string)lg.Element("toRow") + "," + (string)lg.Element("toCol") + ")";
+			Piece.PieceType piece = convertStringtoPiece ((string)lg.Element ("piece"));
+			Board.PieceColor color = convertStringtoColor ((string)lg.Element("player"));
+
+			this.mediator.updateGUILog (color, piece, (int)lg.Element ("fromRow"), (int)lg.Element ("fromCol"), (int)lg.Element ("toRow"), (int)lg.Element ("toCol"));
 		}
 		grid = convertToEngineStructure(XMList);
 		return grid;
@@ -198,28 +225,9 @@ public class Database{
 
 		foreach(Piece piece in board.BoardGrid){
 			boardData output = new boardData();
-			if(piece.getColor() == Board.PieceColor.WHITE){
-				output.color = "white";
-			}else if(piece.getColor() == Board.PieceColor.BLACK){
-				output.color = "black";
-			}else{
-				output.color = "none";
-			}
-			if(piece.getType() == Piece.PieceType.ROOK){
-				output.piece = "rook";
-			}else if(piece.getType() == Piece.PieceType.KNIGHT){
-				output.piece = "knight";
-			}else if(piece.getType() == Piece.PieceType.BISHOP){
-				output.piece = "bishop";
-			}else if(piece.getType() == Piece.PieceType.QUEEN){
-				output.piece = "queen";
-			}else if(piece.getType() == Piece.PieceType.KING){
-				output.piece = "king";
-			}else if(piece.getType() == Piece.PieceType.PAWN){
-				output.piece = "pawn";
-			}else{
-				output.piece = "none";
-			}
+			
+			output.color = convertPieceColortoString(piece.getColor());
+			output.piece = convertPiecetoString (piece.getType());
 			output.col = piece.Col;
 			output.row = piece.Row;
 			//TEMP LÖSNING!!!!
@@ -227,6 +235,70 @@ public class Database{
 			XMList.Add(output);
 		}
 		return XMList;
+	}
+
+	public string convertColortoString(Board.PieceColor color){
+		if (color == Board.PieceColor.WHITE) {
+			return "WHITE";
+		} else {
+			return "BLACK";
+		}
+	}
+	public Board.PieceColor convertStringtoColor (string color){
+		if (color == "WHITE") {
+			return Board.PieceColor.WHITE;
+		} else {
+			return Board.PieceColor.BLACK;
+		}
+	}
+
+	public Piece.PieceType convertStringtoPiece(string input){
+		if (input == "king"){return Piece.PieceType.KING;}
+		else if(input == "queen"){
+			return Piece.PieceType.QUEEN;
+		}
+		else if(input == "bishop"){
+			return Piece.PieceType.BISHOP;
+		}
+		else if(input == "knight"){
+			return Piece.PieceType.KNIGHT;
+		}
+		else if(input == "rook"){
+			return Piece.PieceType.ROOK;
+		}
+		else if(input == "pawn"){
+			return Piece.PieceType.PAWN;
+		}
+		else {
+			return Piece.PieceType.NONE;
+		}
+	}
+
+	public string convertPiecetoString(Piece.PieceType input){
+		if (input == Piece.PieceType.KING) {
+			return "king";
+		} else if (input == Piece.PieceType.QUEEN) {
+			return "queen";
+		} else if (input == Piece.PieceType.BISHOP) {
+			return "bishop";
+		} else if (input == Piece.PieceType.KNIGHT) {
+			return "knight";
+		} else if (input == Piece.PieceType.ROOK) {
+			return "rook";
+		} else if (input == Piece.PieceType.PAWN) {
+			return "pawn";
+		} else {
+			return "none";
+		}
+	}
+	public string convertPieceColortoString(Board.PieceColor color){
+		string pieceColor;
+		if (color == Board.PieceColor.BLACK) {
+			pieceColor = "black";
+		} else {
+			pieceColor = "white";
+		}
+		return pieceColor;
 	}
 
 	private Piece[,] convertToEngineStructure (List<boardData> list)

@@ -8,14 +8,17 @@ using System.Drawing;
 public class GameLog : TextBox {
 
 	private bool firstLine;
+	private Mediator mediator;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ChessDrawDisplay"/> class.
 	/// </summary>
 	public GameLog(Mediator mediator) {
+		this.mediator = mediator;
 		this.ReadOnly = true;
 		this.Multiline = true;
 		this.ScrollBars = ScrollBars.Vertical;
+		this.mediator.GameLog = this;
 		firstLine = true;
 		mediator.registerGameLog(this);
 	}
@@ -27,7 +30,7 @@ public class GameLog : TextBox {
 	/// <param name="piece">Piece.</param>
 	/// <param name="from">From.</param>
 	/// <param name="to">To.</param>
-	private void writeLine(string text) {
+	public void writeLine(string text) {
 		if(firstLine) {
 			this.Text += "- " + text + "\n";
 			firstLine = false;
@@ -49,9 +52,10 @@ public class GameLog : TextBox {
 		string color = colorToString(playerColor);
 		string type = typeToString(pieceType);
 
-		string result = color + " moved " + type + " from (" + fromRow + "," + toRow + ") to (" + toRow + "," + toCol + ")";
+		string result = color + " moved " + type + " from (" + fromRow + "," + fromRow + ") to (" + toRow + "," + toCol + ")";
 
 		writeLine(result);
+		//Console.WriteLine (color + " moved " + type + " from " + fromRow + "," + toRow + " to " + toRow + "," + toCol);
 	}
 
 	public void writeWhosTurn(Board.PieceColor player) {

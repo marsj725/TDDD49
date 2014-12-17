@@ -25,10 +25,10 @@ public class Engine {
 	public Board.PieceColor PlayerTurn {
 		get {
 			return this.activePlayer;
-		}set {
+		}set{
 			this.activePlayer = value;
 			mediator.informOfTurnChange();
-			mediator.updateActivePlayer(this.activePlayer);
+			mediator.updateActivePlayer (this.activePlayer);
 		}
 	}
 
@@ -61,6 +61,13 @@ public class Engine {
 			Type backupType = this.board.BoardGrid[toRow, toCol].GetType();
 			Board.PieceColor backupColor = this.board.BoardGrid[toRow, toCol].getColor();
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
+			// If the opponent is put in a check mate, show the user that there is a winner and reset everything.
+			if(isCheckMate(getOppositeColor(this.PlayerTurn))) {
+				mediator.updateBoard(fromRow, fromCol);
+				mediator.updateBoard(toRow, toCol);
+				winner(this.PlayerTurn);
+				return false;
+			}
 			// If the player puts himself in a chess position revert the draw, since the draw is not allowed.
 			if(isCheck(this.PlayerTurn)) {
 				this.board.movePiece(toRow, toCol, fromRow, fromCol);
@@ -88,7 +95,8 @@ public class Engine {
 				return true;
 			}
 			//Updates database with current piece movement.
-			this.mediator.movePiece(fromRow, fromCol, toRow, toCol);
+			this.mediator.movePiece (fromRow, fromCol, toRow, toCol);
+			this.mediator.updateLog (color, board.BoardGrid [fromRow, fromCol].getType(), fromRow, fromCol, toRow, toCol);
 			switchTurn();
 			return true;
 		}
@@ -121,7 +129,6 @@ public class Engine {
 	/// </summary>
 	/// <returns><c>true</c>, if check mate, <c>false</c> otherwise.</returns>
 	private bool isCheckMate(Board.PieceColor color) {
-
 		if(isCheck(color)) {
 			Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
 			ArrayList<Tuple<int, int>> possibleAttacks = board.BoardGrid[kingPosition.Item1, kingPosition.Item2].getPossibleMoves(this.board);

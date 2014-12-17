@@ -23,7 +23,6 @@ namespace Window {
 
 			positionChosen = false;
 			this.chessPositions = new BoardPositionGUI[BOARD_ROWS, BOARD_COLUMNS];
-			this.mediator = mediator;
 
 			// Initializes all the positions on the board.
 			InitializeBoardPositions();
