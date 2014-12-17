@@ -83,6 +83,9 @@ public class Engine {
 				winner(this.PlayerTurn);
 				return false;
 			}
+
+			checkForAndPerformPromotion(fromRow, fromCol, toRow, toCol);
+
 			mediator.updateBoard(fromRow, fromCol);
 			mediator.updateBoard(toRow, toCol);
 
@@ -194,6 +197,35 @@ public class Engine {
 		this.board.resetBoard();
 		mediator.updateBoard(this.board.BoardGrid);
 		PlayerTurn = Board.PieceColor.WHITE;
+	}
+
+	/// <summary>
+	/// Checks for promotion, and performs it if promotion is possible.
+	/// </summary>
+	/// <param name="fromRow">From row.</param>
+	/// <param name="fromCol">From col.</param>
+	/// <param name="toRow">To row.</param>
+	/// <param name="toCol">To col.</param>
+	void checkForAndPerformPromotion(int fromRow, int fromCol, int toRow, int toCol) {
+		if(board.BoardGrid[toRow, toCol].getType() == Piece.PieceType.PAWN) {
+
+			bool promotion = false;
+
+			if(PlayerTurn == Board.PieceColor.BLACK && toRow == 7) {
+				board.BoardGrid[toRow, toCol] = new Queen(PlayerTurn, toRow, toCol);
+				promotion = true;
+			} else if(toRow == 0) {
+				board.BoardGrid[toRow, toCol] = new Queen(PlayerTurn, toRow, toCol);
+				promotion = true;
+			}
+
+			// Have to look for chess mate again.
+			if(promotion) {
+				mediator.updateBoard(fromRow, fromCol);
+				mediator.updateBoard(toRow, toCol);
+				winner(this.PlayerTurn);
+			}
+		}
 	}
 }
 
