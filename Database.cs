@@ -98,7 +98,7 @@ public class Database{
 	/// <param name="fromcol">Fromcol.</param>
 	/// <param name="torow">Torow.</param>
 	/// <param name="tocol">Tocol.</param>
-	public void updateActivityLog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
+	public void updateActivityLog(Board.PieceColor color, Board.PieceType type, int fromrow, int fromcol, int torow, int tocol){
 		stopListener ();
 		string typ = convertPiecetoString (type);
 		string col = convertColortoString (color);
@@ -247,8 +247,8 @@ public class Database{
 		foreach(Piece piece in board.BoardGrid){
 			boardData output = new boardData();
 			
-			output.color = convertPieceColortoString(piece.getColor());
-			output.piece = convertPiecetoString (piece.getType());
+			output.color = convertPieceColortoString(piece.Color);
+			output.piece = convertPiecetoString (piece.PieceType);
 			output.col = piece.Col;
 			output.row = piece.Row;
 			//TEMP LÖSNING!!!!
@@ -275,7 +275,7 @@ public class Database{
 	/// <returns>The stringto color.</returns>
 	/// <param name="color">Color.</param>
 	public Board.PieceColor convertStringtoColor (string color){
-		if (color == "WHITE") {
+		if (color == "white") {
 			return Board.PieceColor.WHITE;
 		} else {
 			return Board.PieceColor.BLACK;
