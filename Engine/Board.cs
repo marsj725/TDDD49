@@ -3,6 +3,16 @@ using C5;
 
 public class Board {
 
+	public enum PieceType {
+		NONE,
+		PAWN,
+		ROOK,
+		BISHOP,
+		KNIGHT,
+		KING,
+		QUEEN}
+	;
+
 	public enum PieceColor {
 		WHITE,
 		BLACK,
@@ -22,11 +32,11 @@ public class Board {
 		this.BoardGrid = new Piece[ROWS, COLUMNS];
 		this.mediator = mediator;
 		//Asks the database class if there is an existing database file, creates one otherwise.
-		if (!mediator.checkXMLfile ()) {
-			this.resetBoard ();
-			Console.WriteLine ("creating a board!");
+		if(!mediator.checkXMLfile()) {
+			this.resetBoard();
+			Console.WriteLine("creating a board!");
 		} else {
-			this.BoardGrid = this.mediator.fetchXMLBoard ();
+			this.BoardGrid = this.mediator.fetchXMLBoard();
 		}
 	}
 
@@ -43,16 +53,17 @@ public class Board {
 		this.BoardGrid[toRow, toCol].Col = toCol;
 		this.BoardGrid[fromRow, fromCol] = new None(PieceColor.NONE, fromRow, fromCol);
 	}
+
 	/// <summary>
 	/// Updates the board whenever there has been a change in databas XML file.
 	/// </summary>
 	/// <param name="grid">Grid.</param>
-	public void forcedBoardUpdate(Piece[,] grid){
-		if (grid == BoardGrid) {
-			Console.WriteLine ("no update");
+	public void forcedBoardUpdate(Piece[,] grid) {
+		if(grid == BoardGrid) {
+			Console.WriteLine("no update");
 		}
 		this.BoardGrid = grid;
-		this.mediator.updateBoard (grid);
+		this.mediator.updateBoard(grid);
 	}
 
 	/// <summary>
@@ -65,7 +76,7 @@ public class Board {
 		bool[,] attackedPositions = new bool[8, 8];
 
 		foreach(Piece piece in BoardGrid) {
-			if(piece.getColor() == color) {
+			if(piece.Color == color) {
 				ArrayList<Tuple<int, int>> positions = piece.getPossibleMoves(this);
 				foreach(Tuple<int, int> position in positions) {
 					attackedPositions[position.Item1, position.Item2] = true;
@@ -87,7 +98,7 @@ public class Board {
 		ArrayList<int[]> possibleAttacks = new ArrayList<int[]>();
 
 		foreach(Piece piece in BoardGrid) {
-			if(piece.getColor() == color) {
+			if(piece.Color == color) {
 				ArrayList<Tuple<int, int>> positions = piece.getPossibleMoves(this);
 				foreach(Tuple<int, int> position in positions) {
 					int[] possibleAttack = { piece.Row, piece.Col, position.Item1, position.Item2 };
@@ -135,6 +146,6 @@ public class Board {
 		this.BoardGrid[7, 4] = new King(PieceColor.WHITE, 7, 4);
 
 		//resets the database XML file with a clean board. 
-		this.mediator.setXMLBoard (this);
+		this.mediator.setXMLBoard(this);
 	}
 }

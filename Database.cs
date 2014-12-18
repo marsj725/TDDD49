@@ -135,8 +135,10 @@ public class Database{
 		}
 		IEnumerable<XElement> log = XMLdata.Elements ("log");
 		foreach (var lg in log) {
-			Piece.PieceType piece = convertStringtoPiece ((string)lg.Element ("piece"));
-			Board.PieceColor color = convertStringtoColor ((string)lg.Element("player"));
+			//string output = "Player: "++ " Piece: "++" fromRow: "+" fromCol: "+(string)lg.Element("fromCol"+ "toRow");
+			string output = (string)lg.Element("player") + " moved " + (string)lg.Element("piece") + " from (" + (string)lg.Element("fromRow") + "," + (string)lg.Element("fromCol") + ") to (" + (string)lg.Element("toRow") + "," + (string)lg.Element("toCol") + ")";
+			Board.PieceType piece = convertStringtoPiece((string)lg.Element("piece"));
+			Board.PieceColor color = convertStringtoColor((string)lg.Element("player"));
 
 			this.mediator.updateGUILog (color, piece, (int)lg.Element ("fromRow"), (int)lg.Element ("fromCol"), (int)lg.Element ("toRow"), (int)lg.Element ("toCol"));
 		}
@@ -223,7 +225,6 @@ public class Database{
 			grid = fetchXMLBoard ();
 			this.mediator.forcedBoardUpdate (grid);
 			this.fileInfo = new System.IO.FileInfo(this.database_dir);
-		} else {
 		}
 	}
 
@@ -241,6 +242,8 @@ public class Database{
 	private List<boardData> convertToXMLStructure (Board board)
 	{
 		List<boardData> XMList = new List<boardData>();
+		//board = mediator.Engine.board;
+
 		foreach(Piece piece in board.BoardGrid){
 			boardData output = new boardData();
 			
@@ -272,7 +275,7 @@ public class Database{
 	/// <returns>The stringto color.</returns>
 	/// <param name="color">Color.</param>
 	public Board.PieceColor convertStringtoColor (string color){
-		if (color == "WHITE" || color == "white") {
+		if (color == "WHITE") {
 			return Board.PieceColor.WHITE;
 		} else {
 			return Board.PieceColor.BLACK;
@@ -283,25 +286,21 @@ public class Database{
 	/// </summary>
 	/// <returns>The stringto piece.</returns>
 	/// <param name="input">Input.</param>
-	public Piece.PieceType convertStringtoPiece(string input){
-		if (input == "king"){return Piece.PieceType.KING;}
-		else if(input == "queen"){
-			return Piece.PieceType.QUEEN;
-		}
-		else if(input == "bishop"){
-			return Piece.PieceType.BISHOP;
-		}
-		else if(input == "knight"){
-			return Piece.PieceType.KNIGHT;
-		}
-		else if(input == "rook"){
-			return Piece.PieceType.ROOK;
-		}
-		else if(input == "pawn"){
-			return Piece.PieceType.PAWN;
-		}
-		else {
-			return Piece.PieceType.NONE;
+	public Board.PieceType convertStringtoPiece(string input) {
+		if(input == "king") {
+			return Board.PieceType.KING;
+		} else if(input == "queen") {
+			return Board.PieceType.QUEEN;
+		} else if(input == "bishop") {
+			return Board.PieceType.BISHOP;
+		} else if(input == "knight") {
+			return Board.PieceType.KNIGHT;
+		} else if(input == "rook") {
+			return Board.PieceType.ROOK;
+		} else if(input == "pawn") {
+			return Board.PieceType.PAWN;
+		} else {
+			return Board.PieceType.NONE;
 		}
 	}
 	/// <summary>
@@ -309,18 +308,18 @@ public class Database{
 	/// </summary>
 	/// <returns>The pieceto string.</returns>
 	/// <param name="input">Input.</param>
-	public string convertPiecetoString(Piece.PieceType input){
-		if (input == Piece.PieceType.KING) {
+	public string convertPiecetoString(Board.PieceType input){
+		if (input == Board.PieceType.KING) {
 			return "king";
-		} else if (input == Piece.PieceType.QUEEN) {
+		} else if(input == Board.PieceType.QUEEN) {
 			return "queen";
-		} else if (input == Piece.PieceType.BISHOP) {
+		} else if(input == Board.PieceType.BISHOP) {
 			return "bishop";
-		} else if (input == Piece.PieceType.KNIGHT) {
+		} else if(input == Board.PieceType.KNIGHT) {
 			return "knight";
-		} else if (input == Piece.PieceType.ROOK) {
+		} else if(input == Board.PieceType.ROOK) {
 			return "rook";
-		} else if (input == Piece.PieceType.PAWN) {
+		} else if(input == Board.PieceType.PAWN) {
 			return "pawn";
 		} else {
 			return "none";

@@ -12,7 +12,7 @@ namespace Window {
 		private int column;
 
 		private Board.PieceColor pieceColor;
-		private Piece.PieceType pieceType;
+		private Board.PieceType pieceType;
 		private System.Drawing.Color positionColor;
 
 		public enum Pieces {
@@ -42,14 +42,6 @@ namespace Window {
 			this.column = column;
 			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chessPositionMouseClick);
 			this.Margin = new Padding(0, 0, 0, 0);
-		}
-
-		public int getRow() {
-			return row;
-		}
-
-		public int getColumn() {
-			return column;
 		}
 
 		/// <summary>
@@ -100,40 +92,40 @@ namespace Window {
 		/// <param name="piece">Piece.</param>
 		public void setPiece(Piece piece) {
 
-			this.pieceColor = piece.getColor();
+			this.pieceColor = piece.Color;
 
-			if(piece.getType() == Piece.PieceType.NONE) {
+			if(piece.PieceType == Board.PieceType.NONE) {
 				this.Image = null;
 				return;
 			}
-			if(piece.getColor() == Board.PieceColor.WHITE) {
-				if(piece.getType() == Piece.PieceType.PAWN)
+			if(piece.Color == Board.PieceColor.WHITE) {
+				if(piece.PieceType == Board.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_white.png";
-				else if(piece.getType() == Piece.PieceType.KNIGHT)
+				else if(piece.PieceType == Board.PieceType.KNIGHT)
 					this.ImageLocation = "Assets/horse_white.png";
-				else if(piece.getType() == Piece.PieceType.BISHOP)
+				else if(piece.PieceType == Board.PieceType.BISHOP)
 					this.ImageLocation = "Assets/bishop_white.png";
-				else if(piece.getType() == Piece.PieceType.ROOK)
+				else if(piece.PieceType == Board.PieceType.ROOK)
 					this.ImageLocation = "Assets/rook_white.png";
-				else if(piece.getType() == Piece.PieceType.KING)
+				else if(piece.PieceType == Board.PieceType.KING)
 					this.ImageLocation = "Assets/king_white.png";
 				else
 					this.ImageLocation = "Assets/queen_white.png";
 			} else {
-				if(piece.getType() == Piece.PieceType.PAWN)
+				if(piece.PieceType == Board.PieceType.PAWN)
 					this.ImageLocation = "Assets/pawn_black.png";
-				else if(piece.getType() == Piece.PieceType.KNIGHT)
+				else if(piece.PieceType == Board.PieceType.KNIGHT)
 					this.ImageLocation = "Assets/horse_black.png";
-				else if(piece.getType() == Piece.PieceType.BISHOP)
+				else if(piece.PieceType == Board.PieceType.BISHOP)
 					this.ImageLocation = "Assets/bishop_black.png";
-				else if(piece.getType() == Piece.PieceType.ROOK)
+				else if(piece.PieceType == Board.PieceType.ROOK)
 					this.ImageLocation = "Assets/rook_black.png";
-				else if(piece.getType() == Piece.PieceType.KING)
+				else if(piece.PieceType == Board.PieceType.KING)
 					this.ImageLocation = "Assets/king_black.png";
 				else
 					this.ImageLocation = "Assets/queen_black.png";
 			}
-			this.pieceType = piece.getType();
+			this.pieceType = piece.PieceType;
 		}
 
 	}

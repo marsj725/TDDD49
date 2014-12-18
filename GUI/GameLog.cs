@@ -48,7 +48,7 @@ public class GameLog : TextBox {
 	/// <param name="fromCol">From col.</param>
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
-	public void writeMove(Board.PieceColor playerColor, Piece.PieceType pieceType, int fromRow, int fromCol, int toRow, int toCol) {
+	public void writeMove(Board.PieceColor playerColor, Board.PieceType pieceType, int fromRow, int fromCol, int toRow, int toCol) {
 		string color = colorToString(playerColor);
 		string type = typeToString(pieceType);
 
@@ -63,18 +63,18 @@ public class GameLog : TextBox {
 		writeLine(result);
 	}
 
-	private string typeToString(Piece.PieceType pieceType) {
-		if(pieceType == Piece.PieceType.BISHOP)
+	private string typeToString(Board.PieceType pieceType) {
+		if(pieceType == Board.PieceType.BISHOP)
 			return "bishop";
-		if(pieceType == Piece.PieceType.KING)
+		if(pieceType == Board.PieceType.KING)
 			return "king";
-		if(pieceType == Piece.PieceType.KNIGHT)
+		if(pieceType == Board.PieceType.KNIGHT)
 			return "knight";
-		if(pieceType == Piece.PieceType.PAWN)
+		if(pieceType == Board.PieceType.PAWN)
 			return "pawn";
-		if(pieceType == Piece.PieceType.QUEEN)
+		if(pieceType == Board.PieceType.QUEEN)
 			return "queen";
-		if(pieceType == Piece.PieceType.ROOK)
+		if(pieceType == Board.PieceType.ROOK)
 			return "rook";
 		return "";
 	}
