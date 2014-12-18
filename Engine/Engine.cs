@@ -50,16 +50,16 @@ public class Engine {
 	public bool performDraw(int fromRow, int fromCol, int toRow, int toCol) {
 		// The draw is obviously not allowed if the user trying to make the draw isn't the same color.
 		Board.PieceColor color = this.PlayerTurn;
-		if(this.board.BoardGrid[fromRow, fromCol].getColor() != color)
+		if(this.board.BoardGrid[fromRow, fromCol].Color != color)
 			return false;
 
-		if(this.board.BoardGrid[toRow, toCol].getColor() == color)
+		if(this.board.BoardGrid[toRow, toCol].Color == color)
 			return false;
 
 		if(this.board.BoardGrid[fromRow, fromCol].isMoveLegal(this.board, fromRow, fromCol, toRow, toCol)) {
 			// Create a backup of the piece in order to revert the draw if the player puts himself in a chess position.
 			Type backupType = this.board.BoardGrid[toRow, toCol].GetType();
-			Board.PieceColor backupColor = this.board.BoardGrid[toRow, toCol].getColor();
+			Board.PieceColor backupColor = this.board.BoardGrid[toRow, toCol].Color;
 			this.board.movePiece(fromRow, fromCol, toRow, toCol);
 			// If the player puts himself in a chess position revert the draw, since the draw is not allowed.
 			if(isCheck(this.PlayerTurn)) {
@@ -87,7 +87,7 @@ public class Engine {
 			}
 			//Updates database with current piece movement.
 			this.mediator.movePiece(fromRow, fromCol, toRow, toCol);
-			this.mediator.updateLog(color, board.BoardGrid[fromRow, fromCol].getType(), fromRow, fromCol, toRow, toCol);
+			this.mediator.updateLog(color, board.BoardGrid[fromRow, fromCol].PieceType, fromRow, fromCol, toRow, toCol);
 			switchTurn();
 			return true;
 		}
@@ -107,7 +107,7 @@ public class Engine {
 		else
 			oppositeColor = Board.PieceColor.WHITE;
 
-		Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
+		Tuple<int, int> kingPosition = getPositionOf(Board.PieceType.KING, color);
 
 		if(board.getAttackedPositions(oppositeColor)[kingPosition.Item1, kingPosition.Item2] == true)
 			return true;
@@ -121,12 +121,12 @@ public class Engine {
 	/// <returns><c>true</c>, if check mate, <c>false</c> otherwise.</returns>
 	private bool isCheckMate(Board.PieceColor color) {
 		if(isCheck(color)) {
-			Tuple<int, int> kingPosition = getPositionOf(Piece.PieceType.KING, color);
+			Tuple<int, int> kingPosition = getPositionOf(Board.PieceType.KING, color);
 			ArrayList<Tuple<int, int>> possibleAttacks = board.BoardGrid[kingPosition.Item1, kingPosition.Item2].getPossibleMoves(this.board);
 
 			foreach(Tuple<int, int> draw in possibleAttacks) {
 				Type backupType = this.board.BoardGrid[draw.Item1, draw.Item2].GetType();
-				Board.PieceColor backupColor = this.board.BoardGrid[draw.Item1, draw.Item2].getColor();
+				Board.PieceColor backupColor = this.board.BoardGrid[draw.Item1, draw.Item2].Color;
 
 				board.movePiece(kingPosition.Item1, kingPosition.Item2, draw.Item1, draw.Item2);
 				if(!isCheck(color)) {
@@ -149,9 +149,9 @@ public class Engine {
 	/// <returns>The position of.</returns>
 	/// <param name="type">Type.</param>
 	/// <param name="color">Color.</param>
-	private Tuple<int, int> getPositionOf(Piece.PieceType type, Board.PieceColor color) {
+	private Tuple<int, int> getPositionOf(Board.PieceType type, Board.PieceColor color) {
 		foreach(Piece piece in this.board.BoardGrid) {
-			if(piece.getColor() == color && piece.getType() == type)
+			if(piece.Color == color && piece.PieceType == type)
 				return new Tuple<int, int>(piece.Row, piece.Col);
 		}
 		return null;
@@ -198,7 +198,7 @@ public class Engine {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	void checkForAndPerformPromotion(int fromRow, int fromCol, int toRow, int toCol) {
-		if(board.BoardGrid[toRow, toCol].getType() == Piece.PieceType.PAWN) {
+		if(board.BoardGrid[toRow, toCol].PieceType == Board.PieceType.PAWN) {
 
 			bool promotion = false;
 

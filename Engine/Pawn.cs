@@ -2,7 +2,7 @@ using System;
 
 public class Pawn : Piece {
 
-	public Pawn(Board.PieceColor color, int x, int y) : base(PieceType.PAWN, color, x, y) {
+	public Pawn(Board.PieceColor color, int x, int y) : base(Board.PieceType.PAWN, color, x, y) {
 	}
 
 	/// <summary>
@@ -27,7 +27,7 @@ public class Pawn : Piece {
 		bool horisontalCheck = false;
 		int direction;
 
-		if(getColor() == Board.PieceColor.BLACK)
+		if(Color == Board.PieceColor.BLACK)
 			direction = -1;
 		else
 			direction = 1;
@@ -50,10 +50,10 @@ public class Pawn : Piece {
 		}
 
 		if(fromCol - toCol == 0) {
-			if(board.BoardGrid[toRow, toCol].getColor() == Board.PieceColor.NONE)
+			if(board.BoardGrid[toRow, toCol].Color == Board.PieceColor.NONE)
 				horisontalCheck = true;
 		} else if(Math.Abs(fromCol - toCol) == 1) {
-			if(board.BoardGrid[toRow, toCol].getColor() == this.getOppositeColor() && !twoSteps) {
+			if(board.BoardGrid[toRow, toCol].Color == this.getOppositeColor() && !twoSteps) {
 				horisontalCheck = true;
 			}
 		}
@@ -72,30 +72,30 @@ public class Pawn : Piece {
 	public override C5.ArrayList<Tuple<int, int>> getPossibleMoves(Board board) {
 		C5.ArrayList<Tuple<int, int>> result = new C5.ArrayList<Tuple<int, int>>();
 
-		if(this.getColor() == Board.PieceColor.WHITE && this.Row == 6) {
-			if(board.BoardGrid[this.Row - 2, this.Col].getColor() == Board.PieceColor.NONE)
+		if(this.Color == Board.PieceColor.WHITE && this.Row == 6) {
+			if(board.BoardGrid[this.Row - 2, this.Col].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row - 2, this.Col));
-		} else if(this.getColor() == Board.PieceColor.BLACK && this.Row == 1) {
-			if(board.BoardGrid[this.Row + 2, this.Col].getColor() == Board.PieceColor.NONE)
+		} else if(this.Color == Board.PieceColor.BLACK && this.Row == 1) {
+			if(board.BoardGrid[this.Row + 2, this.Col].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row + 2, this.Col));
 		}
 
-		if(this.getColor() == Board.PieceColor.WHITE) {
+		if(this.Color == Board.PieceColor.WHITE) {
 			if(this.Row != 0) {
-				if(board.BoardGrid[this.Row - 1, this.Col].getColor() == Board.PieceColor.NONE)
+				if(board.BoardGrid[this.Row - 1, this.Col].Color == Board.PieceColor.NONE)
 					result.Add(new Tuple<int, int>(this.Row - 1, this.Col));
-				if(this.Col != 7 && board.BoardGrid[this.Row - 1, this.Col + 1].getColor() == Board.PieceColor.BLACK)
+				if(this.Col != 7 && board.BoardGrid[this.Row - 1, this.Col + 1].Color == Board.PieceColor.BLACK)
 					result.Add(new Tuple<int, int>(this.Row - 1, this.Col + 1));
-				if(this.Col != 0 && board.BoardGrid[this.Row - 1, this.Col - 1].getColor() == Board.PieceColor.BLACK)
+				if(this.Col != 0 && board.BoardGrid[this.Row - 1, this.Col - 1].Color == Board.PieceColor.BLACK)
 					result.Add(new Tuple<int, int>(this.Row - 1, this.Col - 1));
 			}
 		} else {
 			if(this.Row != 7) {
-				if(board.BoardGrid[this.Row + 1, this.Col].getColor() == Board.PieceColor.NONE)
+				if(board.BoardGrid[this.Row + 1, this.Col].Color == Board.PieceColor.NONE)
 					result.Add(new Tuple<int, int>(this.Row + 1, this.Col));
-				if(this.Col != 7 && board.BoardGrid[this.Row + 1, this.Col + 1].getColor() == Board.PieceColor.WHITE)
+				if(this.Col != 7 && board.BoardGrid[this.Row + 1, this.Col + 1].Color == Board.PieceColor.WHITE)
 					result.Add(new Tuple<int, int>(this.Row + 1, this.Col + 1));
-				if(this.Col != 0 && board.BoardGrid[this.Row + 1, this.Col - 1].getColor() == Board.PieceColor.WHITE)
+				if(this.Col != 0 && board.BoardGrid[this.Row + 1, this.Col - 1].Color == Board.PieceColor.WHITE)
 					result.Add(new Tuple<int, int>(this.Row + 1, this.Col - 1));
 			}
 		}

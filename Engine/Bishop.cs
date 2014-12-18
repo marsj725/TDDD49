@@ -2,7 +2,7 @@ using System;
 
 public class Bishop : Piece {
 
-	public Bishop(Board.PieceColor color, int x, int y) : base(PieceType.BISHOP, color, x, y) {
+	public Bishop(Board.PieceColor color, int x, int y) : base(Board.PieceType.BISHOP, color, x, y) {
 	}
 
 	/// <summary>
@@ -41,7 +41,7 @@ public class Bishop : Piece {
 		// Diagonal movement
 		if(Math.Abs(fromRow - toRow) == Math.Abs(fromCol - toCol)) {
 			for(int i = 1; i < Math.Abs(fromRow - toRow); i++) {
-				if(board.BoardGrid[fromRow + i * directionY, fromCol + i * directionX].getColor() != Board.PieceColor.NONE)
+				if(board.BoardGrid[fromRow + i * directionY, fromCol + i * directionX].Color != Board.PieceColor.NONE)
 					return false;
 			}
 			return true;

@@ -19,8 +19,8 @@ public class AI : Player {
 
 		// If the player can kill an opponent, do that!
 		foreach(int[] draw in possibleDraws) {
-			if(this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].getColor() != this.Color &&
-			   this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].getColor() != Board.PieceColor.NONE)
+			if(this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].Color != this.Color &&
+			   this.mediator.Engine.board.BoardGrid[draw[2], draw[3]].Color != Board.PieceColor.NONE)
 			if(makeDraw(draw[0], draw[1], draw[2], draw[3]))
 				return;
 		}

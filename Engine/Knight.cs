@@ -2,7 +2,7 @@ using System;
 
 public class Knight : Piece {
 
-	public Knight(Board.PieceColor color, int x, int y) : base(PieceType.KNIGHT, color,x ,y) {
+	public Knight(Board.PieceColor color, int x, int y) : base(Board.PieceType.KNIGHT, color, x, y) {
 	}
 
 	/// <summary>
@@ -39,11 +39,11 @@ public class Knight : Piece {
 				if(!(i == 0 || j == 0)) {
 
 					if(this.Row + 2 * i <= 7 && this.Col + j <= 7 && this.Row + 2 * i >= 0 && this.Col + j >= 0) {
-						if(board.BoardGrid[this.Row + 2 * i, this.Col + j].getColor() != this.getColor())
+						if(board.BoardGrid[this.Row + 2 * i, this.Col + j].Color != this.Color)
 							result.Add(new Tuple<int, int>(this.Row + 2 * i, this.Col + j));
 					}
 					if(this.Row + i <= 7 && this.Col + 2 * j <= 7 && this.Row + i >= 0 && this.Col + 2 * j >= 0) {
-						if(board.BoardGrid[this.Row + i, this.Col + 2 * j].getColor() != this.getColor())
+						if(board.BoardGrid[this.Row + i, this.Col + 2 * j].Color != this.Color)
 							result.Add(new Tuple<int, int>(this.Row + i, this.Col + 2 * j));
 					}
 				}
