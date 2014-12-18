@@ -32,12 +32,16 @@ public class Database{
 	public void setmatchType (string type){
 		this.matchType = type;
 	}
-
+	/// <summary>
+	/// Starts the listener, updates fileinfo so the board won't be forcepushed unless needed.
+	/// </summary>
 	public void startListener(){
 		this.fileInfo = new System.IO.FileInfo(this.database_dir);
 		this.watcher.EnableRaisingEvents = true;
 	}
-
+	/// <summary>
+	/// Stops the listener.
+	/// </summary>
 	public void stopListener(){
 		this.watcher.EnableRaisingEvents = false;
 	}
@@ -63,7 +67,10 @@ public class Database{
 		}
 		return true;
 	}
-		
+	/// <summary>
+	/// Updates the XML file with current active player.
+	/// </summary>
+	/// <param name="player">Player.</param>
 	public void updateActivePlayer(Board.PieceColor player){
 		stopListener ();
 		string pieceColor;
@@ -82,14 +89,23 @@ public class Database{
 		XMLdata.Save (this.database_dir);
 		startListener ();
 	}
-
+	/// <summary>
+	/// Updates the activity log in GUI used when reading from the XML file.
+	/// </summary>
+	/// <param name="color">Color.</param>
+	/// <param name="type">Type.</param>
+	/// <param name="fromrow">Fromrow.</param>
+	/// <param name="fromcol">Fromcol.</param>
+	/// <param name="torow">Torow.</param>
+	/// <param name="tocol">Tocol.</param>
 	public void updateActivityLog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
 		stopListener ();
 		string typ = convertPiecetoString (type);
-		Console.WriteLine("Player: "+color+" Piece: "+type+" from: "+fromrow+" "+fromcol+" to: "+torow+" "+tocol);
+		string col = convertColortoString (color);
+		Console.WriteLine("Player: "+color+" Piece: "+typ+" from: "+fromrow+" "+fromcol+" to: "+torow+" "+tocol);
 		XElement XMLdata = XElement.Load (this.database_dir);
 		XMLdata.Add (new XElement ("log",
-			new XElement ("player", color),
+			new XElement ("player", col),
 			new XElement ("piece", typ),
 			new XElement ("fromCol", fromcol),
 			new XElement ("fromRow", fromrow),
@@ -119,8 +135,6 @@ public class Database{
 		}
 		IEnumerable<XElement> log = XMLdata.Elements ("log");
 		foreach (var lg in log) {
-			//string output = "Player: "++ " Piece: "++" fromRow: "+" fromCol: "+(string)lg.Element("fromCol"+ "toRow");
-			string output = (string)lg.Element("player") + " moved " + (string)lg.Element("piece") + " from (" + (string)lg.Element("fromRow") + "," + (string)lg.Element("fromCol") + ") to (" + (string)lg.Element("toRow") + "," + (string)lg.Element("toCol") + ")";
 			Piece.PieceType piece = convertStringtoPiece ((string)lg.Element ("piece"));
 			Board.PieceColor color = convertStringtoColor ((string)lg.Element("player"));
 
@@ -189,21 +203,27 @@ public class Database{
 		XMLdata.Save (this.database_dir);
 		startListener ();
 	}
+	/// <summary>
+	/// File watcher, creates a listener on the XML file.
+	/// </summary>
 	public void onFileChange(){
 		this.watcher.Filter = this.database_dir;
 		this.watcher.Changed += new FileSystemEventHandler (fileChanged);
 		this.watcher.EnableRaisingEvents = true;
 	}
+	/// <summary>
+	/// checks whenever file is actually changed and if so pushes the content to the engine!
+	/// </summary>
+	/// <param name="source">Source.</param>
+	/// <param name="e">E.</param>
 	public void fileChanged(object source, FileSystemEventArgs e){
 		System.IO.FileInfo temp = new System.IO.FileInfo (this.database_dir);
 		if (this.fileInfo.LastWriteTime != temp.LastWriteTime) {
 			Piece[,] grid = new Piece[8, 8];
 			grid = fetchXMLBoard ();
 			this.mediator.forcedBoardUpdate (grid);
-			Console.WriteLine ("pushing board update");
 			this.fileInfo = new System.IO.FileInfo(this.database_dir);
 		} else {
-			Console.WriteLine ("file was not updated!");
 		}
 	}
 
@@ -221,8 +241,6 @@ public class Database{
 	private List<boardData> convertToXMLStructure (Board board)
 	{
 		List<boardData> XMList = new List<boardData>();
-		//board = mediator.Engine.board;
-
 		foreach(Piece piece in board.BoardGrid){
 			boardData output = new boardData();
 			
@@ -236,22 +254,35 @@ public class Database{
 		}
 		return XMList;
 	}
-
+	/// <summary>
+	/// Converts the color to string representing the color.
+	/// </summary>
+	/// <returns>The colorto string.</returns>
+	/// <param name="color">Color.</param>
 	public string convertColortoString(Board.PieceColor color){
 		if (color == Board.PieceColor.WHITE) {
-			return "WHITE";
+			return "white";
 		} else {
-			return "BLACK";
+			return "black";
 		}
 	}
+	/// <summary>
+	/// Converts the color of the string to Board.PieceColor.
+	/// </summary>
+	/// <returns>The stringto color.</returns>
+	/// <param name="color">Color.</param>
 	public Board.PieceColor convertStringtoColor (string color){
-		if (color == "WHITE") {
+		if (color == "WHITE" || color == "white") {
 			return Board.PieceColor.WHITE;
 		} else {
 			return Board.PieceColor.BLACK;
 		}
 	}
-
+	/// <summary>
+	/// Converts the string to pieceType.
+	/// </summary>
+	/// <returns>The stringto piece.</returns>
+	/// <param name="input">Input.</param>
 	public Piece.PieceType convertStringtoPiece(string input){
 		if (input == "king"){return Piece.PieceType.KING;}
 		else if(input == "queen"){
@@ -273,7 +304,11 @@ public class Database{
 			return Piece.PieceType.NONE;
 		}
 	}
-
+	/// <summary>
+	/// Converts the piece to string representing the value.
+	/// </summary>
+	/// <returns>The pieceto string.</returns>
+	/// <param name="input">Input.</param>
 	public string convertPiecetoString(Piece.PieceType input){
 		if (input == Piece.PieceType.KING) {
 			return "king";
@@ -306,13 +341,9 @@ public class Database{
 		Board.PieceColor color;
 		Piece[,] grid = new Piece[8,8];
 		foreach (boardData brade in list) {
-			if(brade.color == "white"){
-				color = Board.PieceColor.WHITE;
-			}else if(brade.color == "black"){
-				color = Board.PieceColor.BLACK;
-			}else{
-				color = Board.PieceColor.NONE;
-			}
+
+			color = convertStringtoColor (brade.color);
+				
 			if(brade.piece == "rook"){
 				grid [brade.row, brade.col] = new Rook (color, brade.row, brade.col);
 			}else if(brade.piece == "knight"){

@@ -55,7 +55,6 @@ public class GameLog : TextBox {
 		string result = color + " moved " + type + " from (" + fromRow + "," + fromRow + ") to (" + toRow + "," + toCol + ")";
 
 		writeLine(result);
-		//Console.WriteLine (color + " moved " + type + " from " + fromRow + "," + toRow + " to " + toRow + "," + toCol);
 	}
 
 	public void writeWhosTurn(Board.PieceColor player) {

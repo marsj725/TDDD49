@@ -199,5 +199,6 @@ public class Mediator {
 	}
 	public void updateGUILog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
 		this.gameLog.writeMove(color,type,fromrow,fromcol,torow,tocol);
+		Console.WriteLine ("running GUILOG");
 	}
 }

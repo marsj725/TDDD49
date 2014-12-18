@@ -79,8 +79,6 @@ namespace Window {
 			else if(parent.positionChosen) {
 				if(!parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column)) {
 					parent.mediator.GameLog.writeNotAllowed();
-				} else {
-					parent.mediator.GameLog.writeMove(this.pieceColor, this.pieceType, parent.positionChosenX + 1, parent.positionChosenY + 1, row + 1, column + 1);
 				}
 				parent.resetChosen();
 				return;

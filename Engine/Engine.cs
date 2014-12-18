@@ -96,7 +96,7 @@ public class Engine {
 			}
 			//Updates database with current piece movement.
 			this.mediator.movePiece (fromRow, fromCol, toRow, toCol);
-			this.mediator.updateLog (color, board.BoardGrid [fromRow, fromCol].getType(), fromRow, fromCol, toRow, toCol);
+			this.mediator.updateLog (color, board.BoardGrid [toRow, toCol].getType(), fromRow +1, fromCol +1, toRow +1, toCol +1);
 			switchTurn();
 			return true;
 		}
