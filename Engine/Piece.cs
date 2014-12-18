@@ -3,26 +3,34 @@ using C5;
 
 public abstract class Piece {
 
-	public enum PieceType {
-		NONE,
-		PAWN,
-		ROOK,
-		BISHOP,
-		KNIGHT,
-		KING,
-		QUEEN}
-	;
-
 	public int Row;
 	public int Col;
 	public int Moved;
 
-	private PieceType type;
+	private Board.PieceType type;
 	private Board.PieceColor color;
 
-	public Piece(PieceType type, Board.PieceColor color, int row, int col) {
-		this.color = color;
-		this.type = type;
+	public Board.PieceType PieceType {
+		get {
+			return type;
+		}
+		private set {
+			type = value;
+		}
+	}
+
+	public Board.PieceColor Color {
+		get {
+			return color;
+		}
+		private set {
+			color = value;
+		}
+	}
+
+	public Piece(Board.PieceType type, Board.PieceColor color, int row, int col) {
+		this.Color = color;
+		this.PieceType = type;
 		this.Col = col;
 		this.Row = row;
 		this.Moved = 0;
@@ -37,14 +45,6 @@ public abstract class Piece {
 	/// <param name="toRow">To row.</param>
 	/// <param name="toCol">To col.</param>
 	public abstract bool isMoveLegal(Board board, int fromRow, int fromCol, int toRow, int toCol);
-
-	public Board.PieceColor getColor() {
-		return this.color;
-	}
-
-	public PieceType getType() {
-		return this.type;
-	}
 
 	/// <summary>
 	/// Returns the possible moves of this piece.
@@ -74,10 +74,10 @@ public abstract class Piece {
 			boardLimitY = 7;
 
 		for(int i = 1; directionY * (this.Row + i * directionY) <= directionY * boardLimitY && directionX * (this.Col + i * directionX) <= directionX * boardLimitX; i++) {
-			Board.PieceColor color = board.BoardGrid[this.Row + i * directionY, this.Col + i * directionX].getColor();
+			Board.PieceColor color = board.BoardGrid[this.Row + i * directionY, this.Col + i * directionX].Color;
 			if(color == Board.PieceColor.NONE) {
 				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
-			} else if(color != this.getColor()) {
+			} else if(color != this.Color) {
 				result.Add(new Tuple<int, int>(this.Row + i * directionY, this.Col + i * directionX));
 				return;
 			} else {
@@ -94,9 +94,9 @@ public abstract class Piece {
 	protected void possibleMovesHorisontallyAndVertically(ref C5.ArrayList<Tuple<int, int>> result, Board board) {
 
 		for(int i = -1; this.Row + i >= 0; i--) {
-			if(board.BoardGrid[this.Row + i, this.Col].getColor() == Board.PieceColor.NONE)
+			if(board.BoardGrid[this.Row + i, this.Col].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
-			else if(board.BoardGrid[this.Row + i, this.Col].getColor() != this.getColor()) {
+			else if(board.BoardGrid[this.Row + i, this.Col].Color != this.Color) {
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
 				break;
 			} else
@@ -104,9 +104,9 @@ public abstract class Piece {
 		}
 
 		for(int i = -1; this.Col + i >= 0; i--) {
-			if(board.BoardGrid[this.Row, this.Col + i].getColor() == Board.PieceColor.NONE)
+			if(board.BoardGrid[this.Row, this.Col + i].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
-			else if(board.BoardGrid[this.Row, this.Col + i].getColor() != this.getColor()) {
+			else if(board.BoardGrid[this.Row, this.Col + i].Color != this.Color) {
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
 				break;
 			} else
@@ -114,9 +114,9 @@ public abstract class Piece {
 		}
 
 		for(int i = 1; this.Row + i <= 7; i++) {
-			if(board.BoardGrid[this.Row + i, this.Col].getColor() == Board.PieceColor.NONE)
+			if(board.BoardGrid[this.Row + i, this.Col].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
-			else if(board.BoardGrid[this.Row + i, this.Col].getColor() != this.getColor()) {
+			else if(board.BoardGrid[this.Row + i, this.Col].Color != this.Color) {
 				result.Add(new Tuple<int, int>(this.Row + i, this.Col));
 				break;
 			} else
@@ -124,9 +124,9 @@ public abstract class Piece {
 		}
 
 		for(int i = 1; this.Col + i <= 7; i++) {
-			if(board.BoardGrid[this.Row, this.Col + i].getColor() == Board.PieceColor.NONE)
+			if(board.BoardGrid[this.Row, this.Col + i].Color == Board.PieceColor.NONE)
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
-			else if(board.BoardGrid[this.Row, this.Col + i].getColor() != this.getColor()) {
+			else if(board.BoardGrid[this.Row, this.Col + i].Color != this.Color) {
 				result.Add(new Tuple<int, int>(this.Row, this.Col + i));
 				break;
 			} else

@@ -51,7 +51,7 @@ public class Mediator {
 		}
 	}
 
-	public Database Database{
+	public Database Database {
 		get {
 			return this.database;
 		}
@@ -172,32 +172,41 @@ public class Mediator {
 		Engine.reset();
 		GameLog.Clear();
 	}
-	public bool checkXMLfile(){
-		return this.database.checkXMLfile ();
+
+	public bool checkXMLfile() {
+		return this.database.checkXMLfile();
 	}
-	public void setXMLBoard(Board board){
-		this.database.setXMLBoard (board);
+
+	public void setXMLBoard(Board board) {
+		this.database.setXMLBoard(board);
 	}
-	public Piece[,] fetchXMLBoard(){
-		return this.database.fetchXMLBoard ();
+
+	public Piece[,] fetchXMLBoard() {
+		return this.database.fetchXMLBoard();
 	}
-	public void movePiece(int fromrow, int fromcol, int torow,int tocol){
-		this.database.movePiece(fromrow,fromcol,torow,tocol);
+
+	public void movePiece(int fromrow, int fromcol, int torow, int tocol) {
+		this.database.movePiece(fromrow, fromcol, torow, tocol);
 	}
-	public void forcedBoardUpdate(Piece[,] grid){
-		this.Engine.board.forcedBoardUpdate (grid);
+
+	public void forcedBoardUpdate(Piece[,] grid) {
+		this.Engine.board.forcedBoardUpdate(grid);
 	}
-	public void updateActivePlayer(Board.PieceColor playerColor){
-		this.database.updateActivePlayer (playerColor);
+
+	public void updateActivePlayer(Board.PieceColor playerColor) {
+		this.database.updateActivePlayer(playerColor);
 	}
-	public void setMatchType(string type){
-		this.database.setmatchType (type);
+
+	public void setMatchType(string type) {
+		this.database.setmatchType(type);
 	}
-	public void updateLog(Board.PieceColor color,Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
-		this.gameLog.writeMove (color, type, fromrow, fromcol, torow, tocol);
-		this.database.updateActivityLog (color, type, fromrow, fromcol, torow, tocol);
+
+	public void updateLog(Board.PieceColor color, Board.PieceType type, int fromrow, int fromcol, int torow, int tocol) {
+		this.gameLog.writeMove(color, type, fromrow, fromcol, torow, tocol);
+		this.database.updateActivityLog(color, type, fromrow, fromcol, torow, tocol);
 	}
-	public void updateGUILog(Board.PieceColor color, Piece.PieceType type, int fromrow, int fromcol, int torow, int tocol){
-		this.gameLog.writeMove(color,type,fromrow,fromcol,torow,tocol);
+
+	public void updateGUILog(Board.PieceColor color, Board.PieceType type, int fromrow, int fromcol, int torow, int tocol) {
+		this.gameLog.writeMove(color, type, fromrow, fromcol, torow, tocol);
 	}
 }

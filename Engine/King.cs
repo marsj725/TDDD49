@@ -2,7 +2,7 @@ using System;
 
 public class King : Piece {
 
-	public King(Board.PieceColor color,int x, int y) : base(PieceType.KING, color, x ,y) {
+	public King(Board.PieceColor color, int x, int y) : base(Board.PieceType.KING, color, x, y) {
 	}
 
 	/// <summary>
@@ -36,7 +36,7 @@ public class King : Piece {
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
 				if(!(i == 0 && j == 0) && this.Row + i <= 7 && this.Col + j <= 7 && this.Row + i >= 0 && this.Col + j >= 0) {
-					if(board.BoardGrid[this.Row + i, this.Col + j].getColor() != this.getColor())
+					if(board.BoardGrid[this.Row + i, this.Col + j].Color != this.Color)
 						result.Add(new Tuple<int, int>(this.Row + i, this.Col + j));
 				}
 			}
