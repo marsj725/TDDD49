@@ -15,11 +15,32 @@ public class Engine {
 	/// </summary>
 	public Engine(Mediator mediator) {
 		this.mediator = mediator;
+		setGameType ("HumanVsHuman");
 		this.board = new Board(this.mediator);
 
 		this.mediator.registerEngine(this);
 		this.mediator.updateBoard(board.BoardGrid);
-		this.PlayerTurn = Board.PieceColor.WHITE;
+
+		if (!mediator.checkXMLfile ()) {
+			this.PlayerTurn = Board.PieceColor.WHITE;
+		} else {
+			Tuple<Board.PieceColor,string> list = this.mediator.Database.fetchGameStatus ();
+			this.PlayerTurn = list.Item1;
+			setGameType (list.Item2);
+		}
+	}
+
+	public void setGameType(string type){
+		if (type == "HumanVsHuman") {
+			mediator.Player1 = new User(mediator, Board.PieceColor.WHITE);
+			mediator.Player2 = new User(mediator, Board.PieceColor.BLACK);
+		} else if (type == "HumanVsAi") {
+			mediator.Player1 = new User(mediator, Board.PieceColor.WHITE);
+			mediator.Player2 = new AI(mediator, Board.PieceColor.BLACK);
+		} else {
+			mediator.Player1 = new AI(mediator, Board.PieceColor.WHITE);
+			mediator.Player2 = new User(mediator, Board.PieceColor.BLACK);
+		}
 	}
 	//Sets and controls which player is currently active!
 	public Board.PieceColor PlayerTurn {

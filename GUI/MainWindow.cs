@@ -13,11 +13,9 @@ namespace Window {
 		public MainWindow() {
 
 			Mediator mediator = new Mediator();
-			new Database(mediator);
-			new User(mediator, Board.PieceColor.WHITE);
-			new User(mediator, Board.PieceColor.BLACK);
 			BoardGUI boardGUI = new BoardGUI(mediator);
 			ChessMenu mainMenu = new ChessMenu(mediator);
+			new Database(mediator);
 			GameLog log = new GameLog(mediator);
 			new Engine(mediator);
 			InitializeComponent();
