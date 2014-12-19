@@ -34,7 +34,6 @@ public class Board {
 		//Asks the database class if there is an existing database file, creates one otherwise.
 		if(!mediator.checkXMLfile()) {
 			this.resetBoard();
-			Console.WriteLine("creating a board!");
 		} else {
 			this.BoardGrid = this.mediator.fetchXMLBoard();
 		}

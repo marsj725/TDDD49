@@ -10,27 +10,7 @@ namespace Window {
 
 		private int row;
 		private int column;
-
-		private Board.PieceColor pieceColor;
-		private Board.PieceType pieceType;
 		private System.Drawing.Color positionColor;
-
-		public enum Pieces {
-			NONE,
-			PAWN_WHITE,
-			PAWN_BLACK,
-			HORSE_WHITE,
-			HORSE_BLACK,
-			ROOK_WHITE,
-			ROOK_BLACK,
-			BISHOP_WHITE,
-			BISHOP_BLACK,
-			KING_WHITE,
-			KING_BLACK,
-			QUEEN_WHITE,
-			QUEEN_BLACK}
-
-		;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BoardGUI.BoardPositionGUI"/> class.
@@ -52,8 +32,9 @@ namespace Window {
 		private void chessPositionMouseClick(object sender, System.EventArgs e) {
 
 			// If the background is green already (it is chosen), it is unnecessary to do anything
-			if(this.BackColor == System.Drawing.Color.Green)
+			if (this.BackColor == System.Drawing.Color.Green) {
 				return;
+			}
 
 			// Save the original color so that it is possible to reset it
 			this.positionColor = this.BackColor;
@@ -62,8 +43,9 @@ namespace Window {
 			BoardGUI parent = (BoardGUI)this.Parent;
 
 			// Set as chosen as long as the piece is the same color as the user.
-			if(parent.mediator.Engine.PlayerTurn == this.pieceColor) {
+			if(parent.mediator.Engine.PlayerTurn == parent.mediator.Engine.board.BoardGrid[row,column].Color) {
 				parent.setChosen(row, column);
+				Console.WriteLine (row + " " +column);
 				return;
 			}
 
@@ -71,8 +53,6 @@ namespace Window {
 			else if(parent.positionChosen) {
 				if(!parent.makeDraw(parent.positionChosenX, parent.positionChosenY, row, column)) {
 					parent.mediator.GameLog.writeNotAllowed();
-				} else {
-					parent.mediator.GameLog.writeMove(this.pieceColor, this.pieceType, parent.positionChosenX + 1, parent.positionChosenY + 1, row + 1, column + 1);
 				}
 				parent.resetChosen();
 				return;
@@ -93,8 +73,6 @@ namespace Window {
 		/// </summary>
 		/// <param name="piece">Piece.</param>
 		public void setPiece(Piece piece) {
-
-			this.pieceColor = piece.Color;
 
 			if(piece.PieceType == Board.PieceType.NONE) {
 				this.Image = null;
@@ -127,8 +105,6 @@ namespace Window {
 				else
 					this.ImageLocation = "Assets/queen_black.png";
 			}
-			this.pieceType = piece.PieceType;
 		}
-
 	}
 }
