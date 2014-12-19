@@ -45,7 +45,6 @@ namespace Window {
 			// Set as chosen as long as the piece is the same color as the user.
 			if(parent.mediator.Engine.PlayerTurn == parent.mediator.Engine.board.BoardGrid[row,column].Color) {
 				parent.setChosen(row, column);
-				Console.WriteLine (row + " " +column);
 				return;
 			}
 

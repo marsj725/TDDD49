@@ -58,9 +58,6 @@ public class Board {
 	/// </summary>
 	/// <param name="grid">Grid.</param>
 	public void forcedBoardUpdate(Piece[,] grid) {
-		if(grid == BoardGrid) {
-			Console.WriteLine("no update");
-		}
 		this.BoardGrid = grid;
 		this.mediator.updateBoard(grid);
 	}
